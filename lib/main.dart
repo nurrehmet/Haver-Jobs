@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:haverjob/screens/home.dart';
 import 'package:haverjob/screens/login_screen.dart';
 import 'package:haverjob/screens/signup_screen.dart';
 
@@ -12,9 +13,10 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Haver Jobs',
       home: LoginScreen(),
-      routes: {
-        LoginScreen.id: (context) => LoginScreen(),
-        SignUpScreen.id: (context) => SignUpScreen()
+      routes: <String, WidgetBuilder>{
+        '/login': (BuildContext context) => LoginScreen(),
+        '/register': (BuildContext context) => SignUpScreen(),
+        '/home': (BuildContext context) => Home(),
       },
     );
   }

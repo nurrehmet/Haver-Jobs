@@ -1,5 +1,11 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:haverjob/screens/signup_screen.dart';
+import 'package:haverjob/screens/home.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:haverjob/services/authentication_service.dart';
+import 'package:async/async.dart';
 
 class LoginScreen extends StatefulWidget {
   static final id = 'login_screen';
@@ -10,13 +16,6 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
   String _email, _password;
-  _submit() {
-    if (_formKey.currentState.validate()) {
-      _formKey.currentState.save();
-      print(_email);
-      print(_password);
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -79,7 +78,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   Container(
                     width: 250.0,
                     child: FlatButton(
-                      onPressed: _submit,
+                      onPressed: signIn,
                       padding: EdgeInsets.all(10.0),
                       color: Colors.blue,
                       child: Text(
@@ -92,7 +91,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     width: 250.0,
                     child: FlatButton(
                       onPressed: () =>
-                          Navigator.pushNamed(context, SignUpScreen.id),
+                          {Navigator.pushNamed(context, "/register")},
                       padding: EdgeInsets.all(10.0),
                       color: Colors.blue,
                       child: Text(
@@ -108,5 +107,27 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
       ),
     );
+  }
+
+  Future<void> signIn() async {
+    if (_formKey.currentState.validate()) {
+      _formKey.currentState.save();
+      try {
+        final user = await FirebaseAuth.instance
+            .signInWithEmailAndPassword(email: _email, password: _password);
+        if (user != null) {
+          final FirebaseUser user = await auth.currentUser();
+          final userid = user.uid;
+          print('success login');
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => Home(user: user),
+              ));
+        }
+      } catch (e) {
+        print(e);
+      }
+    }
   }
 }

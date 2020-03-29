@@ -1,34 +1,32 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:haverjob/models/kategori_perusahaan.dart';
+import 'package:haverjob/screens/login_screen.dart';
 import 'package:place_picker/place_picker.dart';
-
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class SignUpScreen extends StatefulWidget {
   static final id = 'signup_screen';
+  final FirebaseUser user;
+  const SignUpScreen({Key key, this.user}) : super(key: key);
   @override
   _SignUpScreenState createState() => _SignUpScreenState();
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
   final _formKey = GlobalKey<FormState>();
+  String userId;
   //data employee seeker
   String _nama, _email, _password, _alamat, _noHp, _kategoriPerusahaan;
   //data employee
   String _gender, _pendidikan, _tglLahir, _pengKerja, _hariKerja, _gaji;
   double _lat, _long;
-  _submit() {
-    if (_formKey.currentState.validate()) {
-      _formKey.currentState.save();
-      print(_email);
-      print(_password);
-    }
-    print(_kategoriPerusahaan);
-  }
+
   //get location
-  void showPlacePicker() async{
-    LocationResult result = await Navigator.of(context).push(
-      MaterialPageRoute(builder: (context) => PlacePicker("AIzaSyDX1cPMy9zPG39wvwaDl85NJddg7SFNBEI"))
-    );
+  void showPlacePicker() async {
+    LocationResult result = await Navigator.of(context).push(MaterialPageRoute(
+        builder: (context) =>
+            PlacePicker("AIzaSyDX1cPMy9zPG39wvwaDl85NJddg7SFNBEI")));
     setState(() {
       _lat = result.latLng.latitude;
       _long = result.latLng.longitude;
@@ -276,8 +274,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           child: Container(
                             width: 200.0,
                             child: FlatButton.icon(
-                              icon: Icon(Icons.search,color: Colors.white,),
-                              onPressed: (){
+                              icon: Icon(
+                                Icons.search,
+                                color: Colors.white,
+                              ),
+                              onPressed: () {
                                 showPlacePicker();
                               },
                               padding: EdgeInsets.all(10.0),
@@ -329,5 +330,39 @@ class _SignUpScreenState extends State<SignUpScreen> {
         ),
       ),
     );
+  }
+
+  Future<void> _submit() async {
+    if (_formKey.currentState.validate()) {
+      _formKey.currentState.save();
+      try {
+        await FirebaseAuth.instance
+            .createUserWithEmailAndPassword(email: _email, password: _password);
+        final FirebaseUser user = await FirebaseAuth.instance.currentUser();
+        setState(() {
+          userId = user.uid;
+        });
+        _register();
+        Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (context) => LoginScreen()));
+      } catch (e) {
+        print(e.message);
+      }
+    }
+  }
+
+  void _register() {
+    Firestore.instance.collection("users").document(userId).setData({
+      'nama': _nama,
+      'email': _email,
+      'role': 'employee seeker',
+      'alamat': _alamat,
+      'noHp': _noHp,
+      'kategoriPerusahaan': _kategoriPerusahaan,
+      'latitude': _lat,
+      'longitude': _long
+    });
+    Navigator.pushReplacement(
+        context, MaterialPageRoute(builder: (context) => LoginScreen()));
   }
 }

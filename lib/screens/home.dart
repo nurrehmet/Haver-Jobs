@@ -49,8 +49,13 @@ class _HomeState extends State<Home> {
    checkRole(DocumentSnapshot snapshot) {
     if (snapshot.data == null) {
       return Center(
-        child: Text('no data set in the userId document in firestore'),
-      );
+        child: FlatButton(
+          child: Text('Sign Out'),
+          onPressed: (){
+            FirebaseAuth.instance.signOut();
+            Navigator.pushNamed(context, "/login");
+          },),
+        );
     }
     if (snapshot.data['role'] == 'admin') {
       return adminPage(snapshot);

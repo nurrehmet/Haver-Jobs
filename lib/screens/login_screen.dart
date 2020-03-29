@@ -6,6 +6,7 @@ import 'package:haverjob/screens/home.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:haverjob/services/authentication_service.dart';
 import 'package:async/async.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginScreen extends StatefulWidget {
   static final id = 'login_screen';
@@ -118,7 +119,7 @@ class _LoginScreenState extends State<LoginScreen> {
         if (user != null) {
           final FirebaseUser user = await auth.currentUser();
           print('success login');
-          Navigator.push(
+          Navigator.pushReplacement(
               context,
               MaterialPageRoute(
                 builder: (context) => Home(user: user),

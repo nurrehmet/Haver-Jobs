@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:haverjob/models/kategori_perusahaan.dart';
+import 'package:place_picker/place_picker.dart';
 
 
 class SignUpScreen extends StatefulWidget {
@@ -22,6 +23,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
       print(_password);
     }
     print(_kategoriPerusahaan);
+  }
+  //get location
+  void showPlacePicker() async{
+    LocationResult result = await Navigator.of(context).push(
+      MaterialPageRoute(builder: (context) => PlacePicker("AIzaSyDX1cPMy9zPG39wvwaDl85NJddg7SFNBEI"))
+    );
+    print(result);
   }
 
   @override
@@ -264,7 +272,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             width: 200.0,
                             child: FlatButton.icon(
                               icon: Icon(Icons.search,color: Colors.white,),
-                              onPressed: () => Navigator.pop(context),
+                              onPressed: (){
+                                showPlacePicker();
+                              },
                               padding: EdgeInsets.all(10.0),
                               color: Colors.lightGreen,
                               label: Text(

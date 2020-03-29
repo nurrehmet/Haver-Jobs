@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "368985619499",
+    "firebase_url": "https://haver-jobs-1bb24.firebaseio.com",
+    "project_id": "haver-jobs-1bb24",
+    "storage_bucket": "haver-jobs-1bb24.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:368985619499:android:9950519bc1333e36c63e6e",
+        "android_client_info": {
+          "package_name": "com.nurrehmet.haverjob"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "368985619499-epqmikp21m3kg8ta7nts29f2mq5ph9mg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCEi9ojZfaRB0WhDZhDVF4pRTIE-nPWC-A"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "368985619499-epqmikp21m3kg8ta7nts29f2mq5ph9mg.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

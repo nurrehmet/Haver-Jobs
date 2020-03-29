@@ -15,7 +15,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   String _nama, _email, _password, _alamat, _noHp, _kategoriPerusahaan;
   //data employee
   String _gender, _pendidikan, _tglLahir, _pengKerja, _hariKerja, _gaji;
-  double _lat, long;
+  double _lat, _long;
   _submit() {
     if (_formKey.currentState.validate()) {
       _formKey.currentState.save();
@@ -29,7 +29,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
     LocationResult result = await Navigator.of(context).push(
       MaterialPageRoute(builder: (context) => PlacePicker("AIzaSyDX1cPMy9zPG39wvwaDl85NJddg7SFNBEI"))
     );
-    print(result);
+    setState(() {
+      _lat = result.latLng.latitude;
+      _long = result.latLng.longitude;
+    });
+    print(_lat);
   }
 
   @override
@@ -193,6 +197,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     padding:
                         EdgeInsets.symmetric(horizontal: 30.0, vertical: 10.0),
                     child: TextFormField(
+                      keyboardType: TextInputType.number,
                       decoration: InputDecoration(
                           labelText: 'No Handphone',
                           labelStyle: TextStyle(fontFamily: 'Product Sans')),

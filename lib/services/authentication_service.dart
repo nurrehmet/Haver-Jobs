@@ -30,3 +30,4 @@ Future<FirebaseUser> handleSignUp(email, password) async {
     return user;
 
   } 
+

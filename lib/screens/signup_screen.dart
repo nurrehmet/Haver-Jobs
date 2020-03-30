@@ -362,6 +362,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
       'latitude': _lat,
       'longitude': _long
     });
+    FirebaseAuth.instance.signOut();
     Navigator.pushReplacement(
         context, MaterialPageRoute(builder: (context) => LoginScreen()));
   }

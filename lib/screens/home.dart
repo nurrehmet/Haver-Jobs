@@ -19,7 +19,6 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   @override
   void initState() {
-    ;
     super.initState();  }
 
   @override
@@ -60,7 +59,7 @@ class _HomeState extends State<Home> {
       );
     }
     if (snapshot.data['role'] == 'admin') {
-      return EmployeeSeekerScreen();
+      return new EmployeeSeekerScreen();
       // return Container(
       //     child: Widgets(
       //   tileTitle: '${snapshot.data['nama']}',

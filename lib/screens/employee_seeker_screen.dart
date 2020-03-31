@@ -4,24 +4,26 @@ import 'package:flutter/material.dart';
 import 'package:haverjob/components/widgets.dart';
 
 class EmployeeSeekerScreen extends StatefulWidget {
-  final FirebaseUser user;
-  const EmployeeSeekerScreen({Key key, this.user}) : super(key: key);
   @override
   _EmployeeSeekerScreenState createState() => _EmployeeSeekerScreenState();
-
 }
 
 class _EmployeeSeekerScreenState extends State<EmployeeSeekerScreen> {
+  String _userID ;
+  void initState() {
+    getID();
+    super.initState();
+  }
+
   int _selectedIndex = 0;
- final List<Widget> _widgetOptions = <Widget>[
-    new userData(),
-    // Widgets(
-    //   tileTitle:  'title',
-    //   titleIcon: Icons.account_circle,
-    //   tileSubtitle: 'subtitle',
-    // ),
+
+   List<Widget> get _widgetOptions => [
+    StreamData(
+      document: _userID ,
+      collection: 'users',
+    ),
     Text(
-      'Index 1: Business',
+      '2',
     ),
     Text(
       'Index 2: School',
@@ -58,24 +60,11 @@ class _EmployeeSeekerScreenState extends State<EmployeeSeekerScreen> {
       _selectedIndex = index;
     });
   }
-}
 
-class userData extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return new StreamBuilder(
-      stream: Firestore.instance.collection('users').snapshots(),
-       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-        if (!snapshot.hasData) return new Text('Loading...');
-        return new ListView(
-          children: snapshot.data.documents.map((document) {
-            return new ListTile(
-              title: new Text(document['nama']),
-              subtitle: new Text(document['email']),
-            );
-          }).toList(),
-        );
+  getID() async {
+    FirebaseUser user = await FirebaseAuth.instance.currentUser();
+    setState(() {
+      _userID = user.uid;
+    });
   }
-    );
-}
 }

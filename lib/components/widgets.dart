@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -43,4 +44,27 @@ class Widgets extends StatelessWidget {
       ),
     );
   }
+}
+
+class StreamData extends StatelessWidget {
+  final String collection;
+  final String document;
+
+  StreamData({
+    @required this.collection,
+    @required this.document
+  });
+  @override
+  Widget build(BuildContext context) {
+  return new StreamBuilder(
+      stream: Firestore.instance.collection(collection).document(document).snapshots(),
+      builder: (context, snapshot) {
+        if (!snapshot.hasData) {
+          return new Text("Loading");
+        }
+        var userDocument = snapshot.data;
+        return new Text(userDocument['nama']);
+      }
+  );
+}
 }

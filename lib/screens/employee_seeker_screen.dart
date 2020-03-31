@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:haverjob/components/profile.dart';
 import 'package:haverjob/components/widgets.dart';
 
 class EmployeeSeekerScreen extends StatefulWidget {
@@ -9,7 +10,10 @@ class EmployeeSeekerScreen extends StatefulWidget {
 }
 
 class _EmployeeSeekerScreenState extends State<EmployeeSeekerScreen> {
-  String _userID ;
+  String _userID;
+  String _documents = 'users';
+  String _nama;
+  String _email;
   void initState() {
     getID();
     super.initState();
@@ -17,18 +21,15 @@ class _EmployeeSeekerScreenState extends State<EmployeeSeekerScreen> {
 
   int _selectedIndex = 0;
 
-   List<Widget> get _widgetOptions => [
-    StreamData(
-      document: _userID ,
-      collection: 'users',
-    ),
-    Text(
-      '2',
-    ),
-    Text(
-      'Index 2: School',
-    ),
-  ];
+  List<Widget> get _widgetOptions => [
+        Center(child: Text('Home Widget')),
+        Center(
+          child: Text(
+            'Nearby Widget',
+          ),
+        ),
+        Profile(),
+      ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,15 +38,15 @@ class _EmployeeSeekerScreenState extends State<EmployeeSeekerScreen> {
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
-            title: Text('Home'),
+            title: Text('Beranda'),
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.business),
-            title: Text('Business'),
+            icon: Icon(Icons.pin_drop),
+            title: Text('Cari Karyawan'),
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.school),
-            title: Text('School'),
+            icon: Icon(Icons.account_circle),
+            title: Text('Akun'),
           ),
         ],
         currentIndex: _selectedIndex,

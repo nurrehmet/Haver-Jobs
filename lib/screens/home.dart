@@ -19,13 +19,25 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   @override
   void initState() {
-    super.initState();  }
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Home ${widget.user.email}'),
+        title: Text('Beranda'),
+        actions: <Widget>[
+          Padding(
+              padding: EdgeInsets.only(right: 20.0),
+              child: GestureDetector(
+                onTap: () {},
+                child: Icon(
+                  Icons.lock_outline,
+                  size: 26.0,
+                ),
+              )),
+        ],
         automaticallyImplyLeading: false,
       ),
       body: StreamBuilder<DocumentSnapshot>(

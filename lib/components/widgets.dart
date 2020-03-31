@@ -2,12 +2,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-class Widgets extends StatelessWidget {
+class ProfileHead extends StatelessWidget {
   final IconData titleIcon;
   final String tileTitle;
   final String tileSubtitle;
 
-  Widgets({
+  ProfileHead({
     @required this.titleIcon,
     @required this.tileTitle,
     @required this.tileSubtitle,

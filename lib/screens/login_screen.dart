@@ -1,12 +1,7 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:haverjob/screens/signup_screen.dart';
 import 'package:haverjob/screens/home.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:haverjob/services/authentication_service.dart';
-import 'package:async/async.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginScreen extends StatefulWidget {
   static final id = 'login_screen';
@@ -17,6 +12,12 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
   String _email, _password;
+  bool showCircular = false;
+
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -26,6 +27,7 @@ class _LoginScreenState extends State<LoginScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
+            showCircular ? Center(child: CircularProgressIndicator()) : SizedBox(),
             Text(
               'Haver Jobs',
               style: TextStyle(fontFamily: 'Product Sans', fontSize: 50.0),
@@ -113,11 +115,17 @@ class _LoginScreenState extends State<LoginScreen> {
   Future<void> signIn() async {
     if (_formKey.currentState.validate()) {
       _formKey.currentState.save();
+      setState(() {
+        showCircular = true;
+      });
       try {
         final user = await FirebaseAuth.instance
             .signInWithEmailAndPassword(email: _email, password: _password);
         if (user != null) {
           final FirebaseUser user = await auth.currentUser();
+          setState(() {
+            showCircular = false;
+          });
           print('success login');
           Navigator.pushReplacement(
               context,
@@ -130,4 +138,5 @@ class _LoginScreenState extends State<LoginScreen> {
       }
     }
   }
+  
 }

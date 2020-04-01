@@ -42,6 +42,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
         length: 2,
         child: Scaffold(
           appBar: AppBar(
+            backgroundColor: Colors.blue[900],
               title: Text('Registrasi Akun'),
               bottom: TabBar(
                 tabs: <Widget>[

@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:haverjob/components/widgets.dart';
+import 'package:haverjob/screens/employee_screen.dart';
 import 'package:haverjob/screens/employee_seeker_screen.dart';
 import 'package:haverjob/screens/signup_screen.dart';
 import 'package:haverjob/services/authentication_service.dart';
@@ -26,7 +27,8 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Beranda'),
+        backgroundColor: Colors.lightBlue[900],
+        title: Text('Haver Jobs'),
         actions: <Widget>[
           Padding(
               padding: EdgeInsets.only(right: 20.0),
@@ -70,7 +72,7 @@ class _HomeState extends State<Home> {
         ),
       );
     }
-    if (snapshot.data['role'] == 'admin') {
+    if (snapshot.data['role'] == 'employee seeker') {
       return new EmployeeSeekerScreen();
       // return Container(
       //     child: Widgets(
@@ -79,9 +81,10 @@ class _HomeState extends State<Home> {
       //   titleIcon: Icons.account_circle,
       // ));
       //return adminPage(snapshot);
-    } else {
-      return userPage(snapshot);
+    } else if (snapshot.data['role'] == 'employee'){
+      return EmployeeScreen();
     }
+    return Center(child: Text('Anda Siapa?'));
   }
 
   adminPage(DocumentSnapshot snapshot) {

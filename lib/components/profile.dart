@@ -29,29 +29,37 @@ class _ProfileState extends State<Profile> {
           } else if (snapshot.hasData) {
             return profileBuilder(snapshot.data);
           }
-          return LinearProgressIndicator();
+          return Center(child: CircularProgressIndicator());
         },
       ),
     );
   }
 
   profileBuilder(DocumentSnapshot snapshot) {
-    return Card(
-      child: ListTile(
-        leading: Icon(Icons.account_circle),
-        title: Text(snapshot.data['nama']),
-        subtitle: Text(snapshot.data['email']),
-        trailing: FlatButton(
-          child: Text(
-            'Logout',
-            style: TextStyle(color: Colors.red),
+    return Column(
+      children: <Widget>[
+        Card(
+          child: ListTile(
+            leading: Icon(Icons.account_circle),
+            title: Text(snapshot.data['nama']),
+            subtitle: Text(snapshot.data['email']),
+            trailing: FlatButton(
+              child: Text(
+                'Logout',
+                style: TextStyle(color: Colors.red),
+              ),
+              onPressed: () {
+                FirebaseAuth.instance.signOut();
+                Navigator.pushNamed(context, "/login");
+              },
+            ),
           ),
-          onPressed: () {
-            FirebaseAuth.instance.signOut();
-            Navigator.pushNamed(context, "/login");
-          },
         ),
-      ),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Text(snapshot.documentID),
+        )
+      ],
     );
   }
 

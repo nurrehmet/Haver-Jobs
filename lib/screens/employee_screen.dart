@@ -4,12 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:haverjob/components/profile.dart';
 import 'package:haverjob/components/widgets.dart';
 
-class EmployeeSeekerScreen extends StatefulWidget {
+class EmployeeScreen extends StatefulWidget {
   @override
-  _EmployeeSeekerScreenState createState() => _EmployeeSeekerScreenState();
+  _EmployeeScreenState createState() => _EmployeeScreenState();
 }
 
-class _EmployeeSeekerScreenState extends State<EmployeeSeekerScreen> {
+class _EmployeeScreenState extends State<EmployeeScreen> {
   String _userID;
   String _documents = 'users';
   String _nama;
@@ -25,7 +25,7 @@ class _EmployeeSeekerScreenState extends State<EmployeeSeekerScreen> {
         Center(child: Text('Home Widget')),
         Center(
           child: Text(
-            'Cari Karyawan Widget',
+            'Cari Pekerjaan Widget',
           ),
         ),
         Profile(),
@@ -41,8 +41,8 @@ class _EmployeeSeekerScreenState extends State<EmployeeSeekerScreen> {
             title: Text('Beranda'),
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.pin_drop),
-            title: Text('Cari Karyawan'),
+            icon: Icon(Icons.business_center),
+            title: Text('Cari Pekerjaan'),
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.account_circle),

@@ -1,9 +1,12 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:haverjob/components/widgets.dart';
 import 'package:haverjob/models/kategori_perusahaan.dart';
 import 'package:haverjob/screens/login_screen.dart';
 import 'package:place_picker/place_picker.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+
+import 'home.dart';
 
 class SignUpScreen extends StatefulWidget {
   static final id = 'signup_screen';
@@ -21,8 +24,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   //data employee
   String _gender, _pendidikan, _tglLahir, _pengKerja, _hariKerja, _gaji;
   double _lat, _long;
-
-  
+  bool showCircular = false;
 
   //get location
   void showPlacePicker() async {
@@ -77,7 +79,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
   Widget _registrasiEmployee(BuildContext context) {
     return Container(
       child: Column(
-        children: <Widget>[Text('Registrasi Employee')],
+        children: <Widget>[
+          Text('Registrasi Employee'),
+          new BlueButton(text: 'Test Button', onPress: _submitES,)
+          ],
       ),
     );
   }
@@ -320,21 +325,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       ],
                     ),
                   ),
-                  SizedBox(
-                    height: 50.0,
-                  ),
-                  Container(
-                    width: 250.0,
-                    child: FlatButton(
-                      onPressed: _submitES,
-                      padding: EdgeInsets.all(10.0),
-                      color: Colors.blue,
-                      child: Text(
-                        'Register',
-                        style: TextStyle(color: Colors.white),
-                      ),
-                    ),
-                  ),
+                  // SizedBox(
+                  //   height: 50.0,
+                  // ),
+                  showCircular
+                      ? Center(child: CircularProgressIndicator())
+                      : SizedBox(),
+                  new BlueButton(text: 'Registrasi', onPress: _submitES,),
                   Container(
                     width: 250.0,
                     child: FlatButton(
@@ -362,6 +359,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
   Future<void> _submitES() async {
     if (_formKey.currentState.validate()) {
       _formKey.currentState.save();
+      setState(() {
+        showCircular = true;
+      });
       try {
         await FirebaseAuth.instance
             .createUserWithEmailAndPassword(email: _email, password: _password);
@@ -370,15 +370,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
           userId = user.uid;
         });
         _registerES();
-        Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (context) => LoginScreen()));
+        // Navigator.pushReplacement(
+        //     context, MaterialPageRoute(builder: (context) => LoginScreen()));
       } catch (e) {
         print(e.message);
       }
     }
   }
 
-  void _registerES() {
+  Future<void> _registerES() async {
     Firestore.instance.collection("users").document(userId).setData({
       'nama': _nama,
       'email': _email,
@@ -389,8 +389,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
       'latitude': _lat,
       'longitude': _long
     });
-    FirebaseAuth.instance.signOut();
+    final FirebaseUser user = await FirebaseAuth.instance.currentUser();
+
     Navigator.pushReplacement(
-        context, MaterialPageRoute(builder: (context) => LoginScreen()));
+        context, MaterialPageRoute(builder: (context) => Home(user: user)));
   }
 }

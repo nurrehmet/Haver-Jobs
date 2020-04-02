@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:haverjob/components/widgets.dart';
 import 'package:haverjob/screens/home.dart';
 import 'package:haverjob/services/authentication_service.dart';
 
@@ -22,18 +23,13 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(title: Text('Login'), backgroundColor: Colors.blue[900]),
       body: Center(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             showCircular
                 ? Center(child: CircularProgressIndicator())
                 : SizedBox(),
-            Text(
-              'Haver Jobs',
-              style: TextStyle(fontFamily: 'Product Sans', fontSize: 50.0),
-            ),
             SizedBox(
               height: 27.0,
             ),
@@ -94,30 +90,13 @@ class _LoginScreenState extends State<LoginScreen> {
                   SizedBox(
                     height: 20.0,
                   ),
-                  Container(
-                    width: 250.0,
-                    child: FlatButton(
-                      onPressed: signIn,
-                      padding: EdgeInsets.all(10.0),
-                      color: Colors.blue,
-                      child: Text(
-                        'Login',
-                        style: TextStyle(color: Colors.white),
-                      ),
-                    ),
+                  new BlueButton(
+                    text: 'Login',
+                    onPress: signIn,
                   ),
-                  Container(
-                    width: 250.0,
-                    child: FlatButton(
-                      onPressed: () =>
-                          {Navigator.pushNamed(context, "/register")},
-                      padding: EdgeInsets.all(10.0),
-                      color: Colors.blue,
-                      child: Text(
-                        'Register',
-                        style: TextStyle(color: Colors.white),
-                      ),
-                    ),
+                  new BlueButton(
+                    text: 'Register',
+                    onPress: () => {Navigator.pushNamed(context, "/register")},
                   ),
                 ],
               ),

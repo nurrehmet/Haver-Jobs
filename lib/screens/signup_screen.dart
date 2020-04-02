@@ -17,10 +17,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final _formKey = GlobalKey<FormState>();
   String userId;
   //data employee seeker
-  String _nama, _email, _password, _alamat, _noHp, _kategoriPerusahaan;
+  String _nama, _email, _password, _alamat, _noHp, _kategoriPerusahaan, _lokasi;
   //data employee
   String _gender, _pendidikan, _tglLahir, _pengKerja, _hariKerja, _gaji;
   double _lat, _long;
+
+  
 
   //get location
   void showPlacePicker() async {
@@ -30,8 +32,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
     setState(() {
       _lat = result.latLng.latitude;
       _long = result.latLng.longitude;
+      _lokasi = result.formattedAddress;
     });
-    print(_lat);
   }
 
   @override
@@ -42,7 +44,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
         length: 2,
         child: Scaffold(
           appBar: AppBar(
-            backgroundColor: Colors.blue[900],
+              backgroundColor: Colors.blue[900],
               title: Text('Registrasi Akun'),
               bottom: TabBar(
                 tabs: <Widget>[
@@ -85,10 +87,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
       KategoriPerusahaan.getKategoriPerusahaan();
   List<DropdownMenuItem<KategoriPerusahaan>> _dropdownMenuItems;
   KategoriPerusahaan _selectedKategoriPerusahaan;
+  //init state
   @override
   void initState() {
     _dropdownMenuItems = buildDropdownMenuItems(_dataKategoriPerusahaan);
     _selectedKategoriPerusahaan = _dropdownMenuItems[0].value;
+    _lokasi = 'Belum dipilih';
     super.initState();
   }
 
@@ -127,11 +131,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         EdgeInsets.symmetric(horizontal: 30.0, vertical: 10.0),
                     child: TextFormField(
                       decoration: InputDecoration(
-                          labelText: 'Nama',
+                          border: OutlineInputBorder(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(8.0)),
+                          ),
+                          prefixIcon: Icon(Icons.business),
+                          labelText: 'Nama Perusahaan',
                           labelStyle: TextStyle(fontFamily: 'Product Sans')),
                       validator: (value) {
                         if (value.trim().isEmpty) {
-                          return 'Nama tidak boleh kosong';
+                          return 'Nama Perusahaan tidak boleh kosong';
                         }
                         return null;
                       },
@@ -143,6 +152,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         EdgeInsets.symmetric(horizontal: 30.0, vertical: 10.0),
                     child: TextFormField(
                       decoration: InputDecoration(
+                          border: OutlineInputBorder(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(8.0)),
+                          ),
+                          prefixIcon: Icon(Icons.email),
                           labelText: 'Email',
                           labelStyle: TextStyle(fontFamily: 'Product Sans')),
                       validator: (value) {
@@ -161,6 +175,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         EdgeInsets.symmetric(horizontal: 30.0, vertical: 10.0),
                     child: TextFormField(
                       decoration: InputDecoration(
+                          border: OutlineInputBorder(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(8.0)),
+                          ),
+                          prefixIcon: Icon(Icons.lock),
                           labelText: 'Password',
                           labelStyle: TextStyle(fontFamily: 'Product Sans')),
                       validator: (value) {
@@ -181,6 +200,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         EdgeInsets.symmetric(horizontal: 30.0, vertical: 10.0),
                     child: TextFormField(
                       decoration: InputDecoration(
+                          border: OutlineInputBorder(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(8.0)),
+                          ),
+                          prefixIcon: Icon(Icons.location_on),
                           labelText: 'Alamat',
                           labelStyle: TextStyle(fontFamily: 'Product Sans')),
                       validator: (value) {
@@ -198,6 +222,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     child: TextFormField(
                       keyboardType: TextInputType.number,
                       decoration: InputDecoration(
+                          border: OutlineInputBorder(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(8.0)),
+                          ),
+                          prefixIcon: Icon(Icons.phone),
                           labelText: 'No Handphone',
                           labelStyle: TextStyle(fontFamily: 'Product Sans')),
                       validator: (value) {
@@ -237,21 +266,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             onChanged: (onChangedDropdownItem),
                           ),
                         ),
-                        SizedBox(
-                          height: 20.0,
-                        ),
-                        Align(
-                          alignment: Alignment.topLeft,
-                          child: Text(
-                            'Kategori yang dipilih adalah ${_selectedKategoriPerusahaan.name}',
-                            style: TextStyle(color: Colors.blue),
-                          ),
-                        ),
                       ],
                     ),
-                  ),
-                  SizedBox(
-                    height: 20.0,
                   ),
                   Padding(
                     padding:
@@ -291,6 +307,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             ),
                           ),
                         ),
+                        SizedBox(
+                          height: 20.0,
+                        ),
+                        Align(
+                          alignment: Alignment.topLeft,
+                          child: Text(
+                            'Lokasi anda adalah: $_lokasi',
+                            style: TextStyle(color: Colors.blue),
+                          ),
+                        ),
                       ],
                     ),
                   ),
@@ -300,7 +326,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   Container(
                     width: 250.0,
                     child: FlatButton(
-                      onPressed: _submit,
+                      onPressed: _submitES,
                       padding: EdgeInsets.all(10.0),
                       color: Colors.blue,
                       child: Text(
@@ -333,7 +359,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
     );
   }
 
-  Future<void> _submit() async {
+  Future<void> _submitES() async {
     if (_formKey.currentState.validate()) {
       _formKey.currentState.save();
       try {
@@ -343,7 +369,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
         setState(() {
           userId = user.uid;
         });
-        _register();
+        _registerES();
         Navigator.pushReplacement(
             context, MaterialPageRoute(builder: (context) => LoginScreen()));
       } catch (e) {
@@ -352,7 +378,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
     }
   }
 
-  void _register() {
+  void _registerES() {
     Firestore.instance.collection("users").document(userId).setData({
       'nama': _nama,
       'email': _email,

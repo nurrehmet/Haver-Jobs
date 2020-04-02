@@ -27,10 +27,15 @@ class _LoginScreenState extends State<LoginScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            showCircular ? Center(child: CircularProgressIndicator()) : SizedBox(),
+            showCircular
+                ? Center(child: CircularProgressIndicator())
+                : SizedBox(),
             Text(
               'Haver Jobs',
               style: TextStyle(fontFamily: 'Product Sans', fontSize: 50.0),
+            ),
+            SizedBox(
+              height: 27.0,
             ),
             Form(
               key: _formKey,
@@ -42,6 +47,12 @@ class _LoginScreenState extends State<LoginScreen> {
                         EdgeInsets.symmetric(horizontal: 30.0, vertical: 10.0),
                     child: TextFormField(
                       decoration: InputDecoration(
+                          border: OutlineInputBorder(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(8.0)),
+                          ),
+                          prefixIcon: Icon(Icons.email),
+                          fillColor: Colors.grey,
                           labelText: 'Email',
                           labelStyle: TextStyle(fontFamily: 'Product Sans')),
                       validator: (value) {
@@ -60,8 +71,13 @@ class _LoginScreenState extends State<LoginScreen> {
                         EdgeInsets.symmetric(horizontal: 30.0, vertical: 10.0),
                     child: TextFormField(
                       decoration: InputDecoration(
-                          labelText: 'Password',
-                          labelStyle: TextStyle(fontFamily: 'Product Sans')),
+                        prefixIcon: Icon(Icons.lock),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                        ),
+                        labelText: 'Password',
+                        labelStyle: TextStyle(fontFamily: 'Product Sans'),
+                      ),
                       validator: (value) {
                         if (value.isEmpty) {
                           return 'Password tidak boleh kosong';
@@ -138,5 +154,4 @@ class _LoginScreenState extends State<LoginScreen> {
       }
     }
   }
-  
 }

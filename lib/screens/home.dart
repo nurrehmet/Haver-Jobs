@@ -1,12 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:haverjob/components/widgets.dart';
 import 'package:haverjob/screens/employee_screen.dart';
 import 'package:haverjob/screens/employee_seeker_screen.dart';
-import 'package:haverjob/screens/signup_screen.dart';
-import 'package:haverjob/services/authentication_service.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class Home extends StatefulWidget {
   const Home({Key key, this.user}) : super(key: key);
@@ -74,14 +70,8 @@ class _HomeState extends State<Home> {
     }
     if (snapshot.data['role'] == 'employee seeker') {
       return new EmployeeSeekerScreen();
-      // return Container(
-      //     child: Widgets(
-      //   tileTitle: '${snapshot.data['nama']}',
-      //   tileSubtitle: '${snapshot.data['email']}',
-      //   titleIcon: Icons.account_circle,
-      // ));
-      //return adminPage(snapshot);
-    } else if (snapshot.data['role'] == 'employee'){
+    }
+    if (snapshot.data['role'] == 'employee') {
       return EmployeeScreen();
     }
     return Center(child: Text('Anda Siapa?'));

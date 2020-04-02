@@ -90,13 +90,15 @@ class _LoginScreenState extends State<LoginScreen> {
                   SizedBox(
                     height: 20.0,
                   ),
-                  new BlueButton(
+                  new RoundedButton(
                     text: 'Login',
                     onPress: signIn,
+                    color: Colors.blue[900]
                   ),
-                  new BlueButton(
+                  new RoundedButton(
                     text: 'Register',
                     onPress: () => {Navigator.pushNamed(context, "/register")},
+                    color: Colors.green
                   ),
                 ],
               ),

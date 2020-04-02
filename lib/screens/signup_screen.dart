@@ -22,7 +22,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
   //data employee seeker
   String _nama, _email, _password, _alamat, _noHp, _kategoriPerusahaan, _lokasi;
   //data employee
-  String _gender, _pendidikan, _tglLahir, _pengKerja, _hariKerja, _gaji;
+  String _namaEmployee,
+      _gender,
+      _pendidikan,
+      _tglLahir,
+      _pengKerja,
+      _hariKerja,
+      _gaji;
   double _lat, _long;
   bool showCircular = false;
 
@@ -35,6 +41,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
       _lat = result.latLng.latitude;
       _long = result.latLng.longitude;
       _lokasi = result.formattedAddress;
+      _alamat = _lokasi;
     });
   }
 
@@ -80,9 +87,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
     return Container(
       child: Column(
         children: <Widget>[
-          Text('Registrasi Employee'),
-          new BlueButton(text: 'Test Button', onPress: _submitES,)
-          ],
+          new TextFields(
+              labelText: 'Nama',
+              iconData: Icons.person,
+              onSaved: (input) => _nama = input,
+              obscureText: false,
+              textInputType: TextInputType.text),
+          new RoundedButton(
+              text: 'Test Button', onPress: _submitES, color: Colors.blue[900])
+        ],
       ),
     );
   }
@@ -131,117 +144,33 @@ class _SignUpScreenState extends State<SignUpScreen> {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
-                  Padding(
-                    padding:
-                        EdgeInsets.symmetric(horizontal: 30.0, vertical: 10.0),
-                    child: TextFormField(
-                      decoration: InputDecoration(
-                          border: OutlineInputBorder(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(8.0)),
-                          ),
-                          prefixIcon: Icon(Icons.business),
-                          labelText: 'Nama Perusahaan',
-                          labelStyle: TextStyle(fontFamily: 'Product Sans')),
-                      validator: (value) {
-                        if (value.trim().isEmpty) {
-                          return 'Nama Perusahaan tidak boleh kosong';
-                        }
-                        return null;
-                      },
-                      onSaved: (input) => _nama = input,
-                    ),
+                  new TextFields(
+                    labelText: 'Nama Perusahaan',
+                    iconData: Icons.business,
+                    onSaved: (input) => _nama = input,
+                    obscureText: false,
+                    textInputType: TextInputType.text,
                   ),
-                  Padding(
-                    padding:
-                        EdgeInsets.symmetric(horizontal: 30.0, vertical: 10.0),
-                    child: TextFormField(
-                      decoration: InputDecoration(
-                          border: OutlineInputBorder(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(8.0)),
-                          ),
-                          prefixIcon: Icon(Icons.email),
-                          labelText: 'Email',
-                          labelStyle: TextStyle(fontFamily: 'Product Sans')),
-                      validator: (value) {
-                        if (value.isEmpty) {
-                          return 'Email tidak boleh kosong';
-                        }
-                        if (!value.contains('@') || (!value.contains('.com')))
-                          return 'Masukan format Email yang valid';
-                        return null;
-                      },
-                      onSaved: (input) => _email = input,
-                    ),
+                  new TextFields(
+                    labelText: 'Email',
+                    iconData: Icons.email,
+                    onSaved: (input) => _email = input,
+                    obscureText: false,
+                    textInputType: TextInputType.emailAddress,
                   ),
-                  Padding(
-                    padding:
-                        EdgeInsets.symmetric(horizontal: 30.0, vertical: 10.0),
-                    child: TextFormField(
-                      decoration: InputDecoration(
-                          border: OutlineInputBorder(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(8.0)),
-                          ),
-                          prefixIcon: Icon(Icons.lock),
-                          labelText: 'Password',
-                          labelStyle: TextStyle(fontFamily: 'Product Sans')),
-                      validator: (value) {
-                        if (value.isEmpty) {
-                          return 'Password tidak boleh kosong';
-                        }
-                        if (value.length < 6) {
-                          return 'Password harus berjumlah 6 karakter atau lebih';
-                        }
-                        return null;
-                      },
-                      onSaved: (input) => _password = input,
-                      obscureText: true,
-                    ),
+                  new TextFields(
+                    labelText: 'Password',
+                    iconData: Icons.lock,
+                    onSaved: (input) => _password = input,
+                    obscureText: true,
+                    textInputType: TextInputType.text,
                   ),
-                  Padding(
-                    padding:
-                        EdgeInsets.symmetric(horizontal: 30.0, vertical: 10.0),
-                    child: TextFormField(
-                      decoration: InputDecoration(
-                          border: OutlineInputBorder(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(8.0)),
-                          ),
-                          prefixIcon: Icon(Icons.location_on),
-                          labelText: 'Alamat',
-                          labelStyle: TextStyle(fontFamily: 'Product Sans')),
-                      validator: (value) {
-                        if (value.isEmpty) {
-                          return 'Alamat tidak boleh kosong';
-                        }
-                        return null;
-                      },
-                      onSaved: (input) => _alamat = input,
-                    ),
-                  ),
-                  Padding(
-                    padding:
-                        EdgeInsets.symmetric(horizontal: 30.0, vertical: 10.0),
-                    child: TextFormField(
-                      keyboardType: TextInputType.number,
-                      decoration: InputDecoration(
-                          border: OutlineInputBorder(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(8.0)),
-                          ),
-                          prefixIcon: Icon(Icons.phone),
-                          labelText: 'No Handphone',
-                          labelStyle: TextStyle(fontFamily: 'Product Sans')),
-                      validator: (value) {
-                        if (value.isEmpty) {
-                          return 'No Handphone tidak boleh kosong';
-                        }
-                        return null;
-                      },
-                      onSaved: (input) => _noHp = input,
-                    ),
+                  new TextFields(
+                    labelText: 'No Handphone',
+                    iconData: Icons.phone,
+                    onSaved: (input) => _password = input,
+                    obscureText: false,
+                    textInputType: TextInputType.number,
                   ),
                   SizedBox(
                     height: 20.0,
@@ -271,46 +200,38 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             onChanged: (onChangedDropdownItem),
                           ),
                         ),
-                      ],
-                    ),
-                  ),
-                  Padding(
-                    padding:
-                        EdgeInsets.symmetric(horizontal: 30.0, vertical: 10.0),
-                    child: Column(
-                      children: <Widget>[
-                        Align(
-                            alignment: Alignment.topLeft,
-                            child: Text(
+                        SizedBox(
+                          height: 20.0,
+                        ),
+                        Row(
+                          children: <Widget>[
+                            Text(
                               'Pilih Lokasi Anda',
                               style: TextStyle(
                                   color: Colors.black54,
                                   fontSize: 16.0,
                                   fontFamily: 'Product Sans'),
-                            )),
-                        SizedBox(
-                          height: 20.0,
-                        ),
-                        Align(
-                          alignment: Alignment.topLeft,
-                          child: Container(
-                            width: 200.0,
-                            child: FlatButton.icon(
+                            ),
+                            Spacer(),
+                            FlatButton.icon(
                               icon: Icon(
-                                Icons.search,
+                                Icons.location_searching,
                                 color: Colors.white,
                               ),
                               onPressed: () {
                                 showPlacePicker();
                               },
+                              shape: new RoundedRectangleBorder(
+                                borderRadius: new BorderRadius.circular(10.0),
+                              ),
                               padding: EdgeInsets.all(10.0),
                               color: Colors.lightGreen,
                               label: Text(
-                                'Pilih Lokasi Anda',
+                                'Pilih Lokasi',
                                 style: TextStyle(color: Colors.white),
                               ),
                             ),
-                          ),
+                          ],
                         ),
                         SizedBox(
                           height: 20.0,
@@ -325,24 +246,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       ],
                     ),
                   ),
-                  // SizedBox(
-                  //   height: 50.0,
-                  // ),
                   showCircular
                       ? Center(child: CircularProgressIndicator())
                       : SizedBox(),
-                  new BlueButton(text: 'Registrasi', onPress: _submitES,),
-                  Container(
-                    width: 250.0,
-                    child: FlatButton(
-                      onPressed: () => Navigator.pop(context),
-                      padding: EdgeInsets.all(10.0),
-                      color: Colors.grey,
-                      child: Text(
-                        'Kembali ke Awal',
-                        style: TextStyle(color: Colors.white),
-                      ),
-                    ),
+                  new RoundedButton(
+                    text: 'Registrasi',
+                    onPress: _submitES,
+                    color: Colors.blue[900],
                   ),
                   SizedBox(
                     height: 20.0,

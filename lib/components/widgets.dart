@@ -68,11 +68,12 @@ class StreamData extends StatelessWidget {
   }
 }
 
-class BlueButton extends StatelessWidget {
+class RoundedButton extends StatelessWidget {
   final String text;
   final Function onPress;
+  final Color color;
 
-  BlueButton({@required this.text, @required this.onPress});
+  RoundedButton({@required this.text, @required this.onPress, this.color});
 
   @override
   Widget build(BuildContext context) {
@@ -87,12 +88,51 @@ class BlueButton extends StatelessWidget {
           ),
           onPressed: onPress,
           padding: EdgeInsets.all(10.0),
-          color: Colors.blue,
+          color: color,
           child: Text(
             text,
             style: TextStyle(color: Colors.white),
           ),
         ),
+      ),
+    );
+  }
+}
+
+class TextFields extends StatelessWidget {
+  final String labelText;
+  final IconData iconData;
+  final Function onSaved;
+  final bool obscureText;
+  final TextInputType textInputType;
+
+  TextFields(
+      {@required this.labelText,
+      this.iconData,
+      this.onSaved,
+      this.obscureText,
+      this.textInputType});
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 30.0, vertical: 10.0),
+      child: TextFormField(
+        keyboardType: textInputType,
+        decoration: InputDecoration(
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.all(Radius.circular(8.0)),
+            ),
+            prefixIcon: Icon(iconData),
+            labelText: labelText,
+            labelStyle: TextStyle(fontFamily: 'Product Sans')),
+        validator: (value) {
+          if (value.isEmpty) {
+            return '$labelText tidak boleh kosong';
+          }
+          return null;
+        },
+        onSaved: onSaved,
+        obscureText: obscureText,
       ),
     );
   }

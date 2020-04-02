@@ -6,6 +6,7 @@ import 'package:flutter/scheduler.dart';
 import 'package:haverjob/screens/home.dart';
 import 'package:haverjob/screens/login_screen.dart';
 import 'package:haverjob/screens/signup_screen.dart';
+import 'package:haverjob/screens/welcome_screen.dart';
 
 void main() => runApp(MyApp());
 
@@ -34,6 +35,7 @@ class _MyAppState extends State<MyApp> {
         '/login': (BuildContext context) => LoginScreen(),
         '/register': (BuildContext context) => SignUpScreen(),
         '/home': (BuildContext context) => Home(),
+        '/welcome': (BuildContext context) => WelcomeScreen()
       },
     );
   }
@@ -45,13 +47,13 @@ class _MyAppState extends State<MyApp> {
       if (snapshot.hasData) {
         if (snapshot.data.providerData.length == 1) { // logged in using email and password
           return snapshot.data.isEmailVerified
-              ? LoginScreen()
+              ? WelcomeScreen()
               : Home(user: snapshot.data);
         } else { // logged in using other providers
           return Home(user: snapshot.data);
         }
       } else {
-        return LoginScreen();
+        return WelcomeScreen();
       }
     },
   );

@@ -50,7 +50,7 @@ class _ProfileState extends State<Profile> {
               ),
               onPressed: () {
                 FirebaseAuth.instance.signOut();
-                Navigator.pushNamed(context, "/login");
+                Navigator.pushNamed(context, "/welcome");
               },
             ),
           ),

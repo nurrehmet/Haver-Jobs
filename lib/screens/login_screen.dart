@@ -24,86 +24,53 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text('Login'), backgroundColor: Colors.blue[900]),
-      body: Center(
-        child: Column(
-          children: <Widget>[
-            showCircular
-                ? Center(child: CircularProgressIndicator())
-                : SizedBox(),
-            SizedBox(
-              height: 27.0,
-            ),
-            Form(
-              key: _formKey,
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  Padding(
-                    padding:
-                        EdgeInsets.symmetric(horizontal: 30.0, vertical: 10.0),
-                    child: TextFormField(
-                      decoration: InputDecoration(
-                          border: OutlineInputBorder(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(8.0)),
-                          ),
-                          prefixIcon: Icon(Icons.email),
-                          fillColor: Colors.grey,
-                          labelText: 'Email',
-                          labelStyle: TextStyle(fontFamily: 'Product Sans')),
-                      validator: (value) {
-                        if (value.isEmpty) {
-                          return 'Email tidak boleh kosong';
-                        }
-                        if (!value.contains('@') || (!value.contains('.com')))
-                          return 'Masukan format Email yang valid';
-                        return null;
-                      },
+      body: SingleChildScrollView(
+              child: Center(
+          child: Column(
+            children: <Widget>[
+              SizedBox(
+                height: 27.0,
+              ),
+              Form(
+                key: _formKey,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    new TextFields(
+                      labelText: 'Email',
+                      iconData: Icons.email,
                       onSaved: (input) => _email = input,
+                      obscureText: false,
+                      textInputType: TextInputType.emailAddress,
                     ),
-                  ),
-                  Padding(
-                    padding:
-                        EdgeInsets.symmetric(horizontal: 30.0, vertical: 10.0),
-                    child: TextFormField(
-                      decoration: InputDecoration(
-                        prefixIcon: Icon(Icons.lock),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(8.0)),
-                        ),
-                        labelText: 'Password',
-                        labelStyle: TextStyle(fontFamily: 'Product Sans'),
-                      ),
-                      validator: (value) {
-                        if (value.isEmpty) {
-                          return 'Password tidak boleh kosong';
-                        }
-                        if (value.length < 6) {
-                          return 'Password harus berjumlah 6 karakter';
-                        }
-                        return null;
-                      },
+                   new TextFields(
+                      labelText: 'Password',
+                      iconData: Icons.lock,
                       onSaved: (input) => _password = input,
                       obscureText: true,
+                      textInputType: TextInputType.text,
                     ),
-                  ),
-                  SizedBox(
-                    height: 20.0,
-                  ),
-                  new RoundedButton(
-                    text: 'Login',
-                    onPress: signIn,
-                    color: Colors.blue[900]
-                  ),
-                  new RoundedButton(
-                    text: 'Register',
-                    onPress: () => {Navigator.pushNamed(context, "/register")},
-                    color: Colors.green
-                  ),
-                ],
-              ),
-            )
-          ],
+                    SizedBox(
+                      height: 20.0,
+                    ),
+                    showCircular
+                  ? Center(child: CircularProgressIndicator())
+                  : SizedBox(),
+                    new RoundedButton(
+                      text: 'Login',
+                      onPress: signIn,
+                      color: Colors.blue[900]
+                    ),
+                    new RoundedButton(
+                      text: 'Register',
+                      onPress: () => {Navigator.pushNamed(context, "/register")},
+                      color: Colors.green
+                    ),
+                  ],
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );

@@ -33,7 +33,7 @@ class ProfileHead extends StatelessWidget {
                     ),
                     onPressed: () {
                       FirebaseAuth.instance.signOut();
-                      Navigator.pushNamed(context, "/login");
+                      Navigator.pushNamed(context, "/welcome");
                     },
                   ),
                 ),

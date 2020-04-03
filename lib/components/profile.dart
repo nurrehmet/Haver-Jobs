@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:haverjob/screens/welcome_screen.dart';
 
 class Profile extends StatefulWidget {
   @override
@@ -50,7 +51,7 @@ class _ProfileState extends State<Profile> {
               ),
               onPressed: () {
                 FirebaseAuth.instance.signOut();
-                Navigator.pushNamed(context, "/welcome");
+                Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => WelcomeScreen()));
               },
             ),
           ),

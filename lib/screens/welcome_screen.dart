@@ -22,7 +22,7 @@ class WelcomeScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 Text(
-                  'Haverjobs',
+                  'Haver Jobs',
                   style: TextStyle(
                       color: Colors.white,
                       fontFamily: 'Product Sans',

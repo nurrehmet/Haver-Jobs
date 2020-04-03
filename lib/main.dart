@@ -28,6 +28,9 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      theme: ThemeData(
+        primaryColor: Colors.blue[900]
+      ),
       debugShowCheckedModeBanner: false,
       title: 'Haver Jobs',
       home: _getLandingPage(),

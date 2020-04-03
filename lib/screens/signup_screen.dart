@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:haverjob/components/widgets.dart';
 import 'package:haverjob/models/kategori_perusahaan.dart';
 import 'package:haverjob/screens/login_screen.dart';
+import 'package:intl/intl.dart';
 import 'package:place_picker/place_picker.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -22,13 +23,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
   //data employee seeker
   String _nama, _email, _password, _alamat, _noHp, _kategoriPerusahaan, _lokasi;
   //data employee
-  String _namaEmployee,
-      _gender,
-      _pendidikan,
-      _tglLahir,
-      _pengKerja,
-      _hariKerja,
-      _gaji;
+  String _gender, _pendidikan, _pengKerja, _hariKerja, _gaji;
+  DateFormat dateFormatter = DateFormat('yyyy-MM-dd');
+  DateTime _date;
+  String _tglLahir;
   double _lat, _long;
   bool showCircular = false;
 
@@ -40,8 +38,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
     setState(() {
       _lat = result.latLng.latitude;
       _long = result.latLng.longitude;
-      _lokasi = result.formattedAddress;
-      _alamat = _lokasi;
+      _alamat = result.formattedAddress;
     });
   }
 
@@ -49,6 +46,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
+      theme: ThemeData(primaryColor: Colors.blue[900]),
       home: DefaultTabController(
         length: 2,
         child: Scaffold(
@@ -82,24 +80,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
     );
   }
 
-  //form registrasi employee
-  Widget _registrasiEmployee(BuildContext context) {
-    return Container(
-      child: Column(
-        children: <Widget>[
-          new TextFields(
-              labelText: 'Nama',
-              iconData: Icons.person,
-              onSaved: (input) => _nama = input,
-              obscureText: false,
-              textInputType: TextInputType.text),
-          new RoundedButton(
-              text: 'Test Button', onPress: _submitES, color: Colors.blue[900])
-        ],
-      ),
-    );
-  }
-
   //dropdown listener
   List<KategoriPerusahaan> _dataKategoriPerusahaan =
       KategoriPerusahaan.getKategoriPerusahaan();
@@ -110,7 +90,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   void initState() {
     _dropdownMenuItems = buildDropdownMenuItems(_dataKategoriPerusahaan);
     _selectedKategoriPerusahaan = _dropdownMenuItems[0].value;
-    _lokasi = 'Belum dipilih';
+    _alamat = 'Belum dipilih';
     super.initState();
   }
 
@@ -168,7 +148,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   new TextFields(
                     labelText: 'No Handphone',
                     iconData: Icons.phone,
-                    onSaved: (input) => _password = input,
+                    onSaved: (input) => _noHp = input,
                     obscureText: false,
                     textInputType: TextInputType.number,
                   ),
@@ -239,7 +219,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         Align(
                           alignment: Alignment.topLeft,
                           child: Text(
-                            'Lokasi anda adalah: $_lokasi',
+                            'Lokasi anda adalah: $_alamat',
                             style: TextStyle(color: Colors.blue),
                           ),
                         ),
@@ -264,6 +244,94 @@ class _SignUpScreenState extends State<SignUpScreen> {
         ),
       ),
     );
+  }
+
+  //form registrasi employee
+  Widget _registrasiEmployee(BuildContext context) {
+    return Container(
+      child: SingleChildScrollView(
+        child: Column(
+          children: <Widget>[
+            new TextFields(
+                labelText: 'Nama',
+                iconData: Icons.person,
+                onSaved: (input) => _nama = input,
+                obscureText: false,
+                textInputType: TextInputType.text),
+            new TextFields(
+                labelText: 'Email',
+                iconData: Icons.email,
+                onSaved: (input) => _email = input,
+                obscureText: false,
+                textInputType: TextInputType.emailAddress),
+            new TextFields(
+                labelText: 'Password',
+                iconData: Icons.lock,
+                onSaved: (input) => _password = input,
+                obscureText: true,
+                textInputType: TextInputType.text),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 30.0, vertical: 10.0),
+              child: Row(
+                children: <Widget>[
+                  Text(
+                    'Pilih Tanggal Lahir',
+                    style: TextStyle(
+                        color: Colors.black54,
+                        fontSize: 16.0,
+                        fontFamily: 'Product Sans'),
+                  ),
+                  Spacer(),
+                  FlatButton.icon(
+                    icon: Icon(
+                      Icons.date_range,
+                      color: Colors.white,
+                    ),
+                    onPressed: () {
+                      _datePicker();
+                    },
+                    shape: new RoundedRectangleBorder(
+                      borderRadius: new BorderRadius.circular(10.0),
+                    ),
+                    padding: EdgeInsets.all(10.0),
+                    color: Colors.lightGreen,
+                    label: Text(
+                      'Pilih Tanggal Lahir',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 30.0, vertical: 10.0),
+              child: Align(
+                alignment: Alignment.topLeft,
+                child: Text(_tglLahir == null
+                    ? 'Tanggal lahir belum dipilih'
+                    : 'Tanggal Lahir Anda: $_tglLahir', style: TextStyle(color: Colors.blue, fontFamily:'Product Sans'),),
+              ),
+            ),
+            new RoundedButton(
+                text: 'Registrasi', onPress: _submitES, color: Colors.blue[900])
+          ],
+        ),
+      ),
+    );
+  }
+
+  Future<DateTime> _datePicker() {
+    return showDatePicker(
+            context: context,
+            initialDate: _date == null ? DateTime.now() : _date,
+            firstDate: DateTime(2001),
+            lastDate: DateTime(2021))
+        .then((date) {
+      setState(() {
+        _date = date;
+        _tglLahir = dateFormatter.format(_date);
+      });
+    });
   }
 
   Future<void> _submitES() async {

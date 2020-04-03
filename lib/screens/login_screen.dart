@@ -25,7 +25,7 @@ class _LoginScreenState extends State<LoginScreen> {
     return Scaffold(
       appBar: AppBar(title: Text('Login'), backgroundColor: Colors.blue[900]),
       body: SingleChildScrollView(
-              child: Center(
+        child: Center(
           child: Column(
             children: <Widget>[
               SizedBox(
@@ -43,7 +43,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       obscureText: false,
                       textInputType: TextInputType.emailAddress,
                     ),
-                   new TextFields(
+                    new TextFields(
                       labelText: 'Password',
                       iconData: Icons.lock,
                       onSaved: (input) => _password = input,
@@ -54,18 +54,34 @@ class _LoginScreenState extends State<LoginScreen> {
                       height: 20.0,
                     ),
                     showCircular
-                  ? Center(child: CircularProgressIndicator())
-                  : SizedBox(),
+                        ? Center(child: CircularProgressIndicator())
+                        : SizedBox(),
                     new RoundedButton(
-                      text: 'Login',
-                      onPress: signIn,
-                      color: Colors.blue[900]
-                    ),
+                        text: 'Login',
+                        onPress: signIn,
+                        color: Colors.blue[900]),
+                    Row(children: <Widget>[
+                      Expanded(child: Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: Divider(
+                          color: Colors.grey,
+                        height: 36
+                        ),
+                      )),
+                      Text("OR" ,style: TextStyle(color: Colors.grey),),
+                      Expanded(child: Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: Divider(
+                          color: Colors.grey,
+                        height: 36
+                        ),
+                      )),
+                    ]),
                     new RoundedButton(
-                      text: 'Register',
-                      onPress: () => {Navigator.pushNamed(context, "/register")},
-                      color: Colors.green
-                    ),
+                        text: 'Register',
+                        onPress: () =>
+                            {Navigator.pushNamed(context, "/register")},
+                        color: Colors.green),
                   ],
                 ),
               )

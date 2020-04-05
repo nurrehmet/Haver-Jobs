@@ -23,7 +23,10 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Login'), backgroundColor: Colors.blue[900]),
+      appBar: AppBar(
+          title: Text('Login',style: TextStyle(fontFamily: 'Product Sans',)),
+          elevation: 0.0,
+          ),
       body: SingleChildScrollView(
         child: Center(
           child: Column(
@@ -61,20 +64,19 @@ class _LoginScreenState extends State<LoginScreen> {
                         onPress: signIn,
                         color: Colors.blue[900]),
                     Row(children: <Widget>[
-                      Expanded(child: Padding(
+                      Expanded(
+                          child: Padding(
                         padding: const EdgeInsets.all(10.0),
-                        child: Divider(
-                          color: Colors.grey,
-                        height: 36
-                        ),
+                        child: Divider(color: Colors.grey, height: 36),
                       )),
-                      Text("OR" ,style: TextStyle(color: Colors.grey),),
-                      Expanded(child: Padding(
+                      Text(
+                        'OR',
+                        style: TextStyle(color: Colors.grey, fontFamily: 'Product Sans'),
+                      ),
+                      Expanded(
+                          child: Padding(
                         padding: const EdgeInsets.all(10.0),
-                        child: Divider(
-                          color: Colors.grey,
-                        height: 36
-                        ),
+                        child: Divider(color: Colors.grey, height: 36),
                       )),
                     ]),
                     new RoundedButton(

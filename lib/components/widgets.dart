@@ -45,7 +45,7 @@ class ProfileHead extends StatelessWidget {
     );
   }
 }
-
+//example load data from firestore
 class StreamData extends StatelessWidget {
   final String collection;
   final String document;
@@ -67,7 +67,7 @@ class StreamData extends StatelessWidget {
         });
   }
 }
-
+//rounded button
 class RoundedButton extends StatelessWidget {
   final String text;
   final Function onPress;
@@ -98,7 +98,7 @@ class RoundedButton extends StatelessWidget {
     );
   }
 }
-
+//textfields
 class TextFields extends StatelessWidget {
   final String labelText;
   final IconData iconData;
@@ -137,3 +137,4 @@ class TextFields extends StatelessWidget {
     );
   }
 }
+

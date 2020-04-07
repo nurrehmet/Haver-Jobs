@@ -53,11 +53,12 @@ class _LoginScreenState extends State<LoginScreen> {
                       obscureText: true,
                       textInputType: TextInputType.text,
                     ),
-                    SizedBox(
-                      height: 20.0,
-                    ),
+                    
                     showCircular
-                        ? Center(child: CircularProgressIndicator())
+                        ? Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Center(child: CircularProgressIndicator()),
+                        )
                         : SizedBox(),
                     new RoundedButton(
                         text: 'Login',

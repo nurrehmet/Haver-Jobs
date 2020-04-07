@@ -19,13 +19,24 @@ class SignUpScreen extends StatefulWidget {
 
 class _SignUpScreenState extends State<SignUpScreen> {
   final _formKey = GlobalKey<FormState>();
+  final _formKeyEmployee = GlobalKey<FormState>();
   String userId;
   //data employee seeker
-  String _nama, _email, _password, _alamat, _noHp, _kategoriPerusahaan, _lokasi;
+  String _nama, _email, _password, _alamat, _noHp, _kategoriPerusahaan;
   //data employee
-  String _gender, _pendidikan, _pengKerja, _gaji, _jamKerja;
+  String _gender, _pendidikan, _pengKerja, _jamKerja;
   List _listGender = ["Laki-Laki", "Perempuan"],
       _listPendidikan = ["SMP", "SMA", "D3", "S1"];
+  List<String> _keahlian = [];
+  List<String> _listKeahlian = [
+    'Programmer',
+    'Barista',
+    'Penulis Lepas',
+    'Guru Les Privat',
+    'Desainer Grafis',
+    'Waiter',
+    'Penyiar Radio'
+  ];
   List<String> _hariKerja = [];
   List<String> _listHari = [
     'Senin',
@@ -36,6 +47,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
     'Sabtu',
     'Minggu',
   ];
+  String _gaji;
   //data time picker
   DateFormat dateFormatter = DateFormat('dd-MM-yyyy');
   DateTime _date;
@@ -281,218 +293,254 @@ class _SignUpScreenState extends State<SignUpScreen> {
   Widget _registrasiEmployee(BuildContext context) {
     return Container(
       child: SingleChildScrollView(
-        child: Column(
-          children: <Widget>[
-            new TextFields(
-                labelText: 'Nama',
-                iconData: Icons.person,
-                onSaved: (input) => _nama = input,
-                obscureText: false,
-                textInputType: TextInputType.text),
-            new TextFields(
-                labelText: 'Email',
-                iconData: Icons.email,
-                onSaved: (input) => _email = input,
-                obscureText: false,
-                textInputType: TextInputType.emailAddress),
-            new TextFields(
-                labelText: 'Password',
-                iconData: Icons.lock,
-                onSaved: (input) => _password = input,
-                obscureText: true,
-                textInputType: TextInputType.text),
-            new TextFields(
-                labelText: 'No Handphone',
-                iconData: Icons.phone,
-                onSaved: (input) => _noHp = input,
-                obscureText: false,
-                textInputType: TextInputType.number),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 30.0, vertical: 10.0),
-              child: Row(
-                children: <Widget>[
-                  Text(
-                    'Pilih Tanggal Lahir',
-                    style: TextStyle(
-                        color: Colors.black54,
-                        fontSize: 16.0,
-                        fontFamily: 'Product Sans'),
-                  ),
-                  Spacer(),
-                  FlatButton.icon(
-                    icon: Icon(
-                      Icons.date_range,
-                      color: Colors.white,
-                    ),
-                    onPressed: () {
-                      _datePicker();
-                    },
-                    shape: new RoundedRectangleBorder(
-                      borderRadius: new BorderRadius.circular(10.0),
-                    ),
-                    padding: EdgeInsets.all(10.0),
-                    color: Colors.lightGreen,
-                    label: Text(
-                      'Pilih Tanggal Lahir',
-                      style: TextStyle(color: Colors.white),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 30.0, vertical: 10.0),
-              child: Column(
-                children: <Widget>[
-                  Align(
-                    alignment: Alignment.topLeft,
-                    child: Text(
-                      _tglLahir == null
-                          ? 'Tanggal lahir belum dipilih'
-                          : 'Tanggal Lahir Anda: $_tglLahir',
-                      style: TextStyle(
-                          color: Colors.blue, fontFamily: 'Product Sans'),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  Row(
-                    children: <Widget>[
-                      Text(
-                        'Pilih Jenis Kelamin',
-                        style: TextStyle(
-                            color: Colors.black54,
-                            fontSize: 16.0,
-                            fontFamily: 'Product Sans'),
-                      ),
-                      Spacer(),
-                      DropdownButton(
-                        icon: Icon(Icons.people),
-                        hint: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text('Jenis Kelamin'),
-                        ),
-                        value: _gender,
-                        items: _listGender.map((value) {
-                          return DropdownMenuItem(
-                            child: Text(value),
-                            value: value,
-                          );
-                        }).toList(),
-                        onChanged: (value) {
-                          setState(() {
-                            _gender = value;
-                          });
-                        },
-                      ),
-                    ],
-                  ),
-                  Row(
-                    children: <Widget>[
-                      Text(
-                        'Pilih Pendidikan Terakhir',
-                        style: TextStyle(
-                            color: Colors.black54,
-                            fontSize: 16.0,
-                            fontFamily: 'Product Sans'),
-                      ),
-                      Spacer(),
-                      DropdownButton(
-                        icon: Icon(Icons.school),
-                        hint: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text('Pendidikan'),
-                        ),
-                        value: _pendidikan,
-                        items: _listPendidikan.map((value) {
-                          return DropdownMenuItem(
-                            child: Text(value),
-                            value: value,
-                          );
-                        }).toList(),
-                        onChanged: (value) {
-                          setState(() {
-                            _pendidikan = value;
-                          });
-                        },
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: 20.0,
-                  ),
-                  Row(
-                    children: <Widget>[
-                      Text(
-                        'Pilih Lokasi Anda',
-                        style: TextStyle(
-                            color: Colors.black54,
-                            fontSize: 16.0,
-                            fontFamily: 'Product Sans'),
-                      ),
-                      Spacer(),
-                      FlatButton.icon(
-                        icon: Icon(
-                          Icons.location_searching,
-                          color: Colors.white,
-                        ),
-                        onPressed: () {
-                          showPlacePicker();
-                        },
-                        shape: new RoundedRectangleBorder(
-                          borderRadius: new BorderRadius.circular(10.0),
-                        ),
-                        padding: EdgeInsets.all(10.0),
-                        color: Colors.lightGreen,
-                        label: Text(
-                          'Pilih Lokasi',
-                          style: TextStyle(color: Colors.white),
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: 20.0,
-                  ),
-                  Align(
-                    alignment: Alignment.topLeft,
-                    child: Text(
-                      _alamat == null
-                          ? 'Lokasi belum dipilih'
-                          : 'Lokasi Anda: $_alamat',
-                      style: TextStyle(
-                          color: Colors.blue, fontFamily: 'Product Sans'),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 20.0,
-                  ),
-                  Align(
-                    alignment: Alignment.topLeft,
-                    child: Text(
-                      'Pilih Hari Kerja',
+        child: Form(
+          key: _formKeyEmployee,
+          child: Column(
+            children: <Widget>[
+              new TextFields(
+                  labelText: 'Nama',
+                  iconData: Icons.person,
+                  onSaved: (input) => _nama = input,
+                  obscureText: false,
+                  textInputType: TextInputType.text),
+              new TextFields(
+                  labelText: 'Email',
+                  iconData: Icons.email,
+                  onSaved: (input) => _email = input,
+                  obscureText: false,
+                  textInputType: TextInputType.emailAddress),
+              new TextFields(
+                  labelText: 'Password',
+                  iconData: Icons.lock,
+                  onSaved: (input) => _password = input,
+                  obscureText: true,
+                  textInputType: TextInputType.text),
+              new TextFields(
+                  labelText: 'No Handphone',
+                  iconData: Icons.phone,
+                  onSaved: (input) => _noHp = input,
+                  obscureText: false,
+                  textInputType: TextInputType.number),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 30.0, vertical: 10.0),
+                child: Row(
+                  children: <Widget>[
+                    Text(
+                      'Tanggal Lahir',
                       style: TextStyle(
                           color: Colors.black54,
                           fontSize: 16.0,
                           fontFamily: 'Product Sans'),
                     ),
-                  ),
-                  ChipsChoice<String>.multiple(
-                    value: _hariKerja,
-                    options: ChipsChoiceOption.listFrom<String, String>(
-                      source: _listHari,
-                      value: (i, v) => v,
-                      label: (i, v) => v,
+                    Spacer(),
+                    FlatButton.icon(
+                      icon: Icon(
+                        Icons.date_range,
+                        color: Colors.white,
+                      ),
+                      onPressed: () {
+                        _datePicker();
+                      },
+                      shape: new RoundedRectangleBorder(
+                        borderRadius: new BorderRadius.circular(10.0),
+                      ),
+                      padding: EdgeInsets.all(10.0),
+                      color: Colors.lightGreen,
+                      label: Text(
+                        'Pilih Tanggal Lahir',
+                        style: TextStyle(color: Colors.white),
+                      ),
                     ),
-                    onChanged: (val) => setState(() => _hariKerja = val),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
-            new RoundedButton(
-                text: 'Registrasi', onPress: _cekInput, color: Colors.blue[900])
-          ],
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 30.0, vertical: 10.0),
+                child: Column(
+                  children: <Widget>[
+                    Align(
+                      alignment: Alignment.topLeft,
+                      child: Text(
+                        _tglLahir == null
+                            ? 'Tanggal lahir belum dipilih'
+                            : 'Tanggal Lahir Anda: $_tglLahir',
+                        style: TextStyle(
+                            color: Colors.blue, fontFamily: 'Product Sans'),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    Row(
+                      children: <Widget>[
+                        Text(
+                          'Jenis Kelamin',
+                          style: TextStyle(
+                              color: Colors.black54,
+                              fontSize: 16.0,
+                              fontFamily: 'Product Sans'),
+                        ),
+                        Spacer(),
+                        DropdownButton(
+                          icon: Icon(Icons.people),
+                          hint: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text('Jenis Kelamin'),
+                          ),
+                          value: _gender,
+                          items: _listGender.map((value) {
+                            return DropdownMenuItem(
+                              child: Text(value),
+                              value: value,
+                            );
+                          }).toList(),
+                          onChanged: (value) {
+                            setState(() {
+                              _gender = value;
+                            });
+                          },
+                        ),
+                      ],
+                    ),
+                    Row(
+                      children: <Widget>[
+                        Text(
+                          'Pendidikan Terakhir',
+                          style: TextStyle(
+                              color: Colors.black54,
+                              fontSize: 16.0,
+                              fontFamily: 'Product Sans'),
+                        ),
+                        Spacer(),
+                        DropdownButton(
+                          icon: Icon(Icons.school),
+                          hint: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text('Pendidikan'),
+                          ),
+                          value: _pendidikan,
+                          items: _listPendidikan.map((value) {
+                            return DropdownMenuItem(
+                              child: Text(value),
+                              value: value,
+                            );
+                          }).toList(),
+                          onChanged: (value) {
+                            setState(() {
+                              _pendidikan = value;
+                            });
+                          },
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 20.0,
+                    ),
+                    Row(
+                      children: <Widget>[
+                        Text(
+                          'Lokasi Anda',
+                          style: TextStyle(
+                              color: Colors.black54,
+                              fontSize: 16.0,
+                              fontFamily: 'Product Sans'),
+                        ),
+                        Spacer(),
+                        FlatButton.icon(
+                          icon: Icon(
+                            Icons.location_searching,
+                            color: Colors.white,
+                          ),
+                          onPressed: () {
+                            showPlacePicker();
+                          },
+                          shape: new RoundedRectangleBorder(
+                            borderRadius: new BorderRadius.circular(10.0),
+                          ),
+                          padding: EdgeInsets.all(10.0),
+                          color: Colors.lightGreen,
+                          label: Text(
+                            'Pilih Lokasi',
+                            style: TextStyle(color: Colors.white),
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 20.0,
+                    ),
+                    Align(
+                      alignment: Alignment.topLeft,
+                      child: Text(
+                        _alamat == null
+                            ? 'Lokasi belum dipilih'
+                            : 'Lokasi Anda: $_alamat',
+                        style: TextStyle(
+                            color: Colors.blue, fontFamily: 'Product Sans'),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 20.0,
+                    ),
+                    Align(
+                      alignment: Alignment.topLeft,
+                      child: Text(
+                        'Hari Kerja',
+                        style: TextStyle(
+                            color: Colors.black54,
+                            fontSize: 16.0,
+                            fontFamily: 'Product Sans'),
+                      ),
+                    ),
+                    ChipsChoice<String>.multiple(
+                      value: _hariKerja,
+                      options: ChipsChoiceOption.listFrom<String, String>(
+                        source: _listHari,
+                        value: (i, v) => v,
+                        label: (i, v) => v,
+                      ),
+                      onChanged: (val) => setState(() => _hariKerja = val),
+                    ),
+                    Align(
+                      alignment: Alignment.topLeft,
+                      child: Text(
+                        'Keahlian',
+                        style: TextStyle(
+                            color: Colors.black54,
+                            fontSize: 16.0,
+                            fontFamily: 'Product Sans'),
+                      ),
+                    ),
+                    ChipsChoice<String>.multiple(
+                      value: _keahlian,
+                      options: ChipsChoiceOption.listFrom<String, String>(
+                        source: _listKeahlian,
+                        value: (i, v) => v,
+                        label: (i, v) => v,
+                      ),
+                      onChanged: (val) => setState(() => _keahlian = val),
+                    ),
+                  ],
+                ),
+              ),
+              new TextFields(
+                  labelText: 'Gaji Yang Diinginkan',
+                  iconData: Icons.attach_money,
+                  onSaved: (input) => _gaji = input,
+                  obscureText: false,
+                  textInputType: TextInputType.number),
+              showCircular
+                  ? Center(child: CircularProgressIndicator())
+                  : SizedBox(),
+              new RoundedButton(
+                  text: 'Registrasi',
+                  onPress: _cekInput,
+                  color: Colors.blue[900]),
+              SizedBox(
+                height: 20.0,
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -536,10 +584,36 @@ class _SignUpScreenState extends State<SignUpScreen> {
         msg: "Lokasi belum dipilih",
         toastLength: Toast.LENGTH_LONG,
       );
+    } else if (_hariKerja == null) {
+      Fluttertoast.showToast(
+        msg: "Hari Kerja belum dipilih",
+        toastLength: Toast.LENGTH_LONG,
+      );
+    } else {
+      _submitEmployee();
     }
   }
 
-  Future<void> _submitEmployee() async {}
+//submit employee
+  Future<void> _submitEmployee() async {
+    if (_formKeyEmployee.currentState.validate()) {
+      _formKeyEmployee.currentState.save();
+      setState(() {
+        showCircular = true;
+      });
+      try {
+        await FirebaseAuth.instance
+            .createUserWithEmailAndPassword(email: _email, password: _password);
+        final FirebaseUser user = await FirebaseAuth.instance.currentUser();
+        setState(() {
+          userId = user.uid;
+        });
+        _registerEmployee();
+      } catch (e) {
+        print(e.message);
+      }
+    }
+  }
 
 //submit employee seeker
   Future<void> _submitES() async {
@@ -560,6 +634,29 @@ class _SignUpScreenState extends State<SignUpScreen> {
         print(e.message);
       }
     }
+  }
+
+//registrasi employee
+  Future<void> _registerEmployee() async {
+    Firestore.instance.collection("users").document(userId).setData({
+      'nama': _nama,
+      'email': _email,
+      'role': 'employee',
+      'alamat': _alamat,
+      'tglLahir': _tglLahir,
+      'pendidikan': _pendidikan,
+      'hariKerja': _hariKerja,
+      'noHp': _noHp,
+      'jenisKelamin': _gender,
+      'keahlian': _keahlian,
+      'gaji': int.parse(_gaji),
+      'latitude': _lat,
+      'longitude': _long
+    });
+    final FirebaseUser user = await FirebaseAuth.instance.currentUser();
+
+    Navigator.pushReplacement(
+        context, MaterialPageRoute(builder: (context) => Home(user: user)));
   }
 
 //registrasi employee seeker

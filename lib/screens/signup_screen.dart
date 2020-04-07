@@ -2,11 +2,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:haverjob/components/widgets.dart';
 import 'package:haverjob/models/kategori_perusahaan.dart';
-import 'package:haverjob/screens/login_screen.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 import 'package:place_picker/place_picker.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-
+import 'package:chips_choice/chips_choice.dart';
 import 'home.dart';
 
 class SignUpScreen extends StatefulWidget {
@@ -23,9 +23,19 @@ class _SignUpScreenState extends State<SignUpScreen> {
   //data employee seeker
   String _nama, _email, _password, _alamat, _noHp, _kategoriPerusahaan, _lokasi;
   //data employee
-  String _gender, _pendidikan, _pengKerja, _hariKerja, _gaji, _jamKerja;
+  String _gender, _pendidikan, _pengKerja, _gaji, _jamKerja;
   List _listGender = ["Laki-Laki", "Perempuan"],
       _listPendidikan = ["SMP", "SMA", "D3", "S1"];
+  List<String> _hariKerja = [];
+  List<String> _listHari = [
+    'Senin',
+    'Selasa',
+    'Rabu',
+    'Kamis',
+    'Jumat',
+    'Sabtu',
+    'Minggu',
+  ];
   //data time picker
   DateFormat dateFormatter = DateFormat('dd-MM-yyyy');
   DateTime _date;
@@ -72,6 +82,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     fontFamily: 'Product Sans',
                   )),
               bottom: TabBar(
+                indicatorColor: Colors.white,
                 tabs: <Widget>[
                   Tab(
                     icon: Icon(Icons.search),
@@ -441,7 +452,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       ),
                     ],
                   ),
-                   SizedBox(
+                  SizedBox(
                     height: 20.0,
                   ),
                   Align(
@@ -454,11 +465,33 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           color: Colors.blue, fontFamily: 'Product Sans'),
                     ),
                   ),
+                  SizedBox(
+                    height: 20.0,
+                  ),
+                  Align(
+                    alignment: Alignment.topLeft,
+                    child: Text(
+                      'Pilih Hari Kerja',
+                      style: TextStyle(
+                          color: Colors.black54,
+                          fontSize: 16.0,
+                          fontFamily: 'Product Sans'),
+                    ),
+                  ),
+                  ChipsChoice<String>.multiple(
+                    value: _hariKerja,
+                    options: ChipsChoiceOption.listFrom<String, String>(
+                      source: _listHari,
+                      value: (i, v) => v,
+                      label: (i, v) => v,
+                    ),
+                    onChanged: (val) => setState(() => _hariKerja = val),
+                  ),
                 ],
               ),
             ),
             new RoundedButton(
-                text: 'Registrasi', onPress: _submitES, color: Colors.blue[900])
+                text: 'Registrasi', onPress: _cekInput, color: Colors.blue[900])
           ],
         ),
       ),
@@ -479,6 +512,34 @@ class _SignUpScreenState extends State<SignUpScreen> {
       });
     });
   }
+
+//submit employee
+
+  void _cekInput() {
+    if (_tglLahir == null) {
+      Fluttertoast.showToast(
+        msg: "Tanggal lahir belum dipilih",
+        toastLength: Toast.LENGTH_LONG,
+      );
+    } else if (_pendidikan == null) {
+      Fluttertoast.showToast(
+        msg: "Pendidikan belum dipilih",
+        toastLength: Toast.LENGTH_LONG,
+      );
+    } else if (_gender == null) {
+      Fluttertoast.showToast(
+        msg: "Jenis Kelamin belum dipilih",
+        toastLength: Toast.LENGTH_LONG,
+      );
+    } else if (_alamat == null) {
+      Fluttertoast.showToast(
+        msg: "Lokasi belum dipilih",
+        toastLength: Toast.LENGTH_LONG,
+      );
+    }
+  }
+
+  Future<void> _submitEmployee() async {}
 
 //submit employee seeker
   Future<void> _submitES() async {

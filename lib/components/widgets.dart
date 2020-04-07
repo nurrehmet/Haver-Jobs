@@ -45,6 +45,7 @@ class ProfileHead extends StatelessWidget {
     );
   }
 }
+
 //example load data from firestore
 class StreamData extends StatelessWidget {
   final String collection;
@@ -67,6 +68,7 @@ class StreamData extends StatelessWidget {
         });
   }
 }
+
 //rounded button
 class RoundedButton extends StatelessWidget {
   final String text;
@@ -98,6 +100,7 @@ class RoundedButton extends StatelessWidget {
     );
   }
 }
+
 //textfields
 class TextFields extends StatelessWidget {
   final String labelText;
@@ -138,3 +141,30 @@ class TextFields extends StatelessWidget {
   }
 }
 
+//snackbar alert
+class SnackbarAlert extends StatelessWidget {
+  String alertMsg, alertBtn;
+
+  SnackbarAlert({@required this.alertBtn, this.alertMsg});
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: RaisedButton(
+        onPressed: () {
+          final snackBar = SnackBar(
+            content: Text(alertMsg),
+            action: SnackBarAction(
+              label: alertMsg,
+              onPressed: () {
+                // Some code to undo the change.
+              },
+            ),
+          );
+          Scaffold.of(context).showSnackBar(snackBar);
+        },
+        child: Text('Show SnackBar'),
+      ),
+    );
+  }
+}

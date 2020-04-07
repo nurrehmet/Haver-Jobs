@@ -29,6 +29,9 @@ dependencies:
   cloud_firestore: ^0.13.4+2
   shared_preferences: ^0.5.3+4
   intl: ^0.15.7
+  fluttertoast: ^4.0.1
+  chips_choice: ^1.2.0
+
 
 dev_dependencies:
   flutter_test:

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:haverjob/components/widgets.dart';
 import 'package:haverjob/models/kategori_perusahaan.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:hexcolor/hexcolor.dart';
 import 'package:intl/intl.dart';
 import 'package:place_picker/place_picker.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -72,12 +73,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(primaryColor: Colors.blue[900]),
+      theme: ThemeData(primaryColor: Hexcolor('#112d4e')),
       home: DefaultTabController(
         length: 2,
         child: Scaffold(
           appBar: AppBar(
-              backgroundColor: Colors.blue[900],
+              
               actions: <Widget>[
                 Padding(
                   padding: const EdgeInsets.all(15.0),
@@ -95,13 +96,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   )),
               bottom: TabBar(
                 indicatorColor: Colors.white,
+                labelColor: Colors.white,
                 tabs: <Widget>[
                   Tab(
-                    icon: Icon(Icons.search),
+                    
+                    icon: Icon(Icons.search,),
                     text: 'Employee Seeker',
                   ),
                   Tab(
-                    icon: Icon(Icons.people),
+                    icon: Icon(Icons.people,),
                     text: 'Employee',
                   )
                 ],

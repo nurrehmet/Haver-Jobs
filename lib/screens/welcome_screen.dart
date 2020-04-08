@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:haverjob/components/widgets.dart';
+import 'package:hexcolor/hexcolor.dart';
 
 class WelcomeScreen extends StatelessWidget {
   @override
@@ -39,7 +40,7 @@ class WelcomeScreen extends StatelessWidget {
                 new RoundedButton(
                   text: 'Login',
                   onPress: () => {Navigator.pushNamed(context, "/login")},
-                  color: Colors.blue[900],
+                  color: Hexcolor('#3f72af'),
                 ),
                 new RoundedButton(
                   text: 'Register',

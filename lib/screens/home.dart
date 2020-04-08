@@ -23,19 +23,17 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.lightBlue[900],
-        title: Text('Haver Jobs'),
+        leading: Icon(Icons.menu),
+        elevation: 0,
         actions: <Widget>[
           Padding(
-              padding: EdgeInsets.only(right: 20.0),
-              child: GestureDetector(
-                onTap: () {},
-                child: Icon(
-                  Icons.lock_outline,
-                  size: 26.0,
-                ),
-              )),
+            padding: const EdgeInsets.all(15.0),
+            child: Icon(Icons.search),
+          )
         ],
+        centerTitle: true,
+        backgroundColor: Colors.lightBlue[900],
+        title: Text('Haver Jobs'),
         automaticallyImplyLeading: false,
       ),
       body: StreamBuilder<DocumentSnapshot>(

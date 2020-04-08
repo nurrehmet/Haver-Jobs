@@ -31,6 +31,8 @@ dependencies:
   intl: ^0.15.7
   fluttertoast: ^4.0.1
   chips_choice: ^1.2.0
+  hexcolor: ^1.0.1
+  statusbar: ^1.1.0
 
 
 dev_dependencies:

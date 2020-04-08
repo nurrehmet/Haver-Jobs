@@ -122,11 +122,17 @@ class TextFields extends StatelessWidget {
       child: TextFormField(
         keyboardType: textInputType,
         decoration: InputDecoration(
+            
             border: OutlineInputBorder(
-              borderRadius: BorderRadius.all(Radius.circular(8.0)),
+              // width: 0.0 produces a thin "hairline" border
+              borderRadius: BorderRadius.all(Radius.circular(10.0)),
+              borderSide: BorderSide.none,
+              //borderSide: const BorderSide(),
             ),
+            filled: true,
+            fillColor: Colors.grey[200],
             prefixIcon: Icon(iconData),
-            labelText: labelText,
+            hintText: labelText,
             labelStyle: TextStyle(fontFamily: 'Product Sans')),
         validator: (value) {
           if (value.isEmpty) {

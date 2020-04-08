@@ -3,6 +3,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:haverjob/components/profile.dart';
 import 'package:haverjob/components/widgets.dart';
+import 'package:haverjob/screens/find_employee_screen.dart';
+import 'package:hexcolor/hexcolor.dart';
 
 class EmployeeSeekerScreen extends StatefulWidget {
   @override
@@ -22,13 +24,13 @@ class _EmployeeSeekerScreenState extends State<EmployeeSeekerScreen> {
   int _selectedIndex = 0;
 
   List<Widget> get _widgetOptions => [
-        Center(child: Text('Home Widget')),
+        FindEmployeeScreen(),
         Center(
           child: Text(
-            'Cari Karyawan Widget',
+            'Posting Pekerjaan',
           ),
         ),
-        Profile(),
+        SettingScreen(),
       ];
   @override
   Widget build(BuildContext context) {
@@ -37,20 +39,20 @@ class _EmployeeSeekerScreenState extends State<EmployeeSeekerScreen> {
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            title: Text('Beranda'),
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.pin_drop),
+            icon: Icon(Icons.search),
             title: Text('Cari Karyawan'),
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.account_circle),
-            title: Text('Akun'),
+            icon: Icon(Icons.business),
+            title: Text('Pekerjaan'),
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.settings),
+            title: Text('Settings'),
           ),
         ],
         currentIndex: _selectedIndex,
-        selectedItemColor: Colors.lightBlue[900],
+        selectedItemColor: Hexcolor('#112d4e'),
         onTap: _onItemTapped,
       ),
     );

@@ -248,7 +248,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 borderRadius: new BorderRadius.circular(10.0),
                               ),
                               padding: EdgeInsets.all(10.0),
-                              color: Colors.lightGreen,
+                              color: Hexcolor('#3f72af'),
                               label: Text(
                                 'Pilih Lokasi',
                                 style: TextStyle(color: Colors.white),
@@ -278,7 +278,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   new RoundedButton(
                     text: 'Registrasi',
                     onPress: _submitES,
-                    color: Colors.blue[900],
+                    color: Hexcolor('#3f72af'),
                   ),
                   SizedBox(
                     height: 20.0,
@@ -348,7 +348,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         borderRadius: new BorderRadius.circular(10.0),
                       ),
                       padding: EdgeInsets.all(10.0),
-                      color: Colors.lightGreen,
+                      color: Hexcolor('#3f72af'),
                       label: Text(
                         'Pilih Tanggal Lahir',
                         style: TextStyle(color: Colors.white),
@@ -461,7 +461,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             borderRadius: new BorderRadius.circular(10.0),
                           ),
                           padding: EdgeInsets.all(10.0),
-                          color: Colors.lightGreen,
+                          color: Hexcolor('#3f72af'),
                           label: Text(
                             'Pilih Lokasi',
                             style: TextStyle(color: Colors.white),
@@ -538,7 +538,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
               new RoundedButton(
                   text: 'Registrasi',
                   onPress: _cekInput,
-                  color: Colors.blue[900]),
+                  color: Hexcolor('#3f72af')),
               SizedBox(
                 height: 20.0,
               ),

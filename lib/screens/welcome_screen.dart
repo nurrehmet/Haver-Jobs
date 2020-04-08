@@ -25,16 +25,18 @@ class WelcomeScreen extends StatelessWidget {
                 Text(
                   'Haver Jobs',
                   style: TextStyle(
-                      color: Colors.white,
+                      color: Hexcolor('#112d4e'),
+                      fontWeight: FontWeight.bold,
                       fontFamily: 'Product Sans',
                       fontSize: 50,),
                 ),
+                SizedBox(height: 10,),
                 Text(
                   'Cari Lowongan Pekerjaan Part Time Terdekat',
                   style: TextStyle(
-                      color: Colors.white,
+                      color: Colors.grey,
                       fontFamily: 'Product Sans',
-                      fontSize: 15,),
+                      fontSize: 17,),
                 ),
                 Spacer(),
                 new RoundedButton(
@@ -46,7 +48,8 @@ class WelcomeScreen extends StatelessWidget {
                   text: 'Register',
                   onPress: () => {Navigator.pushNamed(context, "/register")},
                   color: Colors.green,
-                )
+                ),
+                SizedBox(height: 20,),
               ],
             ),
           ),

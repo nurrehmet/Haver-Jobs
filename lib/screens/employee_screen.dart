@@ -3,6 +3,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:haverjob/components/profile.dart';
 import 'package:haverjob/components/widgets.dart';
+import 'package:hexcolor/hexcolor.dart';
+import 'package:settings_ui/settings_ui.dart';
 
 class EmployeeScreen extends StatefulWidget {
   @override
@@ -23,12 +25,8 @@ class _EmployeeScreenState extends State<EmployeeScreen> {
 
   List<Widget> get _widgetOptions => [
         Center(child: Text('Home Widget')),
-        Center(
-          child: Text(
-            'Cari Pekerjaan Widget',
-          ),
-        ),
-        Profile(),
+        Center(child: Text('Cari Pekerjaan')),
+        SettingScreen(),
       ];
   @override
   Widget build(BuildContext context) {
@@ -45,12 +43,12 @@ class _EmployeeScreenState extends State<EmployeeScreen> {
             title: Text('Cari Pekerjaan'),
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.account_circle),
-            title: Text('Akun'),
+            icon: Icon(Icons.settings),
+            title: Text('Settings'),
           ),
         ],
         currentIndex: _selectedIndex,
-        selectedItemColor: Colors.lightBlue[900],
+        selectedItemColor: Hexcolor('#112d4e'),
         onTap: _onItemTapped,
       ),
     );

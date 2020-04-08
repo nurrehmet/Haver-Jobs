@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:haverjob/screens/employee_screen.dart';
 import 'package:haverjob/screens/employee_seeker_screen.dart';
+import 'package:hexcolor/hexcolor.dart';
 
 class Home extends StatefulWidget {
   const Home({Key key, this.user}) : super(key: key);
@@ -32,7 +33,7 @@ class _HomeState extends State<Home> {
           )
         ],
         centerTitle: true,
-        backgroundColor: Colors.lightBlue[900],
+        backgroundColor: Hexcolor('#112d4e'),
         title: Text('Haver Jobs'),
         automaticallyImplyLeading: false,
       ),
@@ -74,32 +75,32 @@ class _HomeState extends State<Home> {
     }
     return Center(child: Text('Anda Siapa?'));
   }
-
-  adminPage(DocumentSnapshot snapshot) {
-    return Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          Center(
-              child: Text(
-                  ' Role Anda : ${snapshot.data['role']} , Nama Anda : ${snapshot.data['nama']}')),
-          SizedBox(
-            height: 20.0,
-          ),
-          FlatButton(
-            child: Text(
-              'Signout',
-              style: TextStyle(color: Colors.white),
-            ),
-            color: Colors.red,
-            onPressed: () {
-              FirebaseAuth.instance.signOut();
-              Navigator.pushNamed(context, "/login");
-            },
-          ),
-        ]);
-  }
-
-  Center userPage(DocumentSnapshot snapshot) {
-    return Center(child: Text(snapshot.data['nama']));
-  }
 }
+//   adminPage(DocumentSnapshot snapshot) {
+//     return Column(
+//         mainAxisAlignment: MainAxisAlignment.center,
+//         children: <Widget>[
+//           Center(
+//               child: Text(
+//                   ' Role Anda : ${snapshot.data['role']} , Nama Anda : ${snapshot.data['nama']}')),
+//           SizedBox(
+//             height: 20.0,
+//           ),
+//           FlatButton(
+//             child: Text(
+//               'Signout',
+//               style: TextStyle(color: Colors.white),
+//             ),
+//             color: Colors.red,
+//             onPressed: () {
+//               FirebaseAuth.instance.signOut();
+//               Navigator.pushNamed(context, "/login");
+//             },
+//           ),
+//         ]);
+//   }
+
+//   Center userPage(DocumentSnapshot snapshot) {
+//     return Center(child: Text(snapshot.data['nama']));
+//   }
+// }

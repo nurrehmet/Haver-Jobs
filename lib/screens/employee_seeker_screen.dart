@@ -1,7 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:haverjob/components/maps_view.dart';
 import 'package:haverjob/components/profile.dart';
+import 'package:haverjob/components/setting_screen.dart';
 import 'package:haverjob/components/widgets.dart';
 import 'package:haverjob/screens/find_employee_screen.dart';
 import 'package:hexcolor/hexcolor.dart';
@@ -24,7 +26,8 @@ class _EmployeeSeekerScreenState extends State<EmployeeSeekerScreen> {
   int _selectedIndex = 0;
 
   List<Widget> get _widgetOptions => [
-        FindEmployeeScreen(),
+        // FindEmployeeScreen(),
+        MapsView(),
         Center(
           child: Text(
             'Posting Pekerjaan',

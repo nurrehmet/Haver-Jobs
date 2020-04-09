@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/services.dart';
 import 'package:haverjob/screens/employee_screen.dart';
 import 'package:haverjob/screens/employee_seeker_screen.dart';
 import 'package:hexcolor/hexcolor.dart';
@@ -22,21 +23,22 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
+    
     return Scaffold(
-      appBar: AppBar(
-        leading: Icon(Icons.menu),
-        elevation: 0,
-        actions: <Widget>[
-          Padding(
-            padding: const EdgeInsets.all(15.0),
-            child: Icon(Icons.search),
-          )
-        ],
-        centerTitle: true,
-        backgroundColor: Hexcolor('#112d4e'),
-        title: Text('Haver Jobs'),
-        automaticallyImplyLeading: false,
-      ),
+      // appBar: AppBar(
+      //   leading: Icon(Icons.menu),
+      //   elevation: 0,
+      //   actions: <Widget>[
+      //     Padding(
+      //       padding: const EdgeInsets.all(15.0),
+      //       child: Icon(Icons.search),
+      //     )
+      //   ],
+      //   centerTitle: true,
+      //   backgroundColor: Hexcolor('#112d4e'),
+      //   title: Text('Haver Jobs'),
+      //   automaticallyImplyLeading: false,
+      // ),
       body: StreamBuilder<DocumentSnapshot>(
         stream: Firestore.instance
             .collection('users')

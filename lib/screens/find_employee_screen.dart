@@ -1,7 +1,12 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:haverjob/components/maps_view.dart';
 import 'package:haverjob/components/widgets.dart';
 import 'package:dropdown_formfield/dropdown_formfield.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+
+// Init firestore and geoFlutterFire
 
 class FindEmployeeScreen extends StatefulWidget {
   @override
@@ -145,7 +150,8 @@ class _FindEmployeeScreenState extends State<FindEmployeeScreen> {
             Container(
               padding: EdgeInsets.all(16),
               child: Text(_myActivityResult),
-            )
+            ),
+            
           ],
         ),
       ),

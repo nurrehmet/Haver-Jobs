@@ -41,6 +41,7 @@ class _SettingScreenState extends State<SettingScreen> {
   profileBuilder(DocumentSnapshot snapshot) {
     return Scaffold(
     appBar: AppBar(
+      automaticallyImplyLeading: false,
       title: Text('Settings'),
     ),
     body: SettingsList(

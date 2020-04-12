@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:solid_bottom_sheet/solid_bottom_sheet.dart';
+import 'package:geoflutterfire/geoflutterfire.dart';
 
 class MapsView extends StatefulWidget {
   @override
@@ -12,7 +13,6 @@ class MapsView extends StatefulWidget {
 }
 
 class MapsViewState extends State<MapsView> {
-  
   final Firestore _database = Firestore.instance;
   Map<MarkerId, Marker> markers = <MarkerId, Marker>{};
   SolidController _bsController = SolidController();
@@ -20,11 +20,7 @@ class MapsViewState extends State<MapsView> {
   CameraPosition _myLocation;
   Completer<GoogleMapController> _controller = Completer();
   Widget _mapPlaceholder;
-
-  CameraPosition _defaultLocation = CameraPosition(
-    target: LatLng(-6.932694, 107.627449),
-    zoom: 14.4746,
-  );
+  
 
   @override
   void initState() {
@@ -52,6 +48,19 @@ class MapsViewState extends State<MapsView> {
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: FloatingActionButton(
+                        tooltip: 'Filter Karyawan',
+                        backgroundColor: Hexcolor('#3f72af'),
+                        child: Icon(Icons.filter_list),
+                        onPressed: () => null),
+                  ),
+                ),
+                Align(
+                  alignment: Alignment.bottomRight,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: FloatingActionButton(
+                        tooltip: 'Lokasi Sekarang',
+                        backgroundColor: Hexcolor('#3f72af'),
                         child: Icon(Icons.location_searching),
                         onPressed: () => _currentLocation()),
                   ),
@@ -65,16 +74,32 @@ class MapsViewState extends State<MapsView> {
       bottomSheet: Padding(
         padding: const EdgeInsets.all(8.0),
         child: SolidBottomSheet(
-          
           controller: _bsController,
           draggableBody: true,
-          headerBar: Container(
-            height: 50,
-            child: Icon(
-              Icons.maximize,
-              size: 50,
-              color: Colors.grey,
-            ),
+          headerBar: Column(
+            children: <Widget>[
+              Container(
+                height: 50,
+                child: Icon(
+                  Icons.maximize,
+                  size: 50,
+                  color: Colors.grey,
+                ),
+              ),
+              Align(
+                alignment: Alignment.center,
+                child: Padding(
+                  padding: const EdgeInsets.all(5.0),
+                  child: Text(
+                    'Daftar Karyawan Terdekat',
+                    style: TextStyle(fontFamily: 'Product Sans', fontSize: 20),
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: 5,
+              )
+            ],
           ),
           body: Container(
             height: 30,
@@ -135,6 +160,9 @@ class MapsViewState extends State<MapsView> {
 
   Widget mapWidget() {
     return GoogleMap(
+      myLocationEnabled: true,
+      myLocationButtonEnabled: false,
+      // circles: circles,
       markers: Set<Marker>.of(markers.values),
       mapType: MapType.normal,
       initialCameraPosition: _myLocation,

@@ -42,19 +42,19 @@ class _EmployeeSeekerScreenState extends State<EmployeeSeekerScreen> {
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.search),
-            title: Text('Cari Karyawan'),
+            title: Text('Cari Karyawan',style: TextStyle(fontFamily: 'Product Sans'),),
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.business),
-            title: Text('Pekerjaan'),
+            title: Text('Pekerjaan',style: TextStyle(fontFamily: 'Product Sans')),
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.settings),
-            title: Text('Settings'),
+            title: Text('Settings',style: TextStyle(fontFamily: 'Product Sans')),
           ),
         ],
         currentIndex: _selectedIndex,
-        selectedItemColor: Hexcolor('#112d4e'),
+        selectedItemColor: Hexcolor('#3f72af'),
         onTap: _onItemTapped,
       ),
     );

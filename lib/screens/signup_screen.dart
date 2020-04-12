@@ -8,6 +8,7 @@ import 'package:intl/intl.dart';
 import 'package:place_picker/place_picker.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:chips_choice/chips_choice.dart';
+import 'package:geoflutterfire/geoflutterfire.dart';
 import 'home.dart';
 
 class SignUpScreen extends StatefulWidget {
@@ -56,7 +57,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
   //data lokasi
   double _lat, _long;
   bool showCircular = false;
-
+  Geoflutterfire geo = Geoflutterfire();
+  Firestore _firestore = Firestore.instance;
+  GeoFirePoint myLocation;
   //get location
   void showPlacePicker() async {
     LocationResult result = await Navigator.of(context).push(MaterialPageRoute(
@@ -66,6 +69,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
       _lat = result.latLng.latitude;
       _long = result.latLng.longitude;
       _alamat = result.formattedAddress;
+      myLocation = geo.point(latitude: _lat, longitude: _long);
     });
   }
 
@@ -78,7 +82,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
         length: 2,
         child: Scaffold(
           appBar: AppBar(
-              
               actions: <Widget>[
                 Padding(
                   padding: const EdgeInsets.all(15.0),
@@ -99,12 +102,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 labelColor: Colors.white,
                 tabs: <Widget>[
                   Tab(
-                    
-                    icon: Icon(Icons.search,),
+                    icon: Icon(
+                      Icons.search,
+                    ),
                     text: 'Employee Seeker',
                   ),
                   Tab(
-                    icon: Icon(Icons.people,),
+                    icon: Icon(
+                      Icons.people,
+                    ),
                     text: 'Employee',
                   )
                 ],
@@ -656,6 +662,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
       'latitude': _lat,
       'longitude': _long
     });
+    _firestore
+        .collection('locations')
+        .document(userId)
+        .setData({'name': userId, 'position': myLocation.data,'role': 'employee'}, );
     final FirebaseUser user = await FirebaseAuth.instance.currentUser();
 
     Navigator.pushReplacement(

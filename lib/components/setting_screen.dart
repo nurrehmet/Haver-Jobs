@@ -42,7 +42,8 @@ class _SettingScreenState extends State<SettingScreen> {
     return Scaffold(
     appBar: AppBar(
       automaticallyImplyLeading: false,
-      title: Text('Settings'),
+      title: Text('Settings',style: TextStyle(fontFamily: 'Product Sans')),
+      centerTitle: true,
     ),
     body: SettingsList(
         sections: [

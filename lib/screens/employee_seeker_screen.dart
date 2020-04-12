@@ -26,7 +26,7 @@ class _EmployeeSeekerScreenState extends State<EmployeeSeekerScreen> {
 
   List<Widget> get _widgetOptions => [
         // FindEmployeeScreen(),
-        MapsView(),
+        FindEmployeeScreen(),
         Center(
           child: Text(
             'Posting Pekerjaan',

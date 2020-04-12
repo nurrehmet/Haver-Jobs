@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:haverjob/components/widgets.dart';
 import 'package:haverjob/models/kategori_perusahaan.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -64,7 +65,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   void showPlacePicker() async {
     LocationResult result = await Navigator.of(context).push(MaterialPageRoute(
         builder: (context) =>
-            PlacePicker("AIzaSyDX1cPMy9zPG39wvwaDl85NJddg7SFNBEI")));
+            PlacePicker("AIzaSyDX1cPMy9zPG39wvwaDl85NJddg7SFNBEI", displayLocation: LatLng(-6.921948, 107.607168),)));
     setState(() {
       _lat = result.latLng.latitude;
       _long = result.latLng.longitude;

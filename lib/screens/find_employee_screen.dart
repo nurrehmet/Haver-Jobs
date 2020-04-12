@@ -14,7 +14,7 @@ class FindEmployeeScreen extends StatefulWidget {
 }
 
 class _FindEmployeeScreenState extends State<FindEmployeeScreen> {
-  String _keahlian, _pendidikan;
+  String _keahlian, _pendidikan, _gender;
   String _myActivityResult;
   List _listKeahlian = [
     {
@@ -56,6 +56,16 @@ class _FindEmployeeScreenState extends State<FindEmployeeScreen> {
       "value": "S1",
     }
   ];
+  List _listGender = [
+    {
+      "display": "Laki-Laki",
+      "value": "Laki-Laki",
+    },
+    {
+      "display": "Perempuan",
+      "value": "Perempuan",
+    },
+  ];
   final formKey = new GlobalKey<FormState>();
 
   @override
@@ -63,6 +73,7 @@ class _FindEmployeeScreenState extends State<FindEmployeeScreen> {
     super.initState();
     _keahlian = '';
     _pendidikan = '';
+    _gender = '';
     _myActivityResult = '';
   }
 
@@ -78,81 +89,120 @@ class _FindEmployeeScreenState extends State<FindEmployeeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: SingleChildScrollView(
-        child: Column(
-          children: <Widget>[
-            Form(
-              key: formKey,
-              child: Container(
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          'Cari Karyawan',
+          style: TextStyle(fontFamily: 'Product Sans'),
+        ),
+        automaticallyImplyLeading: false,
+        centerTitle: true,
+      ),
+      body: Container(
+        child: SingleChildScrollView(
+          child: Column(
+            children: <Widget>[
+              Form(
+                key: formKey,
+                child: Container(
+                  padding: EdgeInsets.all(16),
+                  child: DropDownFormField(
+                    titleText: 'Keahlian',
+                    hintText: 'Pilih kategori keahlian',
+                    value: _keahlian,
+                    onSaved: (value) {
+                      setState(() {
+                        _keahlian = value;
+                      });
+                    },
+                    validator: (value) {
+                      if (value == null) {
+                        return 'Kategori keahlian tidak boleh kosong';
+                      }
+                      return null;
+                    },
+                    onChanged: (value) {
+                      setState(() {
+                        _keahlian = value;
+                      });
+                    },
+                    dataSource: _listKeahlian,
+                    textField: 'display',
+                    valueField: 'value',
+                  ),
+                ),
+              ),
+              Container(
                 padding: EdgeInsets.all(16),
                 child: DropDownFormField(
-                  titleText: 'Keahlian',
-                  hintText: 'Pilih kategori keahlian',
-                  value: _keahlian,
+                  titleText: 'Pendidikan',
+                  hintText: 'Pilih kategori pendidikan',
+                  value: _pendidikan,
                   onSaved: (value) {
                     setState(() {
-                      _keahlian = value;
+                      _pendidikan = value;
                     });
-                  },
-                  validator: (value) {
-                    if (value == null) {
-                      return 'Kategori keahlian tidak boleh kosong';
-                    }
-                    return null;
                   },
                   onChanged: (value) {
                     setState(() {
-                      _keahlian = value;
+                      _pendidikan = value;
                     });
                   },
-                  dataSource: _listKeahlian,
+                  dataSource: _listPendidikan,
                   textField: 'display',
                   valueField: 'value',
                 ),
               ),
-            ),
-            Container(
-              padding: EdgeInsets.all(16),
-              child: DropDownFormField(
-                titleText: 'Pendidikan',
-                hintText: 'Pilih kategori pendidikan',
-                value: _pendidikan,
-                onSaved: (value) {
-                  setState(() {
-                    _pendidikan = value;
-                  });
-                },
-                onChanged: (value) {
-                  setState(() {
-                    _pendidikan = value;
-                  });
-                },
-                dataSource: _listPendidikan,
-                textField: 'display',
-                valueField: 'value',
+              Container(
+                padding: EdgeInsets.all(16),
+                child: DropDownFormField(
+                  titleText: 'Gender',
+                  hintText: 'Pilih gender',
+                  value: _gender,
+                  onSaved: (value) {
+                    setState(() {
+                      _gender = value;
+                    });
+                  },
+                  onChanged: (value) {
+                    setState(() {
+                      _gender = value;
+                    });
+                  },
+                  dataSource: _listGender,
+                  textField: 'display',
+                  valueField: 'value',
+                ),
               ),
-            ),
-            new RoundedButton(
-              text: 'Cari Karyawan Part Time',
-              onPress: () {
-                var form = formKey.currentState;
-                if (form.validate()) {
-                  form.save();
-                  setState(() {
-                    _myActivityResult = _keahlian;
-                  });
-                }
-                print(_keahlian + _pendidikan);
-              },
-              color: Hexcolor('#3f72af'),
-            ),
-            Container(
-              padding: EdgeInsets.all(16),
-              child: Text(_myActivityResult),
-            ),
-            
-          ],
+              new RoundedButton(
+                text: 'Cari Karyawan Part Time',
+                onPress: () {
+                  var form = formKey.currentState;
+                  if (form.validate()) {
+                    form.save();
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => MapsView(
+                          gender: _gender,
+                          keahlian: _keahlian,
+                          pendidikan: _pendidikan,
+                        ),
+                      ),
+                    );
+                    setState(() {
+                      _myActivityResult = _keahlian + _pendidikan + _gender;
+                    });
+                  }
+                },
+                color: Hexcolor('#3f72af'),
+              ),
+              Container(
+                padding: EdgeInsets.all(16),
+                child: Text(_myActivityResult),
+              ),
+            ],
+          ),
         ),
       ),
     );

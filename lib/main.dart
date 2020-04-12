@@ -8,6 +8,7 @@ import 'package:haverjob/screens/home.dart';
 import 'package:haverjob/screens/login_screen.dart';
 import 'package:haverjob/screens/signup_screen.dart';
 import 'package:haverjob/screens/welcome_screen.dart';
+import 'package:provider/provider.dart';
 
 void main() => runApp(MyApp());
 
@@ -35,20 +36,25 @@ class _MyAppState extends State<MyApp> {
       systemNavigationBarColor: Colors.black, //bottom bar color
       systemNavigationBarIconBrightness: Brightness.dark, //bottom bar icons
     ));
-    return MaterialApp(
-      theme: ThemeData(
-        primaryColor: Hexcolor('#112d4e'),
-        
+    return MultiProvider(
+      providers: [
+        StreamProvider<FirebaseUser>.value(
+            value: FirebaseAuth.instance.onAuthStateChanged),
+      ],
+      child: MaterialApp(
+        theme: ThemeData(
+          primaryColor: Hexcolor('#112d4e'),
+        ),
+        debugShowCheckedModeBanner: false,
+        title: 'Haver Jobs',
+        home: _getLandingPage(),
+        routes: <String, WidgetBuilder>{
+          '/login': (BuildContext context) => LoginScreen(),
+          '/register': (BuildContext context) => SignUpScreen(),
+          '/home': (BuildContext context) => Home(),
+          '/welcome': (BuildContext context) => WelcomeScreen()
+        },
       ),
-      debugShowCheckedModeBanner: false,
-      title: 'Haver Jobs',
-      home: _getLandingPage(),
-      routes: <String, WidgetBuilder>{
-        '/login': (BuildContext context) => LoginScreen(),
-        '/register': (BuildContext context) => SignUpScreen(),
-        '/home': (BuildContext context) => Home(),
-        '/welcome': (BuildContext context) => WelcomeScreen()
-      },
     );
   }
 

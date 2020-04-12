@@ -1,7 +1,5 @@
 import 'dart:async';
-import 'dart:ffi';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/services.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -14,12 +12,14 @@ class MapsView extends StatefulWidget {
 }
 
 class MapsViewState extends State<MapsView> {
+  
   final Firestore _database = Firestore.instance;
   Map<MarkerId, Marker> markers = <MarkerId, Marker>{};
   SolidController _bsController = SolidController();
   double lat, long;
   CameraPosition _myLocation;
   Completer<GoogleMapController> _controller = Completer();
+  Widget _mapPlaceholder;
 
   CameraPosition _defaultLocation = CameraPosition(
     target: LatLng(-6.932694, 107.627449),
@@ -28,6 +28,7 @@ class MapsViewState extends State<MapsView> {
 
   @override
   void initState() {
+    _mapPlaceholder = Center(child: CircularProgressIndicator());
     _getCurrentLocation();
     createMarker();
     super.initState();
@@ -38,25 +39,25 @@ class MapsViewState extends State<MapsView> {
     return Scaffold(
       body: Stack(
         children: <Widget>[
-          GoogleMap(
-            markers: Set<Marker>.of(markers.values),
-            mapType: MapType.normal,
-            initialCameraPosition:
-                _myLocation == null ? _defaultLocation : _myLocation,
-            onMapCreated: (GoogleMapController controller) {
-              _controller.complete(controller);
-            },
-          ),
+          _mapPlaceholder,
           Padding(padding: const EdgeInsets.all(16.0), child: Container()),
           SafeArea(
-            child: Align(
-              alignment: Alignment.topRight,
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: FloatingActionButton(
-                    child: Icon(Icons.location_searching),
-                    onPressed: () => _currentLocation()),
-              ),
+            child: Column(
+              children: <Widget>[
+                Spacer(),
+                Spacer(),
+                Spacer(),
+                Align(
+                  alignment: Alignment.bottomRight,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: FloatingActionButton(
+                        child: Icon(Icons.location_searching),
+                        onPressed: () => _currentLocation()),
+                  ),
+                ),
+                Spacer()
+              ],
             ),
           )
         ],
@@ -64,6 +65,7 @@ class MapsViewState extends State<MapsView> {
       bottomSheet: Padding(
         padding: const EdgeInsets.all(8.0),
         child: SolidBottomSheet(
+          
           controller: _bsController,
           draggableBody: true,
           headerBar: Container(
@@ -89,7 +91,7 @@ class MapsViewState extends State<MapsView> {
     );
   }
 
- Future<void>  createMarker() async {
+  Future<void> createMarker() async {
     await _database
         .collection("users")
         .where("role", isEqualTo: "employee")
@@ -100,9 +102,11 @@ class MapsViewState extends State<MapsView> {
           initMarker(docs.documents[i].data, docs.documents[i].documentID);
         }
       }
-    }).catchError((e){
-      print(e);
-    },);
+    }).catchError(
+      (e) {
+        print(e);
+      },
+    );
   }
 
   void initMarker(user, userid) {
@@ -119,6 +123,7 @@ class MapsViewState extends State<MapsView> {
     setState(() {
       // adding a new marker to map
       markers[markerId] = marker;
+      _mapPlaceholder = mapWidget();
       print(markerId);
     });
   }
@@ -128,20 +133,27 @@ class MapsViewState extends State<MapsView> {
     controller.animateCamera(CameraUpdate.newCameraPosition(_myLocation));
   }
 
-  _getCurrentLocation() {
+  Widget mapWidget() {
+    return GoogleMap(
+      markers: Set<Marker>.of(markers.values),
+      mapType: MapType.normal,
+      initialCameraPosition: _myLocation,
+      onMapCreated: (GoogleMapController controller) {
+        _controller.complete(controller);
+      },
+    );
+  }
+
+  Future<void> _getCurrentLocation() async {
     final Geolocator geolocator = Geolocator()..forceAndroidLocationManager;
 
-    geolocator
+    await geolocator
         .getCurrentPosition(desiredAccuracy: LocationAccuracy.high)
         .then((Position position) {
       setState(() {
         lat = position.latitude;
         long = position.longitude;
-        _myLocation = CameraPosition(
-            bearing: 192.8334901395799,
-            target: LatLng(lat, long),
-            tilt: 59.440717697143555,
-            zoom: 15);
+        _myLocation = CameraPosition(target: LatLng(lat, long), zoom: 15);
       });
       print(lat);
     }).catchError((e) {

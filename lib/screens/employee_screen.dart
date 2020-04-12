@@ -1,11 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:haverjob/components/profile.dart';
 import 'package:haverjob/components/setting_screen.dart';
-import 'package:haverjob/components/widgets.dart';
 import 'package:hexcolor/hexcolor.dart';
-import 'package:settings_ui/settings_ui.dart';
 
 class EmployeeScreen extends StatefulWidget {
   @override

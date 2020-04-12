@@ -1,25 +1,75 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:haverjob/screens/welcome_screen.dart';
 import 'package:settings_ui/settings_ui.dart';
 
-class SettingScreen extends StatelessWidget {
-  bool value;
+class SettingScreen extends StatefulWidget {
+  @override
+  _SettingScreenState createState() => _SettingScreenState();
+}
+
+class _SettingScreenState extends State<SettingScreen> {
+  @override
+  void initState() {
+    getID();
+    super.initState();
+  }
+  String _userID;
   @override
   Widget build(BuildContext context) {
+    
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Settings'),
+      body: StreamBuilder<DocumentSnapshot>(
+        stream: Firestore.instance
+            .collection('users')
+            .document(_userID)
+            .snapshots(),
+        builder:
+            (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
+          if (snapshot.hasError) {
+            return Text('Error: ${snapshot.error}');
+          } else if (snapshot.hasData) {
+            return profileBuilder(snapshot.data);
+          }
+          return Center(child: CircularProgressIndicator());
+        },
       ),
-      body: SettingsList(
+    );
+  }
+
+  profileBuilder(DocumentSnapshot snapshot) {
+    return Scaffold(
+    appBar: AppBar(
+      title: Text('Settings'),
+    ),
+    body: SettingsList(
         sections: [
           SettingsSection(
-            title: 'Umum',
+            title: 'Akun',
             tiles: [
               SettingsTile(
-                title: 'Bahasa',
-                subtitle: 'Indonesia',
-                leading: Icon(Icons.language),
+                title: 'Nama',
+                subtitle: snapshot.data['nama'],
+                leading: Icon(Icons.assignment_ind),
+                onTap: () {},
+              ),
+               SettingsTile(
+                title: 'Email',
+                subtitle: snapshot.data['email'] ,
+                leading: Icon(Icons.email),
+                onTap: () {},
+              ),
+              SettingsTile(
+                title: 'Role',
+                subtitle: snapshot.data['role'] ,
+                leading: Icon(Icons.info),
+                onTap: () {},
+              ),
+               SettingsTile(
+                title: 'Alamat',
+                subtitle: snapshot.data['alamat'] ,
+                leading: Icon(Icons.map),
                 onTap: () {},
               ),
               SettingsTile(
@@ -37,7 +87,14 @@ class SettingScreen extends StatelessWidget {
             ],
           ),
         ],
-      ),
-    );
+    ),
+  );
+  }
+
+  getID() async {
+    FirebaseUser user = await FirebaseAuth.instance.currentUser();
+    setState(() {
+      _userID = user.uid;
+    });
   }
 }

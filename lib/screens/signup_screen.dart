@@ -65,7 +65,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   void showPlacePicker() async {
     LocationResult result = await Navigator.of(context).push(MaterialPageRoute(
         builder: (context) =>
-            PlacePicker("AIzaSyDX1cPMy9zPG39wvwaDl85NJddg7SFNBEI", displayLocation: LatLng(-6.921948, 107.607168),)));
+            PlacePicker("AIzaSyDX1cPMy9zPG39wvwaDl85NJddg7SFNBEI",)));
     setState(() {
       _lat = result.latLng.latitude;
       _long = result.latLng.longitude;
@@ -561,7 +561,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
     return showDatePicker(
             context: context,
             initialDate: _date == null ? DateTime.now() : _date,
-            firstDate: DateTime(2001),
+            firstDate: DateTime(1950),
             lastDate: DateTime(2021))
         .then((date) {
       setState(() {

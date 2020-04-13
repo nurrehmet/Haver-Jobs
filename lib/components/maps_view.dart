@@ -9,8 +9,10 @@ import 'package:geoflutterfire/geoflutterfire.dart';
 import 'package:rxdart/rxdart.dart';
 
 class MapsView extends StatefulWidget {
-  const MapsView({Key key, this.keahlian, this.gender, this.pendidikan}) : super(key: key);
+  const MapsView({Key key, this.keahlian, this.gender, this.pendidikan,this.lat,this.long})
+      : super(key: key);
   final String keahlian, gender, pendidikan;
+  final double lat,long;
   @override
   State<MapsView> createState() => MapsViewState();
 }
@@ -30,22 +32,15 @@ class MapsViewState extends State<MapsView> {
   CameraPosition _myLocation;
   Completer<GoogleMapController> _controller = Completer();
   Widget _mapPlaceholder;
-  var _initLocation = CameraPosition(target: LatLng(-6.921948, 107.607168), zoom: 15);
+  var _initLocation =
+      CameraPosition(target: LatLng(-6.921948, 107.607168), zoom: 15);
   double _value = 20.0;
   String _label = '';
   @override
   void initState() {
-    // _mapPlaceholder = Center(child: CircularProgressIndicator());
-    // _getCurrentLocation();
-    // createMarker();
     super.initState();
-     geo = Geoflutterfire();
-    GeoFirePoint center = geo.point(latitude: -6.921948, longitude: 107.607168);
-    stream = radius.switchMap((rad) {
-      var collectionReference = _firestore.collection('locations');
-      return geo.collection(collectionRef: collectionReference).within(
-          center: center, radius: rad, field: 'position', strictMode: true);
-    });
+    initData();
+    _getCurrentLocation();
   }
 
   @override
@@ -57,11 +52,13 @@ class MapsViewState extends State<MapsView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(
+      appBar: AppBar(
+        title: Text(
           'Cari Karyawan',
           style: TextStyle(fontFamily: 'Product Sans'),
         ),
-        centerTitle: true,),
+        centerTitle: true,
+      ),
       body: Stack(
         children: <Widget>[
           mapWidget(),
@@ -96,19 +93,19 @@ class MapsViewState extends State<MapsView> {
                         onPressed: () => _currentLocation()),
                   ),
                 ),
-                 Padding(
-                padding: const EdgeInsets.only(top: 8.0),
-                child: Slider(
-                  min: 1,
-                  max: 200,
-                  divisions: 4,
-                  value: _value,
-                  label: _label,
-                  activeColor: Colors.blue,
-                  inactiveColor: Colors.blue.withOpacity(0.2),
-                  onChanged: (double value) => changed(value),
+                Padding(
+                  padding: const EdgeInsets.only(top: 8.0),
+                  child: Slider(
+                    min: 1,
+                    max: 200,
+                    divisions: 4,
+                    value: _value,
+                    label: _label,
+                    activeColor: Colors.blue,
+                    inactiveColor: Colors.blue.withOpacity(0.2),
+                    onChanged: (double value) => changed(value),
+                  ),
                 ),
-              ),
                 Spacer()
               ],
             ),
@@ -160,25 +157,7 @@ class MapsViewState extends State<MapsView> {
     );
   }
 
-  // Future<void> createMarker() async {
-  //   await _database
-  //       .collection("users")
-  //       Query q1 = where("keahlian", arrayContains: widget.keahlian);
-  //       .getDocuments()
-  //       .then((docs) {
-  //     if (docs.documents.isNotEmpty) {
-  //       for (int i = 0; i < docs.documents.length; i++) {
-  //         initMarker(docs.documents[i].data, docs.documents[i].documentID);
-  //       }
-  //     }
-  //   }).catchError(
-  //     (e) {
-  //       print(e);
-  //     },
-  //   );
-  // }
-
-void _onMapCreated(GoogleMapController controller) {
+  void _onMapCreated(GoogleMapController controller) {
     setState(() {
       _mapController = controller;
 //      _showHome();
@@ -189,7 +168,7 @@ void _onMapCreated(GoogleMapController controller) {
     });
   }
 
-   void _addMarker(double lat, double lng) {
+  void _addMarker(double lat, double lng) {
     MarkerId id = MarkerId(lat.toString() + lng.toString());
     Marker _marker = Marker(
       markerId: id,
@@ -218,28 +197,8 @@ void _onMapCreated(GoogleMapController controller) {
     radius.add(value);
   }
 
-  void initMarker(user, userid) {
-    var markerIdVal = userid;
-    final MarkerId markerId = MarkerId(markerIdVal);
-
-    // creating a new MARKER
-    final Marker marker = Marker(
-      markerId: markerId,
-      position: LatLng(user['latitude'], user['longitude']),
-      infoWindow: InfoWindow(title: user['nama'], snippet: user['noHp']),
-    );
-
-    setState(() {
-      // adding a new marker to map
-      markers[markerId] = marker;
-      _mapPlaceholder = mapWidget();
-      print(markerId);
-    });
-  }
-
   Future<void> _currentLocation() async {
-    GoogleMapController controller = await _controller.future;
-    controller.animateCamera(CameraUpdate.newCameraPosition(_myLocation));
+    _mapController.animateCamera(CameraUpdate.newCameraPosition(_myLocation));
   }
 
   Widget mapWidget() {
@@ -249,25 +208,35 @@ void _onMapCreated(GoogleMapController controller) {
       // circles: circles,
       markers: Set<Marker>.of(markers.values),
       mapType: MapType.normal,
-      initialCameraPosition: _initLocation,
+      initialCameraPosition: CameraPosition(target: LatLng(widget.lat, widget.long), zoom: 15),
       onMapCreated: _onMapCreated,
     );
   }
 
   Future<void> _getCurrentLocation() async {
     final Geolocator geolocator = Geolocator()..forceAndroidLocationManager;
-
     await geolocator
         .getCurrentPosition(desiredAccuracy: LocationAccuracy.high)
         .then((Position position) {
       setState(() {
         lat = position.latitude;
         long = position.longitude;
-        _myLocation = CameraPosition(target: LatLng(lat, long), zoom: 10);
+        _myLocation = CameraPosition(target: LatLng(lat, long), zoom: 15);
       });
       print(lat);
     }).catchError((e) {
       print(e);
+    });
+  }
+
+  initData() {
+    geo = Geoflutterfire();
+    GeoFirePoint center =
+        geo.point(latitude: widget.lat, longitude: widget.long);
+    stream = radius.switchMap((rad) {
+      var collectionReference = _firestore.collection('locations');
+      return geo.collection(collectionRef: collectionReference).within(
+          center: center, radius: rad, field: 'position', strictMode: true);
     });
   }
 }

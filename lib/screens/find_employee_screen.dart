@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:haverjob/components/maps_view.dart';
 import 'package:haverjob/components/widgets.dart';
 import 'package:dropdown_formfield/dropdown_formfield.dart';
@@ -16,6 +17,7 @@ class FindEmployeeScreen extends StatefulWidget {
 class _FindEmployeeScreenState extends State<FindEmployeeScreen> {
   String _keahlian, _pendidikan, _gender;
   String _myActivityResult;
+  double _lat,_long;
   List _listKeahlian = [
     {
       "display": "Barista",
@@ -71,6 +73,7 @@ class _FindEmployeeScreenState extends State<FindEmployeeScreen> {
   @override
   void initState() {
     super.initState();
+    _getCurrentLocation();
     _keahlian = '';
     _pendidikan = '';
     _gender = '';
@@ -187,6 +190,8 @@ class _FindEmployeeScreenState extends State<FindEmployeeScreen> {
                           gender: _gender,
                           keahlian: _keahlian,
                           pendidikan: _pendidikan,
+                          lat: _lat,
+                          long: _long,
                         ),
                       ),
                     );
@@ -206,5 +211,20 @@ class _FindEmployeeScreenState extends State<FindEmployeeScreen> {
         ),
       ),
     );
+  }
+  Future<void> _getCurrentLocation() async {
+    final Geolocator geolocator = Geolocator()..forceAndroidLocationManager;
+    await geolocator
+        .getCurrentPosition(desiredAccuracy: LocationAccuracy.high)
+        .then((Position position) {
+      setState(() {
+        _lat = position.latitude;
+        _long = position.longitude;
+      });
+      print(_lat);
+      print(_long);
+    }).catchError((e) {
+      print(e);
+    });
   }
 }

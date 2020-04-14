@@ -9,9 +9,10 @@ import 'package:geoflutterfire/geoflutterfire.dart';
 import 'package:rxdart/rxdart.dart';
 
 class MapsView extends StatefulWidget {
-  const MapsView({Key key, this.keahlian, this.gender, this.pendidikan,this.lat,this.long})
+  const MapsView({Key key, this.keahlian, this.gender, this.pendidikan,this.lat,this.long,this.listQuery})
       : super(key: key);
   final String keahlian, gender, pendidikan;
+  final List listQuery;
   final double lat,long;
   @override
   State<MapsView> createState() => MapsViewState();
@@ -29,18 +30,13 @@ class MapsViewState extends State<MapsView> {
   Map<MarkerId, Marker> markers = <MarkerId, Marker>{};
   SolidController _bsController = SolidController();
   double lat, long;
-  CameraPosition _myLocation;
-  Completer<GoogleMapController> _controller = Completer();
-  Widget _mapPlaceholder;
-  var _initLocation =
-      CameraPosition(target: LatLng(-6.921948, 107.607168), zoom: 15);
   double _value = 20.0;
   String _label = '';
   @override
   void initState() {
     super.initState();
+    print(widget.listQuery);
     initData();
-    _getCurrentLocation();
   }
 
   @override
@@ -168,13 +164,15 @@ class MapsViewState extends State<MapsView> {
     });
   }
 
-  void _addMarker(double lat, double lng) {
+  void _addMarker(double lat, double lng, String name,) {
+    var point = geo.point(latitude:widget.lat, longitude: widget.long);
+    var distance = point.distance(lat:lat, lng:lng);
     MarkerId id = MarkerId(lat.toString() + lng.toString());
     Marker _marker = Marker(
       markerId: id,
       position: LatLng(lat, lng),
       icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueViolet),
-      infoWindow: InfoWindow(title: 'latLng', snippet: '$lat,$lng'),
+      infoWindow: InfoWindow(title: name, snippet: 'Jarak ' +distance.toString()+' Km'),
     );
     setState(() {
       markers[id] = _marker;
@@ -184,7 +182,7 @@ class MapsViewState extends State<MapsView> {
   void _updateMarkers(List<DocumentSnapshot> documentList) {
     documentList.forEach((DocumentSnapshot document) {
       GeoPoint point = document.data['position']['geopoint'];
-      _addMarker(point.latitude, point.longitude);
+      _addMarker(point.latitude, point.longitude, document.data['name'],);
     });
   }
 
@@ -198,7 +196,7 @@ class MapsViewState extends State<MapsView> {
   }
 
   Future<void> _currentLocation() async {
-    _mapController.animateCamera(CameraUpdate.newCameraPosition(_myLocation));
+    _mapController.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(target: LatLng(widget.lat, widget.long), zoom: 15)));
   }
 
   Widget mapWidget() {
@@ -213,28 +211,13 @@ class MapsViewState extends State<MapsView> {
     );
   }
 
-  Future<void> _getCurrentLocation() async {
-    final Geolocator geolocator = Geolocator()..forceAndroidLocationManager;
-    await geolocator
-        .getCurrentPosition(desiredAccuracy: LocationAccuracy.high)
-        .then((Position position) {
-      setState(() {
-        lat = position.latitude;
-        long = position.longitude;
-        _myLocation = CameraPosition(target: LatLng(lat, long), zoom: 15);
-      });
-      print(lat);
-    }).catchError((e) {
-      print(e);
-    });
-  }
-
+  
   initData() {
     geo = Geoflutterfire();
     GeoFirePoint center =
         geo.point(latitude: widget.lat, longitude: widget.long);
     stream = radius.switchMap((rad) {
-      var collectionReference = _firestore.collection('locations');
+      var collectionReference = _firestore.collection('locations').where('query', isEqualTo: widget.listQuery);
       return geo.collection(collectionRef: collectionReference).within(
           center: center, radius: rad, field: 'position', strictMode: true);
     });

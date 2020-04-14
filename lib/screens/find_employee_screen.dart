@@ -68,6 +68,7 @@ class _FindEmployeeScreenState extends State<FindEmployeeScreen> {
       "value": "Perempuan",
     },
   ];
+  List _listQuery = [];
   final formKey = new GlobalKey<FormState>();
 
   @override
@@ -170,6 +171,7 @@ class _FindEmployeeScreenState extends State<FindEmployeeScreen> {
                   onChanged: (value) {
                     setState(() {
                       _gender = value;
+                      _listQuery = [_gender,_keahlian,_pendidikan];
                     });
                   },
                   dataSource: _listGender,
@@ -192,6 +194,7 @@ class _FindEmployeeScreenState extends State<FindEmployeeScreen> {
                           pendidikan: _pendidikan,
                           lat: _lat,
                           long: _long,
+                          listQuery: _listQuery,
                         ),
                       ),
                     );

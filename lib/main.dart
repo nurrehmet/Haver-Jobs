@@ -43,7 +43,7 @@ class _MyAppState extends State<MyApp> {
       ],
       child: MaterialApp(
         theme: ThemeData(
-          primaryColor: Hexcolor('#112d4e'),
+          primaryColor: Colors.white,
         ),
         debugShowCheckedModeBanner: false,
         title: 'Haver Jobs',

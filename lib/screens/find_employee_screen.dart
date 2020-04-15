@@ -4,6 +4,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:haverjob/components/maps_view.dart';
 import 'package:haverjob/components/widgets.dart';
 import 'package:dropdown_formfield/dropdown_formfield.dart';
+import 'package:haverjob/models/list_data.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
@@ -15,60 +16,9 @@ class FindEmployeeScreen extends StatefulWidget {
 }
 
 class _FindEmployeeScreenState extends State<FindEmployeeScreen> {
-  String _keahlian, _pendidikan, _gender;
+  String _keahlian, _pendidikan, _gender, _kota, _jamKerja;
   String _myActivityResult;
   double _lat,_long;
-  List _listKeahlian = [
-    {
-      "display": "Barista",
-      "value": "Barista",
-    },
-    {
-      "display": "Programmer",
-      "value": "Programmer",
-    },
-    {
-      "display": "Waiter",
-      "value": "Waiter",
-    },
-    {
-      "display": "Penyiar Radio",
-      "value": "Penyiar Radio",
-    },
-    {
-      "display": "Guru Les Privat",
-      "value": "Guru Les Privat",
-    },
-    {
-      "display": "Penulis Lepas",
-      "value": "Penulis Lepas",
-    },
-  ];
-  List _listPendidikan = [
-    {
-      "display": "SMA",
-      "value": "SMA",
-    },
-    {
-      "display": "D3",
-      "value": "D3",
-    },
-    {
-      "display": "S1",
-      "value": "S1",
-    }
-  ];
-  List _listGender = [
-    {
-      "display": "Laki-Laki",
-      "value": "Laki-Laki",
-    },
-    {
-      "display": "Perempuan",
-      "value": "Perempuan",
-    },
-  ];
-  List _listQuery = [];
   final formKey = new GlobalKey<FormState>();
 
   @override
@@ -112,7 +62,7 @@ class _FindEmployeeScreenState extends State<FindEmployeeScreen> {
                   padding: EdgeInsets.all(16),
                   child: DropDownFormField(
                     titleText: 'Keahlian',
-                    hintText: 'Pilih kategori keahlian',
+                    hintText: 'Pilih Kategori Keahlian',
                     value: _keahlian,
                     onSaved: (value) {
                       setState(() {
@@ -130,7 +80,7 @@ class _FindEmployeeScreenState extends State<FindEmployeeScreen> {
                         _keahlian = value;
                       });
                     },
-                    dataSource: _listKeahlian,
+                    dataSource: ListKeahlian().getList(),
                     textField: 'display',
                     valueField: 'value',
                   ),
@@ -140,7 +90,7 @@ class _FindEmployeeScreenState extends State<FindEmployeeScreen> {
                 padding: EdgeInsets.all(16),
                 child: DropDownFormField(
                   titleText: 'Pendidikan',
-                  hintText: 'Pilih kategori pendidikan',
+                  hintText: 'Pilih Kategori Pendidikan',
                   value: _pendidikan,
                   onSaved: (value) {
                     setState(() {
@@ -152,7 +102,7 @@ class _FindEmployeeScreenState extends State<FindEmployeeScreen> {
                       _pendidikan = value;
                     });
                   },
-                  dataSource: _listPendidikan,
+                  dataSource: ListPendidikan().getList(),
                   textField: 'display',
                   valueField: 'value',
                 ),
@@ -161,7 +111,7 @@ class _FindEmployeeScreenState extends State<FindEmployeeScreen> {
                 padding: EdgeInsets.all(16),
                 child: DropDownFormField(
                   titleText: 'Gender',
-                  hintText: 'Pilih gender',
+                  hintText: 'Pilih Gender',
                   value: _gender,
                   onSaved: (value) {
                     setState(() {
@@ -171,10 +121,51 @@ class _FindEmployeeScreenState extends State<FindEmployeeScreen> {
                   onChanged: (value) {
                     setState(() {
                       _gender = value;
-                      _listQuery = [_gender,_keahlian,_pendidikan];
                     });
                   },
-                  dataSource: _listGender,
+                  dataSource: ListGender().getList(),
+                  textField: 'display',
+                  valueField: 'value',
+                ),
+              ),
+              Container(
+                padding: EdgeInsets.all(16),
+                child: DropDownFormField(
+                  titleText: 'Kota',
+                  hintText: 'Pilih Kota',
+                  value: _kota,
+                  onSaved: (value) {
+                    setState(() {
+                      _kota = value;
+                    });
+                  },
+                  onChanged: (value) {
+                    setState(() {
+                      _kota = value;
+                    });
+                  },
+                  dataSource: ListKota().getList(),
+                  textField: 'display',
+                  valueField: 'value',
+                ),
+              ),
+               Container(
+                padding: EdgeInsets.all(16),
+                child: DropDownFormField(
+                  titleText: 'Jam Kerja',
+                  hintText: 'Pilih Jam Kerja',
+                  value: _jamKerja,
+                  onSaved: (value) {
+                    setState(() {
+                      _jamKerja = value;
+                    });
+                  },
+                  onChanged: (value) {
+                    setState(() {
+                      _jamKerja = value;
+                    });
+                  },
+                  dataSource: ListJamKerja().getList(),
                   textField: 'display',
                   valueField: 'value',
                 ),
@@ -194,7 +185,6 @@ class _FindEmployeeScreenState extends State<FindEmployeeScreen> {
                           pendidikan: _pendidikan,
                           lat: _lat,
                           long: _long,
-                          listQuery: _listQuery,
                         ),
                       ),
                     );
@@ -215,6 +205,7 @@ class _FindEmployeeScreenState extends State<FindEmployeeScreen> {
       ),
     );
   }
+  //get user location
   Future<void> _getCurrentLocation() async {
     final Geolocator geolocator = Geolocator()..forceAndroidLocationManager;
     await geolocator

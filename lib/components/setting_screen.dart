@@ -40,6 +40,7 @@ class _SettingScreenState extends State<SettingScreen> {
 
   profileBuilder(DocumentSnapshot snapshot) {
     return Scaffold(
+    backgroundColor: Colors.green,
     appBar: AppBar(
       automaticallyImplyLeading: false,
       title: Text('Settings',style: TextStyle(fontFamily: 'Product Sans')),

@@ -129,7 +129,7 @@ class MapsViewState extends State<MapsView> {
                           Slider(
                             min: 1,
                             max: 15,
-                            divisions: 4,
+                            divisions: 5,
                             value: _value,
                             label: _label,
                             activeColor: Hexcolor('#3f72af'),

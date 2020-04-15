@@ -5,6 +5,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:haverjob/components/widgets.dart';
 import 'package:haverjob/models/kategori_perusahaan.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:haverjob/models/list_data.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:intl/intl.dart';
 import 'package:place_picker/place_picker.dart';
@@ -28,90 +29,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   //data employee seeker
   String _nama, _email, _password, _alamat, _noHp, _kategoriPerusahaan;
   //data employee
-  String _gender, _pendidikan, _usia, _jamKerja;
-  List _listGender = [
-    {
-      "display": "Laki-Laki",
-      "value": "Laki-Laki",
-    },
-    {
-      "display": "Perempuan",
-      "value": "Perempuan",
-    },
-  ];
-
-  List _listPendidikan = [
-    {
-      "display": "SMA",
-      "value": "SMA",
-    },
-    {
-      "display": "D3",
-      "value": "D3",
-    },
-    {
-      "display": "S1",
-      "value": "S1",
-    }
-  ];
-
-  List _listKategoriPerusahaan = [
-    {
-      "display": "Teknologi Informasi",
-      "value": "Teknologi Informasi",
-    },
-    {
-      "display": "Layanan Jasa",
-      "value": "Layanan Jasa",
-    },
-    {
-      "display": "Otomotif",
-      "value": "Otomotif",
-    },
-    {
-      "display": "Makanan",
-      "value": "Makanan",
-    },
-    {
-      "display": "Lainnya",
-      "value": "Lainnya",
-    }
-  ];
-
-  List _listKota = [
-    {
-      "display": "Bandung",
-      "value": "Bandung",
-    },
-    {
-      "display": "Jakarta",
-      "value": "Jakarta",
-    },
-    {
-      "display": "Karawang",
-      "value": "Karawang",
-    }
-  ];
-
-  String _keahlian;
-  List<String> _listKeahlian = [
-    'Programmer',
-    'Barista',
-    'Penulis Lepas',
-    'Guru Les Privat',
-    'Desainer Grafis',
-    'Waiter',
-    'Penyiar Radio'
-  ];
-
-  List<String> _listJam = [
-    '08:00 - 12:00',
-    '12:00 - 18:00',
-    '18:00 - 00:00',
-  ];
-  List _listQueryEmployee = [];
-  List _listQueryEmployeeSeeker = [];
-  String _gaji;
+  String _gender, _pendidikan, _usia, _jamKerja, _keahlian,_gaji;
   //data lokasi
   double _lat, _long;
   bool showCircular = false;
@@ -138,24 +56,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
       _long = result.latLng.longitude;
       _alamat = result.formattedAddress;
       myLocation = geo.point(latitude: _lat, longitude: _long);
-      _listQueryEmployee = [
-        {_gender, _keahlian, _pendidikan, _usia, _kota, _jamKerja, _keahlian}
-      ];
-      _listQueryEmployeeSeeker = [
-        {
-          _kategoriPerusahaan,
-          _kota,
-        }
-      ];
     });
-    print(_listQueryEmployeeSeeker);
   }
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(primaryColor: Hexcolor('#112d4e')),
+      theme: ThemeData(primaryColor: Colors.white),
       home: DefaultTabController(
         length: 2,
         child: Scaffold(
@@ -176,8 +84,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     fontFamily: 'Product Sans',
                   )),
               bottom: TabBar(
-                indicatorColor: Colors.white,
-                labelColor: Colors.white,
                 tabs: <Widget>[
                   Tab(
                     icon: Icon(
@@ -266,7 +172,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               _kategoriPerusahaan = value;
                             });
                           },
-                          dataSource: _listKategoriPerusahaan,
+                          dataSource: ListKategoriPerusahaan().getList(),
                           textField: 'display',
                           valueField: 'value',
                         ),
@@ -288,7 +194,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               _kota = value;
                             });
                           },
-                          dataSource: _listKota,
+                          dataSource: ListKota().getList(),
                           textField: 'display',
                           valueField: 'value',
                         ),
@@ -342,7 +248,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
           child: Column(
             children: <Widget>[
               new TextFields(
-                  labelText: 'Nama',
+                  labelText: 'Nama Lengkap',
                   iconData: Icons.person,
                   onSaved: (input) => _nama = input,
                   obscureText: false,
@@ -387,7 +293,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       _gender = value;
                     });
                   },
-                  dataSource: _listGender,
+                  dataSource: ListGender().getList(),
                   textField: 'display',
                   valueField: 'value',
                 ),
@@ -408,7 +314,28 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       _pendidikan = value;
                     });
                   },
-                  dataSource: _listPendidikan,
+                  dataSource: ListPendidikan().getList(),
+                  textField: 'display',
+                  valueField: 'value',
+                ),
+              ),
+              Container(
+                padding: EdgeInsets.symmetric(horizontal: 30.0, vertical: 10.0),
+                child: DropDownFormField(
+                  titleText: 'Kota',
+                  hintText: 'Pilih Kota',
+                  value: _kota,
+                  onSaved: (value) {
+                    setState(() {
+                      _kota = value;
+                    });
+                  },
+                  onChanged: (value) {
+                    setState(() {
+                      _kota = value;
+                    });
+                  },
+                  dataSource: ListKota().getList(),
                   textField: 'display',
                   valueField: 'value',
                 ),
@@ -430,63 +357,50 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   ),
                 ),
               ),
-              Padding(
+              Container(
                 padding: EdgeInsets.symmetric(horizontal: 30.0, vertical: 10.0),
-                child: Column(
-                  children: <Widget>[
-                    Align(
-                      alignment: Alignment.topLeft,
-                      child: Text(
-                        'Jam Kerja',
-                        style: TextStyle(
-                            color: Colors.black54,
-                            fontSize: 16.0,
-                            fontFamily: 'Product Sans'),
-                      ),
-                    ),
-                    ChipsChoice<String>.single(
-                      value: _jamKerja,
-                      options: ChipsChoiceOption.listFrom<String, String>(
-                        source: _listJam,
-                        value: (i, v) => v,
-                        label: (i, v) => v,
-                      ),
-                      onChanged: (val) => setState(() => _jamKerja = val),
-                    ),
-                    Align(
-                      alignment: Alignment.topLeft,
-                      child: Text(
-                        'Keahlian',
-                        style: TextStyle(
-                            color: Colors.black54,
-                            fontSize: 16.0,
-                            fontFamily: 'Product Sans'),
-                      ),
-                    ),
-                    ChipsChoice<String>.single(
-                      value: _keahlian,
-                      options: ChipsChoiceOption.listFrom<String, String>(
-                        source: _listKeahlian,
-                        value: (i, v) => v,
-                        label: (i, v) => v,
-                      ),
-                      onChanged: (val) => setState(() => _keahlian = val),
-                    ),
-                    Align(
-                      alignment: Alignment.topLeft,
-                      child: Text(
-                        'Gaji per Jam (Jangan Menggunakan Titik / Koma)',
-                        style: TextStyle(
-                            color: Colors.black54,
-                            fontSize: 16.0,
-                            fontFamily: 'Product Sans'),
-                      ),
-                    ),
-                  ],
+                child: DropDownFormField(
+                  titleText: 'Jam Kerja',
+                  hintText: 'Pilih Jam Kerja Anda',
+                  value: _jamKerja,
+                  onSaved: (value) {
+                    setState(() {
+                      _jamKerja = value;
+                    });
+                  },
+                  onChanged: (value) {
+                    setState(() {
+                      _jamKerja = value;
+                    });
+                  },
+                  dataSource: ListJamKerja().getList(),
+                  textField: 'display',
+                  valueField: 'value',
+                ),
+              ),
+              Container(
+                padding: EdgeInsets.symmetric(horizontal: 30.0, vertical: 10.0),
+                child: DropDownFormField(
+                  titleText: 'Keahlian',
+                  hintText: 'Pilih Keahlian Anda',
+                  value: _keahlian,
+                  onSaved: (value) {
+                    setState(() {
+                      _keahlian = value;
+                    });
+                  },
+                  onChanged: (value) {
+                    setState(() {
+                      _keahlian = value;
+                    });
+                  },
+                  dataSource: ListKeahlian().getList(),
+                  textField: 'display',
+                  valueField: 'value',
                 ),
               ),
               new TextFields(
-                  labelText: 'Gaji per Jam',
+                  labelText: 'Gaji per Jam (Tanpa Koma/Titik)',
                   iconData: Icons.attach_money,
                   onSaved: (input) => _gaji = input,
                   obscureText: false,
@@ -625,7 +539,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
       'latitude': _lat,
       'longitude': _long,
       'position': myLocation.data,
-      'query': _listQueryEmployeeSeeker.toString()
     });
     _firestore.collection('users').document(userId).setData(
       {

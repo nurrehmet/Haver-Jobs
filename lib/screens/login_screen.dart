@@ -27,6 +27,7 @@ class _LoginScreenState extends State<LoginScreen> {
       backgroundColor: Colors.white,
       appBar: AppBar(
           title: Text('Login',style: TextStyle(fontFamily: 'Product Sans',)),
+          centerTitle: true,
           elevation: 0.0,
           ),
       body: SingleChildScrollView(

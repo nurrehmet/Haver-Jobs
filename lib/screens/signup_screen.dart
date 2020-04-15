@@ -1,3 +1,4 @@
+import 'package:dropdown_formfield/dropdown_formfield.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -23,14 +24,76 @@ class SignUpScreen extends StatefulWidget {
 class _SignUpScreenState extends State<SignUpScreen> {
   final _formKey = GlobalKey<FormState>();
   final _formKeyEmployee = GlobalKey<FormState>();
-  String userId;
+  String userId, _kota;
   //data employee seeker
   String _nama, _email, _password, _alamat, _noHp, _kategoriPerusahaan;
   //data employee
-  String _gender, _pendidikan, _pengKerja, _jamKerja;
-  List _listGender = ["Laki-Laki", "Perempuan"],
-      _listPendidikan = ["SMP", "SMA", "D3", "S1"];
-  List<String> _keahlian = [];
+  String _gender, _pendidikan, _usia, _jamKerja;
+  List _listGender = [
+    {
+      "display": "Laki-Laki",
+      "value": "Laki-Laki",
+    },
+    {
+      "display": "Perempuan",
+      "value": "Perempuan",
+    },
+  ];
+
+  List _listPendidikan = [
+    {
+      "display": "SMA",
+      "value": "SMA",
+    },
+    {
+      "display": "D3",
+      "value": "D3",
+    },
+    {
+      "display": "S1",
+      "value": "S1",
+    }
+  ];
+
+  List _listKategoriPerusahaan = [
+    {
+      "display": "Teknologi Informasi",
+      "value": "Teknologi Informasi",
+    },
+    {
+      "display": "Layanan Jasa",
+      "value": "Layanan Jasa",
+    },
+    {
+      "display": "Otomotif",
+      "value": "Otomotif",
+    },
+    {
+      "display": "Makanan",
+      "value": "Makanan",
+    },
+    {
+      "display": "Lainnya",
+      "value": "Lainnya",
+    }
+  ];
+
+  List _listKota = [
+    {
+      "display": "Bandung",
+      "value": "Bandung",
+    },
+    {
+      "display": "Jakarta",
+      "value": "Jakarta",
+    },
+    {
+      "display": "Karawang",
+      "value": "Karawang",
+    }
+  ];
+
+  String _keahlian;
   List<String> _listKeahlian = [
     'Programmer',
     'Barista',
@@ -40,38 +103,52 @@ class _SignUpScreenState extends State<SignUpScreen> {
     'Waiter',
     'Penyiar Radio'
   ];
-  List<String> _hariKerja = [];
-  List<String> _listHari = [
-    'Senin',
-    'Selasa',
-    'Rabu',
-    'Kamis',
-    'Jumat',
-    'Sabtu',
-    'Minggu',
+
+  List<String> _listJam = [
+    '08:00 - 12:00',
+    '12:00 - 18:00',
+    '18:00 - 00:00',
   ];
+  List _listQueryEmployee = [];
+  List _listQueryEmployeeSeeker = [];
   String _gaji;
-  //data time picker
-  DateFormat dateFormatter = DateFormat('dd-MM-yyyy');
-  DateTime _date;
-  String _tglLahir;
   //data lokasi
   double _lat, _long;
   bool showCircular = false;
   Geoflutterfire geo = Geoflutterfire();
   Firestore _firestore = Firestore.instance;
   GeoFirePoint myLocation;
+
+  //init state
+  @override
+  void initState() {
+    _gender = '';
+    _pendidikan = '';
+    super.initState();
+  }
+
   //get location
   void showPlacePicker() async {
     LocationResult result = await Navigator.of(context).push(MaterialPageRoute(
-        builder: (context) =>
-            PlacePicker("AIzaSyDX1cPMy9zPG39wvwaDl85NJddg7SFNBEI",)));
+        builder: (context) => PlacePicker(
+              "AIzaSyDX1cPMy9zPG39wvwaDl85NJddg7SFNBEI",
+            )));
     setState(() {
       _lat = result.latLng.latitude;
       _long = result.latLng.longitude;
       _alamat = result.formattedAddress;
       myLocation = geo.point(latitude: _lat, longitude: _long);
+      _listQueryEmployee = [
+        {_gender, _keahlian, _pendidikan, _usia, _kota, _jamKerja, _keahlian}
+      ];
+      _listQueryEmployeeSeeker = [
+        {
+          _kategoriPerusahaan,
+          _kota,
+        }
+      ];
     });
+    print(_listQueryEmployeeSeeker);
   }
 
   @override
@@ -87,8 +164,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 Padding(
                   padding: const EdgeInsets.all(15.0),
                   child: FlatButton.icon(
-                    icon: Icon(Icons.info, color: Colors.amber),
-                    textColor: Colors.amber,
+                    icon: Icon(Icons.info, color: Colors.blue),
+                    textColor: Colors.blue,
                     label: Text('Informasi'),
                     onPressed: _infoRegistrasi,
                   ),
@@ -131,38 +208,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
     );
   }
 
-  //dropdown listener
-  List<KategoriPerusahaan> _dataKategoriPerusahaan =
-      KategoriPerusahaan.getKategoriPerusahaan();
-  List<DropdownMenuItem<KategoriPerusahaan>> _dropdownMenuItems;
-  KategoriPerusahaan _selectedKategoriPerusahaan;
-  //init state
-  @override
-  void initState() {
-    _dropdownMenuItems = buildDropdownMenuItems(_dataKategoriPerusahaan);
-    _selectedKategoriPerusahaan = _dropdownMenuItems[0].value;
-    super.initState();
-  }
-
-  List<DropdownMenuItem<KategoriPerusahaan>> buildDropdownMenuItems(
-      List kategoris) {
-    List<DropdownMenuItem<KategoriPerusahaan>> items = List();
-    for (KategoriPerusahaan kategori in kategoris) {
-      items.add(DropdownMenuItem(
-        value: kategori,
-        child: Text(kategori.name),
-      ));
-    }
-    return items;
-  }
-
-  onChangedDropdownItem(KategoriPerusahaan selectedKategoriPerusahaan) {
-    setState(() {
-      _selectedKategoriPerusahaan = selectedKategoriPerusahaan;
-      _kategoriPerusahaan = selectedKategoriPerusahaan.name;
-    });
-  }
-
   //form registrasi employee seeker
   Widget _registerEmployeeSeeker(BuildContext context) {
     return Container(
@@ -202,82 +247,71 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     obscureText: false,
                     textInputType: TextInputType.number,
                   ),
-                  SizedBox(
-                    height: 20.0,
-                  ),
-                  Padding(
-                    padding:
-                        EdgeInsets.symmetric(horizontal: 30.0, vertical: 10.0),
-                    child: Column(
-                      children: <Widget>[
-                        Align(
-                            alignment: Alignment.topLeft,
-                            child: Text(
-                              'Pilih Kategori Perusahaan',
-                              style: TextStyle(
-                                  color: Colors.black54,
-                                  fontSize: 16.0,
-                                  fontFamily: 'Product Sans'),
-                            )),
-                        SizedBox(
-                          height: 20.0,
+                  Column(
+                    children: <Widget>[
+                      Container(
+                        padding: EdgeInsets.symmetric(
+                            horizontal: 30.0, vertical: 10.0),
+                        child: DropDownFormField(
+                          titleText: 'Kategori Perusahaan',
+                          hintText: 'Pilih Kategori Perusahaan',
+                          value: _kategoriPerusahaan,
+                          onSaved: (value) {
+                            setState(() {
+                              _kategoriPerusahaan = value;
+                            });
+                          },
+                          onChanged: (value) {
+                            setState(() {
+                              _kategoriPerusahaan = value;
+                            });
+                          },
+                          dataSource: _listKategoriPerusahaan,
+                          textField: 'display',
+                          valueField: 'value',
                         ),
-                        Align(
-                          alignment: Alignment.topLeft,
-                          child: DropdownButton(
-                            value: _selectedKategoriPerusahaan,
-                            items: _dropdownMenuItems,
-                            onChanged: (onChangedDropdownItem),
-                          ),
+                      ),
+                      Container(
+                        padding: EdgeInsets.symmetric(
+                            horizontal: 30.0, vertical: 10.0),
+                        child: DropDownFormField(
+                          titleText: 'Kota',
+                          hintText: 'Pilih Kota',
+                          value: _kota,
+                          onSaved: (value) {
+                            setState(() {
+                              _kota = value;
+                            });
+                          },
+                          onChanged: (value) {
+                            setState(() {
+                              _kota = value;
+                            });
+                          },
+                          dataSource: _listKota,
+                          textField: 'display',
+                          valueField: 'value',
                         ),
-                        SizedBox(
-                          height: 20.0,
-                        ),
-                        Row(
-                          children: <Widget>[
-                            Text(
-                              'Pilih Lokasi Anda',
-                              style: TextStyle(
-                                  color: Colors.black54,
-                                  fontSize: 16.0,
-                                  fontFamily: 'Product Sans'),
-                            ),
-                            Spacer(),
-                            FlatButton.icon(
-                              icon: Icon(
-                                Icons.location_searching,
-                                color: Colors.white,
-                              ),
-                              onPressed: () {
-                                showPlacePicker();
-                              },
-                              shape: new RoundedRectangleBorder(
-                                borderRadius: new BorderRadius.circular(10.0),
-                              ),
-                              padding: EdgeInsets.all(10.0),
-                              color: Hexcolor('#3f72af'),
-                              label: Text(
-                                'Pilih Lokasi',
-                                style: TextStyle(color: Colors.white),
-                              ),
-                            ),
-                          ],
-                        ),
-                        SizedBox(
-                          height: 20.0,
-                        ),
-                        Align(
+                      ),
+                      new RoundedButton(
+                          text: 'Pilih Lokasi Anda',
+                          onPress: showPlacePicker,
+                          color: Colors.green),
+                      Padding(
+                        padding: EdgeInsets.symmetric(
+                            horizontal: 30.0, vertical: 10.0),
+                        child: Align(
                           alignment: Alignment.topLeft,
                           child: Text(
                             _alamat == null
                                 ? 'Lokasi belum dipilih'
                                 : 'Lokasi Anda: $_alamat',
                             style: TextStyle(
-                                color: Colors.blue, fontFamily: 'Product Sans'),
+                                color: Colors.grey, fontFamily: 'Product Sans'),
                           ),
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                   showCircular
                       ? Center(child: CircularProgressIndicator())
@@ -331,37 +365,69 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   onSaved: (input) => _noHp = input,
                   obscureText: false,
                   textInputType: TextInputType.number),
+              new TextFields(
+                  labelText: 'Usia',
+                  iconData: Icons.date_range,
+                  onSaved: (input) => _usia = input,
+                  obscureText: false,
+                  textInputType: TextInputType.number),
+              Container(
+                padding: EdgeInsets.symmetric(horizontal: 30.0, vertical: 10.0),
+                child: DropDownFormField(
+                  titleText: 'Gender',
+                  hintText: 'Pilih Gender Anda',
+                  value: _gender,
+                  onSaved: (value) {
+                    setState(() {
+                      _gender = value;
+                    });
+                  },
+                  onChanged: (value) {
+                    setState(() {
+                      _gender = value;
+                    });
+                  },
+                  dataSource: _listGender,
+                  textField: 'display',
+                  valueField: 'value',
+                ),
+              ),
+              Container(
+                padding: EdgeInsets.symmetric(horizontal: 30.0, vertical: 10.0),
+                child: DropDownFormField(
+                  titleText: 'Pendidikan Terakhir',
+                  hintText: 'Pilih Pendidikan Terakhir',
+                  value: _pendidikan,
+                  onSaved: (value) {
+                    setState(() {
+                      _pendidikan = value;
+                    });
+                  },
+                  onChanged: (value) {
+                    setState(() {
+                      _pendidikan = value;
+                    });
+                  },
+                  dataSource: _listPendidikan,
+                  textField: 'display',
+                  valueField: 'value',
+                ),
+              ),
+              new RoundedButton(
+                  text: 'Pilih Lokasi Anda',
+                  onPress: showPlacePicker,
+                  color: Colors.green),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 30.0, vertical: 10.0),
-                child: Row(
-                  children: <Widget>[
-                    Text(
-                      'Tanggal Lahir',
-                      style: TextStyle(
-                          color: Colors.black54,
-                          fontSize: 16.0,
-                          fontFamily: 'Product Sans'),
-                    ),
-                    Spacer(),
-                    FlatButton.icon(
-                      icon: Icon(
-                        Icons.date_range,
-                        color: Colors.white,
-                      ),
-                      onPressed: () {
-                        _datePicker();
-                      },
-                      shape: new RoundedRectangleBorder(
-                        borderRadius: new BorderRadius.circular(10.0),
-                      ),
-                      padding: EdgeInsets.all(10.0),
-                      color: Hexcolor('#3f72af'),
-                      label: Text(
-                        'Pilih Tanggal Lahir',
-                        style: TextStyle(color: Colors.white),
-                      ),
-                    ),
-                  ],
+                child: Align(
+                  alignment: Alignment.topLeft,
+                  child: Text(
+                    _alamat == null
+                        ? 'Lokasi belum dipilih'
+                        : 'Lokasi Anda: $_alamat',
+                    style: TextStyle(
+                        color: Colors.grey, fontFamily: 'Product Sans'),
+                  ),
                 ),
               ),
               Padding(
@@ -371,145 +437,21 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     Align(
                       alignment: Alignment.topLeft,
                       child: Text(
-                        _tglLahir == null
-                            ? 'Tanggal lahir belum dipilih'
-                            : 'Tanggal Lahir Anda: $_tglLahir',
-                        style: TextStyle(
-                            color: Colors.blue, fontFamily: 'Product Sans'),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    Row(
-                      children: <Widget>[
-                        Text(
-                          'Jenis Kelamin',
-                          style: TextStyle(
-                              color: Colors.black54,
-                              fontSize: 16.0,
-                              fontFamily: 'Product Sans'),
-                        ),
-                        Spacer(),
-                        DropdownButton(
-                          icon: Icon(Icons.people),
-                          hint: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text('Jenis Kelamin'),
-                          ),
-                          value: _gender,
-                          items: _listGender.map((value) {
-                            return DropdownMenuItem(
-                              child: Text(value),
-                              value: value,
-                            );
-                          }).toList(),
-                          onChanged: (value) {
-                            setState(() {
-                              _gender = value;
-                            });
-                          },
-                        ),
-                      ],
-                    ),
-                    Row(
-                      children: <Widget>[
-                        Text(
-                          'Pendidikan Terakhir',
-                          style: TextStyle(
-                              color: Colors.black54,
-                              fontSize: 16.0,
-                              fontFamily: 'Product Sans'),
-                        ),
-                        Spacer(),
-                        DropdownButton(
-                          icon: Icon(Icons.school),
-                          hint: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text('Pendidikan'),
-                          ),
-                          value: _pendidikan,
-                          items: _listPendidikan.map((value) {
-                            return DropdownMenuItem(
-                              child: Text(value),
-                              value: value,
-                            );
-                          }).toList(),
-                          onChanged: (value) {
-                            setState(() {
-                              _pendidikan = value;
-                            });
-                          },
-                        ),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 20.0,
-                    ),
-                    Row(
-                      children: <Widget>[
-                        Text(
-                          'Lokasi Anda',
-                          style: TextStyle(
-                              color: Colors.black54,
-                              fontSize: 16.0,
-                              fontFamily: 'Product Sans'),
-                        ),
-                        Spacer(),
-                        FlatButton.icon(
-                          icon: Icon(
-                            Icons.location_searching,
-                            color: Colors.white,
-                          ),
-                          onPressed: () {
-                            showPlacePicker();
-                          },
-                          shape: new RoundedRectangleBorder(
-                            borderRadius: new BorderRadius.circular(10.0),
-                          ),
-                          padding: EdgeInsets.all(10.0),
-                          color: Hexcolor('#3f72af'),
-                          label: Text(
-                            'Pilih Lokasi',
-                            style: TextStyle(color: Colors.white),
-                          ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 20.0,
-                    ),
-                    Align(
-                      alignment: Alignment.topLeft,
-                      child: Text(
-                        _alamat == null
-                            ? 'Lokasi belum dipilih'
-                            : 'Lokasi Anda: $_alamat',
-                        style: TextStyle(
-                            color: Colors.blue, fontFamily: 'Product Sans'),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 20.0,
-                    ),
-                    Align(
-                      alignment: Alignment.topLeft,
-                      child: Text(
-                        'Hari Kerja',
+                        'Jam Kerja',
                         style: TextStyle(
                             color: Colors.black54,
                             fontSize: 16.0,
                             fontFamily: 'Product Sans'),
                       ),
                     ),
-                    ChipsChoice<String>.multiple(
-                      value: _hariKerja,
+                    ChipsChoice<String>.single(
+                      value: _jamKerja,
                       options: ChipsChoiceOption.listFrom<String, String>(
-                        source: _listHari,
+                        source: _listJam,
                         value: (i, v) => v,
                         label: (i, v) => v,
                       ),
-                      onChanged: (val) => setState(() => _hariKerja = val),
+                      onChanged: (val) => setState(() => _jamKerja = val),
                     ),
                     Align(
                       alignment: Alignment.topLeft,
@@ -521,7 +463,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             fontFamily: 'Product Sans'),
                       ),
                     ),
-                    ChipsChoice<String>.multiple(
+                    ChipsChoice<String>.single(
                       value: _keahlian,
                       options: ChipsChoiceOption.listFrom<String, String>(
                         source: _listKeahlian,
@@ -530,11 +472,21 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       ),
                       onChanged: (val) => setState(() => _keahlian = val),
                     ),
+                    Align(
+                      alignment: Alignment.topLeft,
+                      child: Text(
+                        'Gaji per Jam (Jangan Menggunakan Titik / Koma)',
+                        style: TextStyle(
+                            color: Colors.black54,
+                            fontSize: 16.0,
+                            fontFamily: 'Product Sans'),
+                      ),
+                    ),
                   ],
                 ),
               ),
               new TextFields(
-                  labelText: 'Gaji Yang Diinginkan',
+                  labelText: 'Gaji per Jam',
                   iconData: Icons.attach_money,
                   onSaved: (input) => _gaji = input,
                   obscureText: false,
@@ -556,30 +508,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
     );
   }
 
-//date picker
-  Future<DateTime> _datePicker() {
-    return showDatePicker(
-            context: context,
-            initialDate: _date == null ? DateTime.now() : _date,
-            firstDate: DateTime(1950),
-            lastDate: DateTime(2021))
-        .then((date) {
-      setState(() {
-        _date = date;
-        _tglLahir = dateFormatter.format(_date);
-      });
-    });
-  }
-
 //submit employee
 
   void _cekInput() {
-    if (_tglLahir == null) {
-      Fluttertoast.showToast(
-        msg: "Tanggal lahir belum dipilih",
-        toastLength: Toast.LENGTH_LONG,
-      );
-    } else if (_pendidikan == null) {
+    if (_pendidikan == null) {
       Fluttertoast.showToast(
         msg: "Pendidikan belum dipilih",
         toastLength: Toast.LENGTH_LONG,
@@ -594,7 +526,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
         msg: "Lokasi belum dipilih",
         toastLength: Toast.LENGTH_LONG,
       );
-    } else if (_hariKerja == null) {
+    } else if (_jamKerja == null) {
       Fluttertoast.showToast(
         msg: "Hari Kerja belum dipilih",
         toastLength: Toast.LENGTH_LONG,
@@ -648,25 +580,33 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
 //registrasi employee
   Future<void> _registerEmployee() async {
-    Firestore.instance.collection("users").document(userId).setData({
+    Firestore.instance.collection("employee").document(userId).setData({
       'nama': _nama,
       'email': _email,
       'role': 'employee',
       'alamat': _alamat,
-      'tglLahir': _tglLahir,
+      'usia': _usia,
       'pendidikan': _pendidikan,
-      'hariKerja': _hariKerja,
+      'jamKerja': _jamKerja,
       'noHp': _noHp,
-      'jenisKelamin': _gender,
+      'gender': _gender,
       'keahlian': _keahlian,
       'gaji': int.parse(_gaji),
+      'kota': _kota,
       'latitude': _lat,
-      'longitude': _long
+      'longitude': _long,
+      'position': myLocation.data,
     });
-    _firestore
-        .collection('locations')
-        .document(userId)
-        .setData({'name': userId, 'position': myLocation.data,'role': 'employee'}, );
+    _firestore.collection('users').document(userId).setData(
+      {
+        'nama': _nama,
+        'email': _email,
+        'role': 'employee',
+        'alamat': _alamat,
+        'lat': _lat,
+        'long': _long
+      },
+    );
     final FirebaseUser user = await FirebaseAuth.instance.currentUser();
 
     Navigator.pushReplacement(
@@ -675,16 +615,28 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
 //registrasi employee seeker
   Future<void> _registerES() async {
-    Firestore.instance.collection("users").document(userId).setData({
-      'nama': _nama,
+    Firestore.instance.collection("employee-seeker").document(userId).setData({
+      'namaPerusahaan': _nama,
       'email': _email,
       'role': 'employee seeker',
       'alamat': _alamat,
       'noHp': _noHp,
       'kategoriPerusahaan': _kategoriPerusahaan,
       'latitude': _lat,
-      'longitude': _long
+      'longitude': _long,
+      'position': myLocation.data,
+      'query': _listQueryEmployeeSeeker.toString()
     });
+    _firestore.collection('users').document(userId).setData(
+      {
+        'nama': _nama,
+        'email': _email,
+        'role': 'employee seeker',
+        'alamat': _alamat,
+        'lat': _lat,
+        'long': _long
+      },
+    );
     final FirebaseUser user = await FirebaseAuth.instance.currentUser();
 
     Navigator.pushReplacement(

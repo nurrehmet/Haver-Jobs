@@ -4,6 +4,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:haverjob/screens/employee_seeker_screen.dart';
+import 'package:haverjob/screens/find_employee_screen.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:solid_bottom_sheet/solid_bottom_sheet.dart';
 import 'package:geoflutterfire/geoflutterfire.dart';
@@ -39,7 +41,7 @@ class MapsViewState extends State<MapsView> {
   Map<MarkerId, Marker> markers = <MarkerId, Marker>{};
   SolidController _bsController = SolidController();
   double lat, long;
-  double _value = 20.0;
+  double _value = 1;
   String _label = '';
   BitmapDescriptor markerIcon;
   Set<Circle> circles;
@@ -86,7 +88,7 @@ class MapsViewState extends State<MapsView> {
                         tooltip: 'Filter Karyawan',
                         backgroundColor: Hexcolor('#3f72af'),
                         child: Icon(Icons.tune),
-                        onPressed: () => null),
+                        onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context)=> EmployeeSeekerScreen()))),
                   ),
                 ),
                 Align(
@@ -102,19 +104,39 @@ class MapsViewState extends State<MapsView> {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(top: 8.0),
+                  padding: const EdgeInsets.only(top: 2.0),
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Card(
-                      child: Slider(
-                        min: 0,
-                        max: 20,
-                        divisions: 4,
-                        value: _value,
-                        label: _label,
-                        activeColor: Hexcolor('#3f72af'),
-                        inactiveColor: Colors.blue.withOpacity(0.2),
-                        onChanged: (double value) => changed(value),
+                      child: Column(
+                        children: <Widget>[
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: markers.isEmpty
+                                ? Text(
+                                    'Tidak Ada Pekerja Part Time Terdekat',
+                                    style: TextStyle(
+                                        color: Colors.red,
+                                        fontFamily: 'Product Sans',
+                                        fontWeight: FontWeight.bold),
+                                  )
+                                : Text('Pekerja Part Time Ditemukan',
+                                    style: TextStyle(
+                                        color: Colors.blue,
+                                        fontFamily: 'Product Sans',
+                                        fontWeight: FontWeight.bold)),
+                          ),
+                          Slider(
+                            min: 1,
+                            max: 15,
+                            divisions: 4,
+                            value: _value,
+                            label: _label,
+                            activeColor: Hexcolor('#3f72af'),
+                            inactiveColor: Colors.blue.withOpacity(0.2),
+                            onChanged: (double value) => changed(value),
+                          ),
+                        ],
                       ),
                     ),
                   ),
@@ -168,9 +190,11 @@ class MapsViewState extends State<MapsView> {
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: ListTile(
+                                leading:
+                                    Icon(Icons.my_location, color: Colors.blue),
                                 title: Text('Atur Radius Pencarian'),
                                 subtitle: Text(
-                                    'Atur radius pencarian karyawan dengan menggunakan slider '),
+                                    'Jika hasil pencarian tidak ada, mohon atur radius pencarian karyawan dengan menggunakan slider ',style: TextStyle(fontFamily: 'Product Sans',),),
                                 trailing: Icon(Icons.looks_one),
                               ),
                             ),
@@ -179,9 +203,10 @@ class MapsViewState extends State<MapsView> {
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: ListTile(
+                                leading: Icon(Icons.tune, color: Colors.blue),
                                 title: Text('Filter Pencarian'),
                                 subtitle: Text(
-                                    'Filter pencarian dengan kriteria tertentu dengan tap tombol filter '),
+                                    'Filter pencarian dengan kriteria tertentu dengan tap tombol filter ',style: TextStyle(fontFamily: 'Product Sans',)),
                                 trailing: Icon(Icons.looks_two),
                               ),
                             ),
@@ -209,7 +234,7 @@ class MapsViewState extends State<MapsView> {
   void _addMarker(
     double lat,
     double lng,
-    String name,
+    String nama,
   ) {
     var point = geo.point(latitude: widget.lat, longitude: widget.long);
     var distance = point.distance(lat: lat, lng: lng);
@@ -219,7 +244,7 @@ class MapsViewState extends State<MapsView> {
       position: LatLng(lat, lng),
       icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueAzure),
       infoWindow: InfoWindow(
-          title: name, snippet: 'Jarak ' + distance.toString() + ' KM'),
+          title: nama, snippet: 'Jarak ' + distance.toString() + ' KM'),
     );
     setState(() {
       markers[id] = _marker;
@@ -232,7 +257,7 @@ class MapsViewState extends State<MapsView> {
       _addMarker(
         point.latitude,
         point.longitude,
-        document.data['name'],
+        document.data['nama'],
       );
     });
   }
@@ -248,7 +273,7 @@ class MapsViewState extends State<MapsView> {
           strokeColor: Colors.blue,
           circleId: CircleId('circle'),
           center: LatLng(widget.lat, widget.long),
-          radius: value * 500,
+          radius: value * 1000,
         )
       ]);
       // print(value);
@@ -281,8 +306,10 @@ class MapsViewState extends State<MapsView> {
         geo.point(latitude: widget.lat, longitude: widget.long);
     stream = radius.switchMap((rad) {
       var collectionReference = _firestore
-          .collection('locations')
-          .where('query', isEqualTo: widget.listQuery);
+          .collection('employee')
+          .where('keahlian', isEqualTo: widget.keahlian)
+          .where('pendidikan', isEqualTo: widget.pendidikan)
+          .where('gender', isEqualTo: widget.gender);
       return geo.collection(collectionRef: collectionReference).within(
           center: center, radius: rad, field: 'position', strictMode: false);
     });

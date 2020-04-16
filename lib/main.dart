@@ -3,7 +3,8 @@ import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:hexcolor/hexcolor.dart';
+import 'package:haverjob/screens/employee_list.dart';
+import 'package:haverjob/screens/find_employee_screen.dart';
 import 'package:haverjob/screens/home.dart';
 import 'package:haverjob/screens/login_screen.dart';
 import 'package:haverjob/screens/signup_screen.dart';
@@ -44,6 +45,7 @@ class _MyAppState extends State<MyApp> {
       child: MaterialApp(
         theme: ThemeData(
           primaryColor: Colors.white,
+          fontFamily: 'Poppins'
         ),
         debugShowCheckedModeBanner: false,
         title: 'Haver Jobs',
@@ -52,7 +54,9 @@ class _MyAppState extends State<MyApp> {
           '/login': (BuildContext context) => LoginScreen(),
           '/register': (BuildContext context) => SignUpScreen(),
           '/home': (BuildContext context) => Home(),
-          '/welcome': (BuildContext context) => WelcomeScreen()
+          '/welcome': (BuildContext context) => WelcomeScreen(),
+          '/findEmployee': (BuildContext context) => FindEmployeeScreen(),
+          '/listEmployee': (BuildContext context) => EmployeeList()
         },
       ),
     );

@@ -148,32 +148,3 @@ class TextFields extends StatelessWidget {
   }
 }
 
-//snackbar alert
-class SnackbarAlert extends StatelessWidget {
-  String alertMsg, alertBtn;
-
-  SnackbarAlert({@required this.alertBtn, this.alertMsg});
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: RaisedButton(
-        onPressed: () {
-          final snackBar = SnackBar(
-            content: Text(alertMsg),
-            action: SnackBarAction(
-              label: alertMsg,
-              onPressed: () {
-                // Some code to undo the change.
-              },
-            ),
-          );
-          Scaffold.of(context).showSnackBar(snackBar);
-        },
-        child: Text('Show SnackBar'),
-      ),
-    );
-  }
-}
-
-

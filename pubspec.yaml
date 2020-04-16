@@ -35,6 +35,9 @@ dependencies:
   solid_bottom_sheet: ^0.1.9
   provider: ^4.0.4
   geoflutterfire: ^2.1.0
+  google_fonts: ^0.5.0+1
+
+
 
 
 
@@ -58,6 +61,9 @@ flutter:
   assets:
     - assets/images/bg.png
     - assets/images/marker.png
+    - assets/images/filter.png
+    - assets/icons/otomotif.png
+    - assets/icons/
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
@@ -76,7 +82,9 @@ flutter:
    - family: Product Sans
      fonts:
        - asset: assets/fonts/Product-Sans-Regular.ttf
-
+   - family: Poppins
+     fonts:
+       - asset: assets/fonts/Poppins-Regular.ttf
   #       - asset: fonts/Schyler-Italic.ttf
   #         style: italic
   #   - family: Trajan Pro

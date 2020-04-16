@@ -28,10 +28,6 @@ class ListKeahlian {
         "value": "Waiter",
       },
       {
-        "display": "Penyiar Radio",
-        "value": "Penyiar Radio",
-      },
-      {
         "display": "Lainnya",
         "value": "Lainnya",
       },

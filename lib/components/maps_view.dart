@@ -19,9 +19,11 @@ class MapsView extends StatefulWidget {
       this.pendidikan,
       this.lat,
       this.long,
-      this.listQuery})
+      this.listQuery,
+      this.kota,
+      this.jamKerja})
       : super(key: key);
-  final String keahlian, gender, pendidikan;
+  final String keahlian, gender, pendidikan, kota, jamKerja;
   final List listQuery;
   final double lat, long;
 
@@ -88,7 +90,10 @@ class MapsViewState extends State<MapsView> {
                         tooltip: 'Filter Karyawan',
                         backgroundColor: Hexcolor('#3f72af'),
                         child: Icon(Icons.tune),
-                        onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context)=> EmployeeSeekerScreen()))),
+                        onPressed: () => Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => FindEmployeeScreen()))),
                   ),
                 ),
                 Align(
@@ -194,7 +199,11 @@ class MapsViewState extends State<MapsView> {
                                     Icon(Icons.my_location, color: Colors.blue),
                                 title: Text('Atur Radius Pencarian'),
                                 subtitle: Text(
-                                    'Jika hasil pencarian tidak ada, mohon atur radius pencarian karyawan dengan menggunakan slider ',style: TextStyle(fontFamily: 'Product Sans',),),
+                                  'Jika hasil pencarian tidak ada, mohon atur radius pencarian karyawan dengan menggunakan slider ',
+                                  style: TextStyle(
+                                    fontFamily: 'Product Sans',
+                                  ),
+                                ),
                                 trailing: Icon(Icons.looks_one),
                               ),
                             ),
@@ -206,7 +215,10 @@ class MapsViewState extends State<MapsView> {
                                 leading: Icon(Icons.tune, color: Colors.blue),
                                 title: Text('Filter Pencarian'),
                                 subtitle: Text(
-                                    'Filter pencarian dengan kriteria tertentu dengan tap tombol filter ',style: TextStyle(fontFamily: 'Product Sans',)),
+                                    'Filter pencarian dengan kriteria tertentu dengan tap tombol filter ',
+                                    style: TextStyle(
+                                      fontFamily: 'Product Sans',
+                                    )),
                                 trailing: Icon(Icons.looks_two),
                               ),
                             ),
@@ -309,7 +321,9 @@ class MapsViewState extends State<MapsView> {
           .collection('employee')
           .where('keahlian', isEqualTo: widget.keahlian)
           .where('pendidikan', isEqualTo: widget.pendidikan)
-          .where('gender', isEqualTo: widget.gender);
+          .where('gender', isEqualTo: widget.gender)
+          .where('kota', isEqualTo: widget.kota)
+          .where('jamKerja', isEqualTo: widget.jamKerja);
       return geo.collection(collectionRef: collectionReference).within(
           center: center, radius: rad, field: 'position', strictMode: false);
     });

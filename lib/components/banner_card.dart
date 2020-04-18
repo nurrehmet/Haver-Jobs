@@ -2,19 +2,21 @@ import 'package:flutter/material.dart';
 
 class BannerCard extends StatelessWidget {
   String title, subtitle, btText, image;
+  Color color;
   Function action;
   BannerCard(
       {@required this.title,
       this.subtitle,
       this.btText,
       this.image,
-      this.action});
+      this.action,
+      this.color});
 
   @override
   Widget build(BuildContext context) {
     return Container(
       child: Card(
-        color: Colors.blue,
+        color: color,
         semanticContainer: true,
         clipBehavior: Clip.antiAliasWithSaveLayer,
         child: Column(
@@ -36,7 +38,7 @@ class BannerCard extends StatelessWidget {
                     title: Text(title,
                         style: TextStyle(
                             fontSize: 15, fontWeight: FontWeight.bold)),
-                    subtitle: Text(subtitle),
+                    subtitle: Text(subtitle,style: TextStyle(color: Colors.grey),),
                   ),
                   ButtonBar(
                     children: <Widget>[
@@ -58,7 +60,7 @@ class BannerCard extends StatelessWidget {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10.0),
         ),
-        elevation: 5,
+        elevation: 1,
       ),
     );
   }

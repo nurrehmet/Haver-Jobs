@@ -1,11 +1,8 @@
 import 'dart:async';
-import 'dart:typed_data';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:haverjob/screens/employee_seeker_screen.dart';
-import 'package:haverjob/screens/find_employee_screen.dart';
+import 'package:haverjob/screens/employee/find_employee_screen.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:solid_bottom_sheet/solid_bottom_sheet.dart';
 import 'package:geoflutterfire/geoflutterfire.dart';
@@ -21,9 +18,10 @@ class MapsView extends StatefulWidget {
       this.long,
       this.listQuery,
       this.kota,
-      this.jamKerja})
+      this.jamKerja,
+      this.type})
       : super(key: key);
-  final String keahlian, gender, pendidikan, kota, jamKerja;
+  final String keahlian, gender, pendidikan, kota, jamKerja, type;
   final List listQuery;
   final double lat, long;
 
@@ -85,15 +83,18 @@ class MapsViewState extends State<MapsView> {
                   alignment: Alignment.bottomRight,
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: FloatingActionButton(
-                        heroTag: "btn1",
-                        tooltip: 'Filter Karyawan',
-                        backgroundColor: Hexcolor('#3f72af'),
-                        child: Icon(Icons.tune),
-                        onPressed: () => Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => FindEmployeeScreen()))),
+                    child: Visibility(
+                      visible: widget.type == 'filter' ? true : false,
+                      child: FloatingActionButton(
+                          heroTag: "btn1",
+                          tooltip: 'Filter Karyawan',
+                          backgroundColor: Hexcolor('#3f72af'),
+                          child: Icon(Icons.tune),
+                          onPressed: () => Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => FindEmployeeScreen()))),
+                    ),
                   ),
                 ),
                 Align(
@@ -122,13 +123,11 @@ class MapsViewState extends State<MapsView> {
                                     'Tidak Ada Pekerja Part Time Terdekat',
                                     style: TextStyle(
                                         color: Colors.red,
-                                        fontFamily: 'Product Sans',
                                         fontWeight: FontWeight.bold),
                                   )
                                 : Text('Pekerja Part Time Ditemukan',
                                     style: TextStyle(
                                         color: Colors.blue,
-                                        fontFamily: 'Product Sans',
                                         fontWeight: FontWeight.bold)),
                           ),
                           Slider(
@@ -146,88 +145,10 @@ class MapsViewState extends State<MapsView> {
                     ),
                   ),
                 ),
-                Spacer()
               ],
             ),
           )
         ],
-      ),
-      bottomSheet: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: SolidBottomSheet(
-          controller: _bsController,
-          draggableBody: true,
-          headerBar: Column(
-            children: <Widget>[
-              Container(
-                height: 50,
-                child: Icon(
-                  Icons.maximize,
-                  size: 50,
-                  color: Colors.grey,
-                ),
-              ),
-              Align(
-                alignment: Alignment.center,
-                child: Padding(
-                  padding: const EdgeInsets.all(0.0),
-                  child: Text(
-                    'Informasi Penggunaan',
-                    style: TextStyle(fontFamily: 'Product Sans', fontSize: 20),
-                  ),
-                ),
-              ),
-              SizedBox(
-                height: 5,
-              )
-            ],
-          ),
-          body: Container(
-            height: 30,
-            child: SingleChildScrollView(
-              child: Padding(
-                  padding: EdgeInsets.symmetric(vertical: 5, horizontal: 5),
-                  child: Align(
-                      alignment: Alignment.topLeft,
-                      child: Column(
-                        children: <Widget>[
-                          Card(
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: ListTile(
-                                leading:
-                                    Icon(Icons.my_location, color: Colors.blue),
-                                title: Text('Atur Radius Pencarian'),
-                                subtitle: Text(
-                                  'Jika hasil pencarian tidak ada, mohon atur radius pencarian karyawan dengan menggunakan slider ',
-                                  style: TextStyle(
-                                    fontFamily: 'Product Sans',
-                                  ),
-                                ),
-                                trailing: Icon(Icons.looks_one),
-                              ),
-                            ),
-                          ),
-                          Card(
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: ListTile(
-                                leading: Icon(Icons.tune, color: Colors.blue),
-                                title: Text('Filter Pencarian'),
-                                subtitle: Text(
-                                    'Filter pencarian dengan kriteria tertentu dengan tap tombol filter ',
-                                    style: TextStyle(
-                                      fontFamily: 'Product Sans',
-                                    )),
-                                trailing: Icon(Icons.looks_two),
-                              ),
-                            ),
-                          )
-                        ],
-                      ))),
-            ),
-          ),
-        ),
       ),
     );
   }

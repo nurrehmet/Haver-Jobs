@@ -32,10 +32,9 @@ dependencies:
   settings_ui: ^0.2.0
   dropdown_formfield: ^0.1.1
   geolocator: ^5.3.1
-  solid_bottom_sheet: ^0.1.9
   provider: ^4.0.4
   geoflutterfire: ^2.1.0
-  google_fonts: ^0.5.0+1
+  bot_toast: ^2.4.0
 
 
 
@@ -64,6 +63,7 @@ flutter:
     - assets/images/filter.png
     - assets/icons/otomotif.png
     - assets/icons/
+    - assets/images/
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

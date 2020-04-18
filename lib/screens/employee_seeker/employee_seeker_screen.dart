@@ -1,14 +1,19 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:haverjob/components/banner_card.dart';
 import 'package:haverjob/components/item_grid.dart';
-import 'package:haverjob/components/maps_view.dart';
+import 'package:haverjob/functions/get_location.dart';
+import 'package:haverjob/screens/maps_view.dart';
 import 'package:haverjob/components/setting_screen.dart';
 import 'package:haverjob/components/widgets.dart';
 import 'package:haverjob/models/global.dart';
-import 'package:haverjob/screens/find_employee_screen.dart';
+import 'package:haverjob/screens/employee/employee_list.dart';
+import 'package:haverjob/screens/employee/find_employee_screen.dart';
 import 'package:hexcolor/hexcolor.dart';
+
+double lat,long;
 
 class EmployeeSeekerScreen extends StatefulWidget {
   @override
@@ -20,9 +25,10 @@ class _EmployeeSeekerScreenState extends State<EmployeeSeekerScreen> {
   String _documents = 'users';
   String _nama;
   String _email;
-
+  
   void initState() {
     getID();
+    _getCurrentLocation();
     super.initState();
   }
 
@@ -49,16 +55,17 @@ class _EmployeeSeekerScreenState extends State<EmployeeSeekerScreen> {
             icon: Icon(Icons.search),
             title: Text(
               'Cari Pekerja',
-              style: TextStyle(),
+              style: TextStyle(fontWeight: FontWeight.bold),
             ),
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.chat),
-            title: Text('Chat', style: TextStyle()),
+            title: Text('Chat', style: TextStyle(fontWeight: FontWeight.bold)),
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.settings),
-            title: Text('Settings', style: TextStyle()),
+            title:
+                Text('Settings', style: TextStyle(fontWeight: FontWeight.bold)),
           ),
         ],
         currentIndex: _selectedIndex,
@@ -80,7 +87,24 @@ class _EmployeeSeekerScreenState extends State<EmployeeSeekerScreen> {
       _userID = user.uid;
     });
   }
+   //get user location
+  Future<void> _getCurrentLocation() async {
+    final Geolocator geolocator = Geolocator()..forceAndroidLocationManager;
+    await geolocator
+        .getCurrentPosition(desiredAccuracy: LocationAccuracy.high)
+        .then((Position position) {
+      setState(() {
+        lat = position.latitude;
+        long = position.longitude;
+      });
+      print(lat);
+      print(long);
+    }).catchError((e) {
+      print(e);
+    });
+  }
 }
+
 
 class WelcomeES extends StatelessWidget {
   @override
@@ -112,7 +136,7 @@ class WelcomeES extends StatelessWidget {
                         alignment: Alignment.topLeft,
                         child: Text(
                           'Haver Jobs adalah platform untuk mencari pekerja Part Time terdekat',
-                          style: TextStyle(fontSize: 18),
+                          style: TextStyle(fontSize: 18, color: Colors.grey),
                         ),
                       ),
                       SizedBox(
@@ -122,10 +146,34 @@ class WelcomeES extends StatelessWidget {
                         title: 'Cari Pekerja Part Time Dengan Filter',
                         subtitle:
                             'Cari pekerja part time dengan menggunakan kriteria tertentu, seperti lokasi, pendidikan, dan keahlian',
-                        btText: 'MULAI MENCARI',
+                        color: Colors.amber,
+                        btText: 'CARI PEKERJA PART TIME',
                         image: 'assets/images/filter.png',
                         action: () =>
                             {Navigator.pushNamed(context, "/findEmployee")},
+                      ),
+                      SizedBox(
+                        height: 25,
+                      ),
+                      BannerCard(
+                        title: 'Tampilkan Semua Pekerja Part Time',
+                        subtitle:
+                            'Menampilkan semua pekerja part time yang terdekat dengan lokasi kamu',
+                        color: Colors.blue,
+                        btText: 'TAMPILKAN SEMUA',
+                        image: 'assets/images/all.png',
+                        action: () => {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => MapsView(
+                                type: 'all',
+                                lat: lat,
+                                long: long,
+                              ),
+                            ),
+                          )
+                        },
                       ),
                       SizedBox(
                         height: 25,
@@ -164,17 +212,44 @@ class GridBanner extends StatelessWidget {
           children: <Widget>[
             ItemGrid(
               label: 'Programmer',
-              action: () => {Navigator.pushNamed(context, "/listEmployee")},
+              action: () => {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => EmployeeList(
+                      keahlian: 'Programmer',
+                    ),
+                  ),
+                )
+              },
               image: 'assets/icons/programmer.png',
             ),
             ItemGrid(
               label: 'Barista',
-              action: () {},
+              action: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => EmployeeList(
+                      keahlian: 'Barista',
+                    ),
+                  ),
+                );
+              },
               image: 'assets/icons/barista.png',
             ),
             ItemGrid(
               label: 'Penulis Lepas',
-              action: () {},
+              action: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => EmployeeList(
+                      keahlian: 'Penulis Lepas',
+                    ),
+                  ),
+                );
+              },
               image: 'assets/icons/penulis.png',
             ),
           ],
@@ -187,17 +262,44 @@ class GridBanner extends StatelessWidget {
           children: <Widget>[
             ItemGrid(
               label: 'Guru Les',
-              action: () {},
+              action: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => EmployeeList(
+                      keahlian: 'Guru Les Privat',
+                    ),
+                  ),
+                );
+              },
               image: 'assets/icons/guru.png',
             ),
             ItemGrid(
               label: 'Desain Grafis',
-              action: () {},
+              action: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => EmployeeList(
+                      keahlian: 'Desainer Grafis',
+                    ),
+                  ),
+                );
+              },
               image: 'assets/icons/designer.png',
             ),
             ItemGrid(
               label: 'Waiter',
-              action: () {},
+              action: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => EmployeeList(
+                      keahlian: 'Waiter',
+                    ),
+                  ),
+                );
+              },
               image: 'assets/icons/waiter.png',
             ),
           ],
@@ -206,3 +308,4 @@ class GridBanner extends StatelessWidget {
     );
   }
 }
+

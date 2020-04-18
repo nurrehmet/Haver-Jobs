@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:haverjob/components/maps_view.dart';
+import 'package:haverjob/screens/maps_view.dart';
 import 'package:haverjob/components/widgets.dart';
 import 'package:dropdown_formfield/dropdown_formfield.dart';
 import 'package:haverjob/models/list_data.dart';

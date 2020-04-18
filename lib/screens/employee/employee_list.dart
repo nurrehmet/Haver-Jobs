@@ -1,28 +1,44 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
+String _keahlian;
 class EmployeeList extends StatefulWidget {
+  final String keahlian;
+
+  const EmployeeList({Key key, this.keahlian}) : super(key: key);
+  
+  
   @override
   _EmployeeListState createState() => _EmployeeListState();
 }
 
+
 class _EmployeeListState extends State<EmployeeList> {
+  @override
+  void initState() {
+    super.initState();
+    _keahlian = widget.keahlian;
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('List Pekerja'),
+        title: Text('List ' + _keahlian + ' Part Time'),
+        centerTitle: true,
       ),
       body: EmployeeData(),
     );
   }
 }
 
+
 class EmployeeData extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<QuerySnapshot>(
-      stream: Firestore.instance.collection('employee').snapshots(),
+      stream: Firestore.instance.collection('employee').
+      where('keahlian', isEqualTo :_keahlian ).
+      snapshots(),
       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
         if (snapshot.hasError) return new Text('Error: ${snapshot.error}');
         switch (snapshot.connectionState) {
@@ -42,7 +58,7 @@ class EmployeeData extends StatelessWidget {
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10.0),
                         ),
-                        elevation: 5,
+                        elevation: 1,
                         child: Column(
                           children: <Widget>[
                             new ListTile(

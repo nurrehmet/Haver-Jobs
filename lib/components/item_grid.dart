@@ -19,7 +19,7 @@ class ItemGrid extends StatelessWidget {
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(10.0),
             ),
-            elevation: 5,
+            elevation: 1,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
@@ -30,7 +30,7 @@ class ItemGrid extends StatelessWidget {
                   fit: BoxFit.cover,
                 ),
                 SizedBox(height: 5,),
-                Text(label,textAlign: TextAlign.center,)
+                Text(label,textAlign: TextAlign.center,style: TextStyle(fontWeight: FontWeight.bold),)
               ],
             )),
       ),

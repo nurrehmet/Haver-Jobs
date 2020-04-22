@@ -110,18 +110,19 @@ class TextFields extends StatelessWidget {
   final Function onSaved;
   final bool obscureText;
   final TextInputType textInputType;
-
+  final String value;
   TextFields(
-      {@required this.labelText,
+      {this.labelText,
       this.iconData,
       this.onSaved,
       this.obscureText,
-      this.textInputType});
+      this.textInputType, this.value});
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 30.0, vertical: 10.0),
       child: TextFormField(
+        initialValue: value,
         keyboardType: textInputType,
         decoration: InputDecoration(
             border: OutlineInputBorder(
@@ -134,6 +135,7 @@ class TextFields extends StatelessWidget {
             fillColor: Colors.grey[200],
             prefixIcon: Icon(iconData),
             hintText: labelText,
+            
             labelStyle: TextStyle(fontFamily: 'Product Sans')),
         validator: (value) {
           if (value.isEmpty) {

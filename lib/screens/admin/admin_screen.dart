@@ -1,3 +1,5 @@
+import 'dart:convert';
+import 'package:crypto/crypto.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -7,8 +9,8 @@ import 'package:haverjob/screens/maps_view.dart';
 import 'package:haverjob/components/setting_screen.dart';
 import 'package:haverjob/components/widgets.dart';
 import 'package:haverjob/models/global.dart';
-import 'package:haverjob/screens/employee_seeker/employee_seeker_data.dart';
-import 'package:haverjob/screens/employee/find_employee_screen.dart';
+import 'package:haverjob/screens/admin/employee_seeker_data.dart';
+import 'package:haverjob/screens/employee_seeker/find_employee_screen.dart';
 import 'package:hexcolor/hexcolor.dart';
 
 class AdminScreen extends StatefulWidget {
@@ -73,6 +75,7 @@ class _AdminScreenState extends State<AdminScreen> {
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
+      
     });
   }
 
@@ -81,7 +84,6 @@ class _AdminScreenState extends State<AdminScreen> {
     setState(() {
       _userID = user.uid;
     });
+    
   }
 }
-
-

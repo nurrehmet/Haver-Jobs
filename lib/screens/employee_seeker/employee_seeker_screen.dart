@@ -10,7 +10,7 @@ import 'package:haverjob/components/setting_screen.dart';
 import 'package:haverjob/components/widgets.dart';
 import 'package:haverjob/models/global.dart';
 import 'package:haverjob/screens/employee/employee_list.dart';
-import 'package:haverjob/screens/employee/find_employee_screen.dart';
+import 'package:haverjob/screens/employee_seeker/find_employee_screen.dart';
 import 'package:hexcolor/hexcolor.dart';
 
 double lat,long;

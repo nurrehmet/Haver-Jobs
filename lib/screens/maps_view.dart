@@ -2,11 +2,11 @@ import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:haverjob/screens/employee/find_employee_screen.dart';
+import 'package:haverjob/screens/employee_seeker/find_employee_screen.dart';
 import 'package:hexcolor/hexcolor.dart';
-import 'package:solid_bottom_sheet/solid_bottom_sheet.dart';
 import 'package:geoflutterfire/geoflutterfire.dart';
 import 'package:rxdart/rxdart.dart';
+
 
 class MapsView extends StatefulWidget {
   const MapsView(
@@ -39,7 +39,6 @@ class MapsViewState extends State<MapsView> {
   // init app
   final Firestore _database = Firestore.instance;
   Map<MarkerId, Marker> markers = <MarkerId, Marker>{};
-  SolidController _bsController = SolidController();
   double lat, long;
   double _value = 1;
   String _label = '';

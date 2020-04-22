@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:haverjob/screens/admin/create_employee_seeker.dart';
 
 class EmployeeSeekerData extends StatefulWidget {
   @override
@@ -22,7 +23,7 @@ class _EmployeeSeekerDataState extends State<EmployeeSeekerData> {
       body: SafeArea(
         child: Stack(
           children: <Widget>[
-            _buildWidgetListTodo(widthScreen, heightScreen, context),
+            _buildListES(widthScreen, heightScreen, context),
           ],
         ),
       ),
@@ -31,15 +32,20 @@ class _EmployeeSeekerDataState extends State<EmployeeSeekerData> {
           Icons.add,
           color: Colors.white,
         ),
-        onPressed: () async {
-          // TODO: fitur tambah task
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => CreateES(),
+            ),
+          );
         },
         backgroundColor: Colors.blue,
       ),
     );
   }
 
-  Container _buildWidgetListTodo(
+  Container _buildListES(
       double widthScreen, double heightScreen, BuildContext context) {
     return Container(
       width: widthScreen,
@@ -76,13 +82,17 @@ class _EmployeeSeekerDataState extends State<EmployeeSeekerData> {
                   itemCount: snapshot.data.documents.length,
                   itemBuilder: (BuildContext context, int index) {
                     DocumentSnapshot document = snapshot.data.documents[index];
-                    Map<String, dynamic> task = document.data;
+                    Map<String, dynamic> dataES = document.data;
                     return Card(
-                      elevation: 5,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                      color: Colors.blue[50],
+                      elevation: 1,
                       child: ListTile(
-                        title: Text(task['namaPerusahaan']),
+                        title: Text(dataES['namaPerusahaan']),
                         subtitle: Text(
-                          task['alamat'],
+                          dataES['alamat'],
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                         ),
@@ -97,7 +107,10 @@ class _EmployeeSeekerDataState extends State<EmployeeSeekerData> {
                               ))
                               ..add(PopupMenuItem<String>(
                                 value: 'delete',
-                                child: Text('Delete',style: TextStyle(color: Colors.red),),
+                                child: Text(
+                                  'Delete',
+                                  style: TextStyle(color: Colors.red),
+                                ),
                               ));
                           },
                           onSelected: (String value) async {

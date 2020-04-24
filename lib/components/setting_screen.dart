@@ -43,13 +43,12 @@ class _SettingScreenState extends State<SettingScreen> {
     backgroundColor: Colors.green,
     appBar: AppBar(
       automaticallyImplyLeading: false,
-      title: Text('Settings',style: TextStyle(fontFamily: 'Product Sans')),
+      title: Text('Akun'),
       centerTitle: true,
     ),
     body: SettingsList(
         sections: [
           SettingsSection(
-            title: 'Akun',
             tiles: [
               SettingsTile(
                 title: 'Nama',
@@ -61,12 +60,6 @@ class _SettingScreenState extends State<SettingScreen> {
                 title: 'Email',
                 subtitle: snapshot.data['email'] ,
                 leading: Icon(Icons.email),
-                onTap: () {},
-              ),
-              SettingsTile(
-                title: 'Role',
-                subtitle: snapshot.data['role'] ,
-                leading: Icon(Icons.info),
                 onTap: () {},
               ),
                SettingsTile(

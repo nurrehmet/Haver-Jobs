@@ -2,8 +2,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:haverjob/components/banner_card.dart';
+import 'package:haverjob/components/details_account.dart';
 import 'package:haverjob/components/setting_screen.dart';
-import 'package:hexcolor/hexcolor.dart';
+import 'package:haverjob/models/global.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class EmployeeScreen extends StatefulWidget {
   @override
@@ -12,11 +14,9 @@ class EmployeeScreen extends StatefulWidget {
 
 class _EmployeeScreenState extends State<EmployeeScreen> {
   String _userID;
-  String _documents = 'users';
-  String _nama;
-  String _email;
   void initState() {
     getID();
+    print(UserData().getID());
     super.initState();
   }
 
@@ -25,7 +25,7 @@ class _EmployeeScreenState extends State<EmployeeScreen> {
   List<Widget> get _widgetOptions => [
         WelcomeEmployee(),
         Center(child: Text('Cari Pekerjaan')),
-        SettingScreen(),
+        SettingScreen()
       ];
   @override
   Widget build(BuildContext context) {
@@ -93,6 +93,18 @@ class WelcomeEmployee extends StatelessWidget {
                     children: <Widget>[
                       Align(
                         alignment: Alignment.topLeft,
+                        child: CircleAvatar(
+                          radius: 30,
+                          backgroundImage: NetworkImage(
+                            'https://iupac.org/wp-content/uploads/2018/05/default-avatar.png',
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 15,
+                      ),
+                      Align(
+                        alignment: Alignment.topLeft,
                         child: Text(
                           'Selamat Datang',
                           style: TextStyle(
@@ -125,10 +137,6 @@ class WelcomeEmployee extends StatelessWidget {
                       SizedBox(
                         height: 25,
                       ),
-                      SizedBox(
-                        height: 25,
-                      ),
-                      
                     ],
                   ),
                 ),

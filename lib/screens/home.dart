@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:haverjob/screens/admin/admin_screen.dart';
 import 'package:haverjob/screens/employee/employee_screen.dart';
 import 'package:haverjob/screens/employee_seeker/employee_seeker_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Home extends StatefulWidget {
   const Home({Key key, this.user}) : super(key: key);
@@ -18,26 +19,13 @@ class _HomeState extends State<Home> {
   @override
   void initState() {
     super.initState();
+    
   }
 
   @override
   Widget build(BuildContext context) {
     
     return Scaffold(
-      // appBar: AppBar(
-      //   leading: Icon(Icons.menu),
-      //   elevation: 0,
-      //   actions: <Widget>[
-      //     Padding(
-      //       padding: const EdgeInsets.all(15.0),
-      //       child: Icon(Icons.search),
-      //     )
-      //   ],
-      //   centerTitle: true,
-      //   backgroundColor: Hexcolor('#112d4e'),
-      //   title: Text('Haver Jobs'),
-      //   automaticallyImplyLeading: false,
-      // ),
       body: StreamBuilder<DocumentSnapshot>(
         stream: Firestore.instance
             .collection('users')

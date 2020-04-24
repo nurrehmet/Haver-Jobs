@@ -6,7 +6,7 @@ import 'package:geoflutterfire/geoflutterfire.dart';
 import 'package:haverjob/components/widgets.dart';
 import 'package:haverjob/models/list_data.dart';
 import 'package:place_picker/place_picker.dart';
-import 'package:provider/provider.dart';
+import 'package:edge_alert/edge_alert.dart';
 
 //data employee
 String _nama,
@@ -39,6 +39,11 @@ class _EmployeeEditDataState extends State<EmployeeEditData> {
   void initState() {
     getID();
     super.initState();
+    _gender = '';
+    _pendidikan = '';
+    _kota = '';
+    _jamKerja = '';
+    _keahlian = '';
   }
 
   @override
@@ -46,6 +51,15 @@ class _EmployeeEditDataState extends State<EmployeeEditData> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Edit Data Diri'),
+        
+        actions: <Widget>[
+          FlatButton.icon(
+            textColor: Colors.blue,
+            icon: Icon(Icons.save,color: Colors.blue,),
+            label: Text('Simpan'),
+            onPressed: updateData,
+          )
+        ],
       ),
       body: StreamBuilder<DocumentSnapshot>(
         stream: Firestore.instance
@@ -98,13 +112,19 @@ class _EmployeeEditDataState extends State<EmployeeEditData> {
                 padding: EdgeInsets.symmetric(horizontal: 30.0, vertical: 10.0),
                 child: DropDownFormField(
                   titleText: 'Gender',
-                  hintText: snapshot.data['gender'],
+                  hintText: snapshot.data['gender'] == null? 'Gender':snapshot.data['gender'],
                   value: _gender,
                   onSaved: (value) {
                     setState(() {
                       _gender = value;
                     });
                   },
+                   validator: (value) {
+                        if (value == null) {
+                          return 'Gender tidak boleh kosong';
+                        }
+                        return null;
+                   },
                   onChanged: (value) {
                     setState(() {
                       _gender = value;
@@ -113,19 +133,26 @@ class _EmployeeEditDataState extends State<EmployeeEditData> {
                   dataSource: ListGender().getList(),
                   textField: 'display',
                   valueField: 'value',
+                  
                 ),
               ),
               Container(
                 padding: EdgeInsets.symmetric(horizontal: 30.0, vertical: 10.0),
                 child: DropDownFormField(
                   titleText: 'Pendidikan Terakhir',
-                  hintText: snapshot.data['pendidikan'],
+                  hintText: snapshot.data['pendidikan'] == null ?'Pendidikan': snapshot.data['pendidikan'],
                   value: _pendidikan,
                   onSaved: (value) {
                     setState(() {
                       _pendidikan = value;
                     });
                   },
+                   validator: (value) {
+                        if (value == null) {
+                          return 'Pendidikan tidak boleh kosong';
+                        }
+                        return null;
+                      },
                   onChanged: (value) {
                     setState(() {
                       _pendidikan = value;
@@ -140,13 +167,19 @@ class _EmployeeEditDataState extends State<EmployeeEditData> {
                 padding: EdgeInsets.symmetric(horizontal: 30.0, vertical: 10.0),
                 child: DropDownFormField(
                   titleText: 'Kota',
-                  hintText: snapshot.data['kota'],
+                  hintText: snapshot.data['kota'] == null?'Kota':snapshot.data['kota'],
                   value: _kota,
                   onSaved: (value) {
                     setState(() {
                       _kota = value;
                     });
                   },
+                   validator: (value) {
+                        if (value == null) {
+                          return 'Kota tidak boleh kosong';
+                        }
+                        return null;
+                      },
                   onChanged: (value) {
                     setState(() {
                       _kota = value;
@@ -178,13 +211,19 @@ class _EmployeeEditDataState extends State<EmployeeEditData> {
                 padding: EdgeInsets.symmetric(horizontal: 30.0, vertical: 10.0),
                 child: DropDownFormField(
                   titleText: 'Jam Kerja',
-                  hintText: snapshot.data['jamKerja'],
+                  hintText: snapshot.data['jamKerja'] == null?'Jam Kerja':snapshot.data['jamKerja'],
                   value: _jamKerja,
                   onSaved: (value) {
                     setState(() {
                       _jamKerja = value;
                     });
                   },
+                   validator: (value) {
+                        if (value == null) {
+                          return 'Jam Kerja tidak boleh kosong';
+                        }
+                        return null;
+                      },
                   onChanged: (value) {
                     setState(() {
                       _jamKerja = value;
@@ -199,13 +238,19 @@ class _EmployeeEditDataState extends State<EmployeeEditData> {
                 padding: EdgeInsets.symmetric(horizontal: 30.0, vertical: 10.0),
                 child: DropDownFormField(
                   titleText: 'Keahlian',
-                  hintText: snapshot.data['keahlian'],
+                  hintText: snapshot.data['keahlian'] == null? 'Keahlian':snapshot.data['keahlian'],
                   value: _keahlian,
                   onSaved: (value) {
                     setState(() {
                       _keahlian = value;
                     });
                   },
+                   validator: (value) {
+                        if (value == null) {
+                          return 'Keahlian tidak boleh kosong';
+                        }
+                        return null;
+                      },
                   onChanged: (value) {
                     setState(() {
                       _keahlian = value;
@@ -218,7 +263,7 @@ class _EmployeeEditDataState extends State<EmployeeEditData> {
               ),
               new TextFields(
                   labelText: 'Gaji',
-                  value: snapshot.data['gaji'].toString(),
+                  value: snapshot.data['gaji'].toString() == null ? 'Gaji':snapshot.data['gaji'].toString(),
                   iconData: Icons.attach_money,
                   onSaved: (input) => _gaji = input,
                   obscureText: false,
@@ -226,10 +271,7 @@ class _EmployeeEditDataState extends State<EmployeeEditData> {
               showCircular
                   ? Center(child: CircularProgressIndicator())
                   : SizedBox(),
-              new RoundedButton(
-                  text: 'Update Data Diri',
-                  onPress: updateData,
-                  color: Colors.blue),
+              
               SizedBox(
                 height: 20.0,
               ),
@@ -268,7 +310,7 @@ class _EmployeeEditDataState extends State<EmployeeEditData> {
       setState(() {
         showCircular = true;
       });
-    Map<String, dynamic> data = {
+    Map<String, dynamic> dataEmployee = {
       'nama': _nama.toString(),
       'alamat': _alamat,
       'usia': _usia,
@@ -284,16 +326,35 @@ class _EmployeeEditDataState extends State<EmployeeEditData> {
       'position': myLocation.data,
     };
 
+    Map<String, dynamic> dataUsers = {
+      'nama': _nama.toString(),
+      'alamat': _alamat,
+      'latitude': _lat,
+      'longitude': _long,
+    };
+
     Firestore.instance
         .collection('employee')
         .document(_userID)
-        .updateData(data)
+        .updateData(dataEmployee)
+        .whenComplete(() {
+          setState(() {
+            showCircular = false;
+          });
+    });
+
+    Firestore.instance
+        .collection('users')
+        .document(_userID)
+        .updateData(dataUsers)
         .whenComplete(() {
           setState(() {
             showCircular = false;
           });
       print('Document Updated');
+      EdgeAlert.show(context, title: 'Sukses', description: 'Data Diri Berhasil Diubah', gravity: EdgeAlert.TOP, icon: Icons.check_circle, backgroundColor: Colors.green);
     });
   }
 }
 }
+

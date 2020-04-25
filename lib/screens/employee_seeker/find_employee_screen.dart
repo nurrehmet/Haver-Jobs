@@ -5,7 +5,6 @@ import 'package:haverjob/screens/maps_view.dart';
 import 'package:haverjob/components/widgets.dart';
 import 'package:dropdown_formfield/dropdown_formfield.dart';
 import 'package:haverjob/models/list_data.dart';
-import 'package:hexcolor/hexcolor.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 // Init firestore and geoFlutterFire
@@ -220,7 +219,7 @@ class _FindEmployeeScreenState extends State<FindEmployeeScreen> {
                         });
                       }
                     },
-                    color: Hexcolor('#3f72af'),
+                    color: Colors.blue
                   ),
                   Container(
                     padding: EdgeInsets.all(16),

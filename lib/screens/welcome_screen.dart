@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:haverjob/components/widgets.dart';
-import 'package:hexcolor/hexcolor.dart';
 
 class WelcomeScreen extends StatelessWidget {
   @override

@@ -204,6 +204,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.1.1+2"
+  firebase_storage:
+    dependency: "direct main"
+    description:
+      name: firebase_storage
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "3.1.5"
   flutter:
     dependency: "direct main"
     description: flutter
@@ -275,13 +282,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.5.25+3"
-  hexcolor:
-    dependency: "direct main"
-    description:
-      name: hexcolor
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.0.1"
   html:
     dependency: transitive
     description:
@@ -310,6 +310,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.1.4"
+  image_picker:
+    dependency: "direct main"
+    description:
+      name: image_picker
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.6.5+2"
   intl:
     dependency: "direct main"
     description:

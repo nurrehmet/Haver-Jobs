@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:haverjob/components/widgets.dart';
 import 'package:haverjob/screens/home.dart';
 import 'package:haverjob/services/authentication_service.dart';
-import 'package:hexcolor/hexcolor.dart';
 
 class LoginScreen extends StatefulWidget {
   static final id = 'login_screen';
@@ -26,7 +25,7 @@ class _LoginScreenState extends State<LoginScreen> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-          title: Text('Login',style: TextStyle(fontFamily: 'Product Sans',)),
+          title: Text('Login'),
           centerTitle: true,
           elevation: 0.0,
           ),
@@ -74,7 +73,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         child: Divider(color: Colors.grey, height: 36),
                       )),
                       Text(
-                        'OR',
+                        'Belum punya akun?',
                         style: TextStyle(color: Colors.grey, ),
                       ),
                       Expanded(

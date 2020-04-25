@@ -3,6 +3,7 @@ import 'package:dropdown_formfield/dropdown_formfield.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:geoflutterfire/geoflutterfire.dart';
+import 'package:haverjob/components/upload_picture.dart';
 import 'package:haverjob/components/widgets.dart';
 import 'package:haverjob/models/list_data.dart';
 import 'package:place_picker/place_picker.dart';
@@ -54,8 +55,8 @@ class _EmployeeEditDataState extends State<EmployeeEditData> {
         
         actions: <Widget>[
           FlatButton.icon(
-            textColor: Colors.blue,
-            icon: Icon(Icons.save,color: Colors.blue,),
+            textColor: Colors.white,
+            icon: Icon(Icons.save,color: Colors.white,),
             label: Text('Simpan'),
             onPressed: updateData,
           )
@@ -87,6 +88,7 @@ class _EmployeeEditDataState extends State<EmployeeEditData> {
           key: _formKeyEmployee,
           child: Column(
             children: <Widget>[
+              new UploadPicture(userID: _userID,),
               new TextFields(
                   labelText:'Nama',
                   value: snapshot.data['nama'],

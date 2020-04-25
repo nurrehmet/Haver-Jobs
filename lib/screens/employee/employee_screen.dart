@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:haverjob/components/banner_card.dart';
 import 'package:haverjob/components/details_account.dart';
@@ -14,16 +15,16 @@ class EmployeeScreen extends StatefulWidget {
 
 class _EmployeeScreenState extends State<EmployeeScreen> {
   String _userID;
+  String _imageUrl;
   void initState() {
     getID();
-    print(UserData().getID());
     super.initState();
   }
 
   int _selectedIndex = 0;
 
   List<Widget> get _widgetOptions => [
-        WelcomeEmployee(),
+        WelcomeEmployee(imageUrl: _imageUrl,),
         Center(child: Text('Cari Pekerjaan')),
         SettingScreen()
       ];
@@ -72,11 +73,16 @@ class _EmployeeScreenState extends State<EmployeeScreen> {
     FirebaseUser user = await FirebaseAuth.instance.currentUser();
     setState(() {
       _userID = user.uid;
+      var ref = FirebaseStorage.instance.ref().child('avatar/$_userID');
+      ref.getDownloadURL().then((loc) => setState(() => _imageUrl = loc));
+      print(_imageUrl);
     });
   }
 }
 
 class WelcomeEmployee extends StatelessWidget {
+  String imageUrl;
+  WelcomeEmployee({this.imageUrl});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -95,9 +101,9 @@ class WelcomeEmployee extends StatelessWidget {
                         alignment: Alignment.topLeft,
                         child: CircleAvatar(
                           radius: 30,
-                          backgroundImage: NetworkImage(
-                            'https://iupac.org/wp-content/uploads/2018/05/default-avatar.png',
-                          ),
+                          backgroundImage: imageUrl == null? NetworkImage(
+                          'https://iupac.org/wp-content/uploads/2018/05/default-avatar.png'
+                          ): NetworkImage(imageUrl),
                         ),
                       ),
                       SizedBox(

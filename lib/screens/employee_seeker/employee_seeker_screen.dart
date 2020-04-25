@@ -11,7 +11,6 @@ import 'package:haverjob/components/widgets.dart';
 import 'package:haverjob/models/global.dart';
 import 'package:haverjob/screens/employee/employee_list.dart';
 import 'package:haverjob/screens/employee_seeker/find_employee_screen.dart';
-import 'package:hexcolor/hexcolor.dart';
 
 double lat,long;
 
@@ -123,8 +122,20 @@ class WelcomeES extends StatelessWidget {
                     children: <Widget>[
                       Align(
                         alignment: Alignment.topLeft,
+                        child: CircleAvatar(
+                          radius: 30,
+                          backgroundImage: NetworkImage(
+                            'https://iupac.org/wp-content/uploads/2018/05/default-avatar.png',
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 15,
+                      ),
+                      Align(
+                        alignment: Alignment.topLeft,
                         child: Text(
-                          'Haver Jobs',
+                          'Selamat Datang',
                           style: TextStyle(
                               fontSize: 27, fontWeight: FontWeight.bold),
                         ),

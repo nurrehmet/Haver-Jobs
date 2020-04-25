@@ -11,7 +11,6 @@ import 'package:haverjob/components/widgets.dart';
 import 'package:haverjob/models/global.dart';
 import 'package:haverjob/screens/admin/employee_seeker_data.dart';
 import 'package:haverjob/screens/employee_seeker/find_employee_screen.dart';
-import 'package:hexcolor/hexcolor.dart';
 
 class AdminScreen extends StatefulWidget {
   @override

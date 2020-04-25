@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:haverjob/components/upload_picture.dart';
 import 'package:haverjob/screens/employee/employee_edit_data.dart';
 import 'package:haverjob/screens/employee/employee_list.dart';
 import 'package:haverjob/screens/employee_seeker/find_employee_screen.dart';
@@ -45,7 +46,7 @@ class _MyAppState extends State<MyApp> {
       ],
       child: MaterialApp(
         theme: ThemeData(
-          primaryColor: Colors.white,
+          primaryColor: Colors.blue,
           fontFamily: 'Poppins'
         ),
         debugShowCheckedModeBanner: false,
@@ -58,7 +59,7 @@ class _MyAppState extends State<MyApp> {
           '/welcome': (BuildContext context) => WelcomeScreen(),
           '/findEmployee': (BuildContext context) => FindEmployeeScreen(),
           '/editEmployee': (BuildContext context) => EmployeeEditData(),
-          
+          '/uploadPicture': (BuildContext context) => UploadPicture(),
         },
       ),
     );

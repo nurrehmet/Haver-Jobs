@@ -3,7 +3,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:haverjob/screens/employee_seeker/find_employee_screen.dart';
-import 'package:hexcolor/hexcolor.dart';
 import 'package:geoflutterfire/geoflutterfire.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -87,7 +86,7 @@ class MapsViewState extends State<MapsView> {
                       child: FloatingActionButton(
                           heroTag: "btn1",
                           tooltip: 'Filter Karyawan',
-                          backgroundColor: Hexcolor('#3f72af'),
+                          backgroundColor: Colors.blue,
                           child: Icon(Icons.tune),
                           onPressed: () => Navigator.push(
                               context,
@@ -104,7 +103,7 @@ class MapsViewState extends State<MapsView> {
                         heroTag: "btn2",
                         tooltip: 'Lokasi Sekarang',
                         backgroundColor: Colors.white,
-                        child: Icon(Icons.near_me, color: Hexcolor('#3f72af')),
+                        child: Icon(Icons.near_me, color: Colors.blue),
                         onPressed: () => _currentLocation()),
                   ),
                 ),
@@ -135,7 +134,7 @@ class MapsViewState extends State<MapsView> {
                             divisions: 5,
                             value: _value,
                             label: _label,
-                            activeColor: Hexcolor('#3f72af'),
+                            activeColor: Colors.blue,
                             inactiveColor: Colors.blue.withOpacity(0.2),
                             onChanged: (double value) => changed(value),
                           ),

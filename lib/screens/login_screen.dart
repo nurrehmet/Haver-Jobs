@@ -66,7 +66,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     new RoundedButton(
                         text: 'Login',
                         onPress: signIn,
-                        color: Hexcolor('#3f72af')),
+                        color: Colors.blue),
                     Row(children: <Widget>[
                       Expanded(
                           child: Padding(
@@ -75,7 +75,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       )),
                       Text(
                         'OR',
-                        style: TextStyle(color: Colors.grey, fontFamily: 'Product Sans'),
+                        style: TextStyle(color: Colors.grey, ),
                       ),
                       Expanded(
                           child: Padding(

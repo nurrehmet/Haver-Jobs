@@ -8,48 +8,57 @@ class WelcomeScreen extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Haver Jobs',
+      theme: ThemeData(fontFamily: 'Poppins'),
       home: Container(
-        decoration: BoxDecoration(
-            image: DecorationImage(
-                image: AssetImage("assets/images/bg.png"), fit: BoxFit.cover)),
         child: Scaffold(
-          backgroundColor: Colors.transparent,
-          appBar: AppBar(
-            elevation: 0,
-            backgroundColor: Colors.transparent,
-          ),
+          backgroundColor: Colors.white,
           body: Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                Text(
-                  'Haver Jobs',
-                  style: TextStyle(
-                      color: Hexcolor('#112d4e'),
-                      fontWeight: FontWeight.bold,
-                      fontFamily: 'Product Sans',
-                      fontSize: 50,),
+                Padding(
+                  padding:
+                      EdgeInsets.symmetric(horizontal: 30.0, vertical: 10.0),
+                  child: Column(
+                    children: <Widget>[
+                      Align(
+                        alignment: Alignment.topLeft,
+                        child: Text(
+                          'Haver Jobs',
+                          style: TextStyle(
+                              fontSize: 27, fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 15,
+                      ),
+                      Align(
+                        alignment: Alignment.topLeft,
+                        child: Text(
+                          'Haver Jobs adalah platform untuk mencari pekerja Part Time terdekat',
+                          style: TextStyle(fontSize: 18, color: Colors.grey),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-                SizedBox(height: 10,),
-                Text(
-                  'Cari Lowongan Pekerjaan Part Time Terdekat',
-                  style: TextStyle(
-                      color: Colors.grey,
-                      fontFamily: 'Product Sans',
-                      fontSize: 17,),
+                Image(
+                  image: AssetImage('assets/images/welcome.png'),
                 ),
-                Spacer(),
                 new RoundedButton(
                   text: 'Login',
                   onPress: () => {Navigator.pushNamed(context, "/login")},
-                  color: Hexcolor('#3f72af'),
+                  color: Colors.blue,
                 ),
                 new RoundedButton(
                   text: 'Register',
                   onPress: () => {Navigator.pushNamed(context, "/register")},
                   color: Colors.green,
                 ),
-                SizedBox(height: 20,),
+                SizedBox(
+                  height: 20,
+                ),
+                Text('Beta Version 1.0.1',style: TextStyle(color: Colors.grey),),
               ],
             ),
           ),

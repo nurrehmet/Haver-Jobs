@@ -59,7 +59,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(primaryColor: Colors.white),
+      theme: ThemeData(primaryColor: Colors.blue),
       home: DefaultTabController(
         length: 2,
         child: Scaffold(
@@ -68,8 +68,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 Padding(
                   padding: const EdgeInsets.all(15.0),
                   child: FlatButton.icon(
-                    icon: Icon(Icons.info, color: Colors.blue),
-                    textColor: Colors.blue,
+                    icon: Icon(Icons.info, color: Colors.white),
+                    textColor: Colors.white,
                     label: Text('Informasi'),
                     onPressed: _infoRegistrasi,
                   ),
@@ -221,7 +221,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   new RoundedButton(
                     text: 'Registrasi',
                     onPress: _submitES,
-                    color: Hexcolor('#3f72af'),
+                    color: Colors.blue,
                   ),
                   SizedBox(
                     height: 20.0,
@@ -407,7 +407,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
               new RoundedButton(
                   text: 'Registrasi',
                   onPress: _cekInput,
-                  color: Hexcolor('#3f72af')),
+                  color: Colors.blue),
               SizedBox(
                 height: 20.0,
               ),

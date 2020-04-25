@@ -116,7 +116,8 @@ class TextFields extends StatelessWidget {
       this.iconData,
       this.onSaved,
       this.obscureText,
-      this.textInputType, this.value});
+      this.textInputType,
+      this.value});
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -135,7 +136,6 @@ class TextFields extends StatelessWidget {
             fillColor: Colors.grey[200],
             prefixIcon: Icon(iconData),
             hintText: labelText,
-            
             labelStyle: TextStyle(fontFamily: 'Product Sans')),
         validator: (value) {
           if (value.isEmpty) {
@@ -149,4 +149,3 @@ class TextFields extends StatelessWidget {
     );
   }
 }
-

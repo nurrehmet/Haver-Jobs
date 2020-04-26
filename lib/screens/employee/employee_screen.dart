@@ -7,6 +7,7 @@ import 'package:haverjob/components/details_account.dart';
 import 'package:haverjob/components/profile_avatar.dart';
 import 'package:haverjob/components/setting_screen.dart';
 import 'package:haverjob/models/global.dart';
+import 'package:haverjob/screens/edit_data.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class EmployeeScreen extends StatefulWidget {
@@ -25,9 +26,10 @@ class _EmployeeScreenState extends State<EmployeeScreen> {
   int _selectedIndex = 0;
 
   List<Widget> get _widgetOptions => [
-        WelcomeEmployee(imageUrl: _imageUrl,),
+        WelcomeEmployee(
+          imageUrl: _imageUrl,
+        ),
         Center(child: Text('Cari Pekerjaan')),
-        SettingScreen()
       ];
   @override
   Widget build(BuildContext context) {
@@ -46,13 +48,6 @@ class _EmployeeScreenState extends State<EmployeeScreen> {
             icon: Icon(Icons.chat),
             title: Text(
               'Chat',
-              style: TextStyle(fontWeight: FontWeight.bold),
-            ),
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.account_circle),
-            title: Text(
-              'Akun',
               style: TextStyle(fontWeight: FontWeight.bold),
             ),
           ),
@@ -87,6 +82,56 @@ class WelcomeEmployee extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text('Haver Jobs'),
+        centerTitle: true,
+        actions: <Widget>[
+          FlatButton(
+              textColor: Colors.white,
+              child: Icon(Icons.edit),
+              onPressed: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => EditData(role: 'employee'),
+                  )))
+        ],
+      ),
+      drawer: Drawer(
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: <Widget>[
+            DrawerHeader(
+              child: Column(
+                children: <Widget>[
+                  ProfileAvatar(radius: 50),
+                ],
+              ),
+              decoration: BoxDecoration(
+                color: Colors.blue,
+              ),
+            ),
+            ListTile(
+              leading: Icon(Icons.edit),
+              title: Text('Edit Data Diri'),
+              onTap: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => EditData(role: 'employee'),
+                  )),
+            ),
+            ListTile(
+              leading: Icon(
+                Icons.exit_to_app,
+                color: Colors.red,
+              ),
+              title: Text('Logout'),
+              onTap: () {
+                FirebaseAuth.instance.signOut();
+              },
+            ),
+          ],
+        ),
+      ),
       body: SafeArea(
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
@@ -98,13 +143,6 @@ class WelcomeEmployee extends StatelessWidget {
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
-                      Align(
-                        alignment: Alignment.topLeft,
-                        child: ProfileAvatar(
-                        )),
-                      SizedBox(
-                        height: 15,
-                      ),
                       Align(
                         alignment: Alignment.topLeft,
                         child: Text(
@@ -127,15 +165,18 @@ class WelcomeEmployee extends StatelessWidget {
                         height: 25,
                       ),
                       BannerCard(
-                        title: 'Update Data Diri Kamu',
-                        subtitle:
-                            'Update data diri kamu agar memudahkan pemilik perusahaan untuk mencari pekerja part time yang sesuai',
-                        color: Colors.green,
-                        btText: 'UPDATE DATA DIRI',
-                        image: 'assets/images/update.png',
-                        action: () =>
-                            {Navigator.pushNamed(context, "/editEmployee")},
-                      ),
+                          title: 'Update Data Diri Kamu',
+                          subtitle:
+                              'Update data diri kamu agar memudahkan pemilik perusahaan untuk mencari pekerja part time yang sesuai',
+                          color: Colors.green,
+                          btText: 'UPDATE DATA DIRI',
+                          image: 'assets/images/update.png',
+                          action: () => Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    EditData(role: 'employee'),
+                              ))),
                       SizedBox(
                         height: 25,
                       ),

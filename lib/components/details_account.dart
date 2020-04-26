@@ -33,33 +33,16 @@ class AkunDetail extends StatelessWidget {
     return Scaffold(
         body: Column(
           children: <Widget>[
-            Center(
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(0,20,0,0),
-                child: CircleAvatar(
-                  radius: 50,
-                  child: Text('AV'),
-                ),
+          Container(
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: ListTile(
+                leading: CircleAvatar(radius: 30,),
+                title: Text('Title'),
+                subtitle: Text('Subtitle'),
               ),
             ),
-            SizedBox(height: 20,),
-            Text(snapshot.data['nama'],style:TextStyle(fontSize: 25)),
-            Text(snapshot.data['keahlian'],style:TextStyle(fontSize: 20,color: Colors.blue)),
-            Padding(
-              padding: const EdgeInsets.all(20.0),
-              child: Column(
-                children: <Widget>[
-                  Align(
-                    alignment: Alignment.topLeft,
-                    child: Text('Alamat'),
-                  ),
-                  Align(
-                    alignment: Alignment.topLeft,
-                    child: Text('No Hp'),
-                  ),
-                ],
-              ),
-            )
+          )
           ],
         ),);
   }

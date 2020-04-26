@@ -4,7 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:haverjob/components/upload_picture.dart';
-import 'package:haverjob/screens/employee/employee_edit_data.dart';
+import 'package:haverjob/screens/edit_data.dart';
 import 'package:haverjob/screens/employee/employee_list.dart';
 import 'package:haverjob/screens/employee_seeker/find_employee_screen.dart';
 import 'package:haverjob/screens/home.dart';
@@ -58,7 +58,7 @@ class _MyAppState extends State<MyApp> {
           '/home': (BuildContext context) => Home(),
           '/welcome': (BuildContext context) => WelcomeScreen(),
           '/findEmployee': (BuildContext context) => FindEmployeeScreen(),
-          '/editEmployee': (BuildContext context) => EmployeeEditData(),
+          '/editEmployee': (BuildContext context) => EditData(),
           '/uploadPicture': (BuildContext context) => UploadPicture(),
         },
       ),

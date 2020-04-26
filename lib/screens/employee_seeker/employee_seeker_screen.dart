@@ -3,9 +3,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:haverjob/components/banner_card.dart';
+import 'package:haverjob/components/details_account.dart';
 import 'package:haverjob/components/item_grid.dart';
 import 'package:haverjob/components/profile_avatar.dart';
+import 'package:haverjob/components/upload_picture.dart';
 import 'package:haverjob/functions/get_location.dart';
+import 'package:haverjob/screens/edit_data.dart';
 import 'package:haverjob/screens/maps_view.dart';
 import 'package:haverjob/components/setting_screen.dart';
 import 'package:haverjob/components/widgets.dart';
@@ -13,7 +16,7 @@ import 'package:haverjob/models/global.dart';
 import 'package:haverjob/screens/employee/employee_list.dart';
 import 'package:haverjob/screens/employee_seeker/find_employee_screen.dart';
 
-double lat,long;
+double lat, long;
 
 class EmployeeSeekerScreen extends StatefulWidget {
   @override
@@ -25,7 +28,7 @@ class _EmployeeSeekerScreenState extends State<EmployeeSeekerScreen> {
   String _documents = 'users';
   String _nama;
   String _email;
-  
+
   void initState() {
     getID();
     _getCurrentLocation();
@@ -42,14 +45,13 @@ class _EmployeeSeekerScreenState extends State<EmployeeSeekerScreen> {
             'Posting Pekerjaan',
           ),
         ),
-        SettingScreen(),
       ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: _widgetOptions.elementAt(_selectedIndex),
       bottomNavigationBar: BottomNavigationBar(
-        elevation: 0,
+        elevation: 2,
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.search),
@@ -61,11 +63,6 @@ class _EmployeeSeekerScreenState extends State<EmployeeSeekerScreen> {
           BottomNavigationBarItem(
             icon: Icon(Icons.chat),
             title: Text('Chat', style: TextStyle(fontWeight: FontWeight.bold)),
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.settings),
-            title:
-                Text('Settings', style: TextStyle(fontWeight: FontWeight.bold)),
           ),
         ],
         currentIndex: _selectedIndex,
@@ -87,7 +84,8 @@ class _EmployeeSeekerScreenState extends State<EmployeeSeekerScreen> {
       _userID = user.uid;
     });
   }
-   //get user location
+
+  //get user location
   Future<void> _getCurrentLocation() async {
     final Geolocator geolocator = Geolocator()..forceAndroidLocationManager;
     await geolocator
@@ -105,11 +103,58 @@ class _EmployeeSeekerScreenState extends State<EmployeeSeekerScreen> {
   }
 }
 
-
 class WelcomeES extends StatelessWidget {
+  var user = FirebaseAuth.instance.currentUser();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text('Haver Jobs'),
+        centerTitle: true,
+        actions: <Widget>[
+          FlatButton(
+            textColor: Colors.white,
+            child: Icon(Icons.search),
+            onPressed: () => {Navigator.pushNamed(context, "/findEmployee")},
+          )
+        ],
+      ),
+      drawer: Drawer(
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: <Widget>[
+            DrawerHeader(
+              child: Column(
+                children: <Widget>[
+                  ProfileAvatar(radius: 50),
+                ],
+              ),
+              decoration: BoxDecoration(
+                color: Colors.blue,
+              ),
+            ),
+            ListTile(
+              leading: Icon(Icons.edit),
+              title: Text('Edit Data Perusahaan'),
+              onTap: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => EditData(role: 'employee seeker'),
+                  )),
+            ),
+            ListTile(
+              leading: Icon(
+                Icons.exit_to_app,
+                color: Colors.red,
+              ),
+              title: Text('Logout'),
+              onTap: () {
+                FirebaseAuth.instance.signOut();
+              },
+            ),
+          ],
+        ),
+      ),
       body: SafeArea(
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
@@ -121,10 +166,6 @@ class WelcomeES extends StatelessWidget {
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
-                      new ProfileAvatar(),
-                      SizedBox(
-                        height: 15,
-                      ),
                       Align(
                         alignment: Alignment.topLeft,
                         child: Text(
@@ -312,4 +353,3 @@ class GridBanner extends StatelessWidget {
     );
   }
 }
-

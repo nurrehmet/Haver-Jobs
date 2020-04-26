@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:haverjob/components/banner_card.dart';
 import 'package:haverjob/components/item_grid.dart';
+import 'package:haverjob/components/profile_avatar.dart';
 import 'package:haverjob/functions/get_location.dart';
 import 'package:haverjob/screens/maps_view.dart';
 import 'package:haverjob/components/setting_screen.dart';
@@ -120,15 +121,7 @@ class WelcomeES extends StatelessWidget {
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
-                      Align(
-                        alignment: Alignment.topLeft,
-                        child: CircleAvatar(
-                          radius: 30,
-                          backgroundImage: NetworkImage(
-                            'https://iupac.org/wp-content/uploads/2018/05/default-avatar.png',
-                          ),
-                        ),
-                      ),
+                      new ProfileAvatar(),
                       SizedBox(
                         height: 15,
                       ),

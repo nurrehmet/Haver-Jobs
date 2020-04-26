@@ -52,7 +52,6 @@ class _EmployeeEditDataState extends State<EmployeeEditData> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Edit Data Diri'),
-        
         actions: <Widget>[
           FlatButton.icon(
             textColor: Colors.white,

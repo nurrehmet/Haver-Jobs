@@ -4,6 +4,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:haverjob/components/banner_card.dart';
 import 'package:haverjob/components/details_account.dart';
+import 'package:haverjob/components/profile_avatar.dart';
 import 'package:haverjob/components/setting_screen.dart';
 import 'package:haverjob/models/global.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -99,13 +100,8 @@ class WelcomeEmployee extends StatelessWidget {
                     children: <Widget>[
                       Align(
                         alignment: Alignment.topLeft,
-                        child: CircleAvatar(
-                          radius: 30,
-                          backgroundImage: imageUrl == null? NetworkImage(
-                          'https://iupac.org/wp-content/uploads/2018/05/default-avatar.png'
-                          ): NetworkImage(imageUrl),
-                        ),
-                      ),
+                        child: ProfileAvatar(
+                        )),
                       SizedBox(
                         height: 15,
                       ),

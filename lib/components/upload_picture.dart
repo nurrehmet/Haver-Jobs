@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'dart:async';
 import 'package:edge_alert/edge_alert.dart';
+import 'package:haverjob/components/profile_avatar.dart';
 import 'package:path/path.dart' as Path;
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -34,7 +35,9 @@ class _UploadPictureState extends State<UploadPicture> {
               child: _image == null
                   ? Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: Text('Tidak ada gambar terpilih'),
+                      child: new ProfileAvatar(
+                        radius: 50,
+                      ),
                     )
                   : Padding(
                       padding: const EdgeInsets.all(8.0),

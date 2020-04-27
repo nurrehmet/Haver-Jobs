@@ -57,7 +57,10 @@ class WelcomeScreen extends StatelessWidget {
                 SizedBox(
                   height: 20,
                 ),
-                Text('Beta Version 1.0.1',style: TextStyle(color: Colors.grey),),
+                Text(
+                  'Beta Version 1.0.1',
+                  style: TextStyle(color: Colors.grey),
+                ),
               ],
             ),
           ),

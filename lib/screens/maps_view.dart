@@ -1,11 +1,24 @@
 import 'dart:async';
+import 'dart:typed_data';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:haverjob/screens/employee_seeker/find_employee_screen.dart';
 import 'package:geoflutterfire/geoflutterfire.dart';
 import 'package:rxdart/rxdart.dart';
+import 'dart:ui' as ui;
 
+//change marker
+Future<Uint8List> getBytesFromAsset(String path, int width) async {
+  ByteData data = await rootBundle.load(path);
+  ui.Codec codec = await ui.instantiateImageCodec(data.buffer.asUint8List(),
+      targetWidth: width);
+  ui.FrameInfo fi = await codec.getNextFrame();
+  return (await fi.image.toByteData(format: ui.ImageByteFormat.png))
+      .buffer
+      .asUint8List();
+}
 
 class MapsView extends StatefulWidget {
   const MapsView(
@@ -162,18 +175,20 @@ class MapsViewState extends State<MapsView> {
     });
   }
 
-  void _addMarker(
+  Future<void> _addMarker(
     double lat,
     double lng,
     String nama,
-  ) {
+  ) async {
     var point = geo.point(latitude: widget.lat, longitude: widget.long);
     var distance = point.distance(lat: lat, lng: lng);
     MarkerId id = MarkerId(lat.toString() + lng.toString());
+    final Uint8List markerIcon =
+        await getBytesFromAsset('assets/images/marker.png', 150);
     Marker _marker = Marker(
       markerId: id,
       position: LatLng(lat, lng),
-      icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueAzure),
+      icon: BitmapDescriptor.fromBytes(markerIcon),
       infoWindow: InfoWindow(
           title: nama, snippet: 'Jarak ' + distance.toString() + ' KM'),
     );
@@ -244,7 +259,7 @@ class MapsViewState extends State<MapsView> {
           .where('kota', isEqualTo: widget.kota)
           .where('jamKerja', isEqualTo: widget.jamKerja);
       return geo.collection(collectionRef: collectionReference).within(
-          center: center, radius: rad, field: 'position', strictMode: false);
+          center: center, radius: rad, field: 'position', strictMode: true);
     });
   }
 }

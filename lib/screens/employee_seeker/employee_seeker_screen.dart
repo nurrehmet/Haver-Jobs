@@ -15,6 +15,7 @@ import 'package:haverjob/components/widgets.dart';
 import 'package:haverjob/models/global.dart';
 import 'package:haverjob/screens/employee/employee_list.dart';
 import 'package:haverjob/screens/employee_seeker/find_employee_screen.dart';
+import 'package:haverjob/screens/welcome_screen.dart';
 
 double lat, long;
 
@@ -150,6 +151,8 @@ class WelcomeES extends StatelessWidget {
               title: Text('Logout'),
               onTap: () {
                 FirebaseAuth.instance.signOut();
+                Navigator.pushReplacement(context,
+                      MaterialPageRoute(builder: (context) => WelcomeScreen()));
               },
             ),
           ],

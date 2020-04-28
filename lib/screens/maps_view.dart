@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:haverjob/components/details_account.dart';
 import 'package:haverjob/screens/employee_seeker/find_employee_screen.dart';
 import 'package:geoflutterfire/geoflutterfire.dart';
 import 'package:rxdart/rxdart.dart';
@@ -53,10 +54,16 @@ class MapsViewState extends State<MapsView> {
   Map<MarkerId, Marker> markers = <MarkerId, Marker>{};
   double lat, long;
   double _value = 1;
+  // detail employee
   String _label = '';
+  List namaWindow = [];
+  List keahlianWindow = [];
+  double jarak;
+  // marker icon
   BitmapDescriptor markerIcon;
   Set<Circle> circles;
   double _nilaiRadius;
+  int countMarkers = 0;
   @override
   void initState() {
     super.initState();
@@ -87,6 +94,26 @@ class MapsViewState extends State<MapsView> {
           SafeArea(
             child: Column(
               children: <Widget>[
+                Card(
+                    child: Column(
+                  children: <Widget>[
+                    Text('Informasi'),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: markers.isEmpty
+                          ? Text(
+                              'Tidak Ada Pekerja Part Time Terdekat',
+                              style: TextStyle(
+                                  color: Colors.red,
+                                  fontWeight: FontWeight.bold),
+                            )
+                          : Text('Pekerja Part Time Ditemukan',
+                              style: TextStyle(
+                                  color: Colors.blue,
+                                  fontWeight: FontWeight.bold)),
+                    ),
+                  ],
+                )),
                 Spacer(),
                 Spacer(),
                 Spacer(),
@@ -124,34 +151,27 @@ class MapsViewState extends State<MapsView> {
                   padding: const EdgeInsets.only(top: 2.0),
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: Card(
-                      child: Column(
-                        children: <Widget>[
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: markers.isEmpty
-                                ? Text(
-                                    'Tidak Ada Pekerja Part Time Terdekat',
-                                    style: TextStyle(
-                                        color: Colors.red,
-                                        fontWeight: FontWeight.bold),
-                                  )
-                                : Text('Pekerja Part Time Ditemukan',
-                                    style: TextStyle(
-                                        color: Colors.blue,
-                                        fontWeight: FontWeight.bold)),
-                          ),
-                          Slider(
-                            min: 1,
-                            max: 15,
-                            divisions: 5,
-                            value: _value,
-                            label: _label,
-                            activeColor: Colors.blue,
-                            inactiveColor: Colors.blue.withOpacity(0.2),
-                            onChanged: (double value) => changed(value),
-                          ),
-                        ],
+                    child: Container(
+                      child: Card(
+                        color: Colors.white,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                        ),
+                        child: Column(
+                          children: <Widget>[
+                            Text('Atur Jarak Radius'),
+                            Slider(
+                              min: 1,
+                              max: 15,
+                              divisions: 5,
+                              value: _value,
+                              label: _label,
+                              activeColor: Colors.blue,
+                              inactiveColor: Colors.blue.withOpacity(0.2),
+                              onChanged: (double value) => changed(value),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ),
@@ -178,7 +198,7 @@ class MapsViewState extends State<MapsView> {
   Future<void> _addMarker(
     double lat,
     double lng,
-    String nama,
+    String nama,userid,keahlian
   ) async {
     var point = geo.point(latitude: widget.lat, longitude: widget.long);
     var distance = point.distance(lat: lat, lng: lng);
@@ -187,15 +207,24 @@ class MapsViewState extends State<MapsView> {
         await getBytesFromAsset('assets/images/marker.png', 150);
     Marker _marker = Marker(
       markerId: id,
+      // onTap: _showModal,
       position: LatLng(lat, lng),
       icon: BitmapDescriptor.fromBytes(markerIcon),
       infoWindow: InfoWindow(
-          title: nama, snippet: 'Jarak ' + distance.toString() + ' KM'),
+          onTap: () => Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => AkunDetail(userID: userid,nama: nama,jarak: distance.toString(),),
+              )),
+          title: nama,
+          snippet: widget.type == 'filter' ? 'Jarak ' + distance.toString() + ' KM': 'Keahlian: ' + keahlian ),
     );
     setState(() {
       markers[id] = _marker;
     });
   }
+
+  void _openDetail() {}
 
   void _updateMarkers(List<DocumentSnapshot> documentList) {
     documentList.forEach((DocumentSnapshot document) {
@@ -204,9 +233,37 @@ class MapsViewState extends State<MapsView> {
         point.latitude,
         point.longitude,
         document.data['nama'],
+        document.documentID,
+        document.data['keahlian'],
       );
     });
   }
+
+  // Future<void> _showModal() async {
+  //   return showModalBottomSheet(
+  //     context: context,
+  //     builder: (BuildContext context) {
+  //       return Container(
+  //         child: Wrap(
+  //           children: <Widget>[
+  //             ListTile(
+  //               leading: Icon(Icons.account_circle),
+  //               title: Text(namaWindow[]),
+  //             ),
+  //             ListTile(
+  //               leading: Icon(Icons.star),
+  //               title: Text(keahlianWindow),
+  //             ),
+  //             // ListTile(
+  //             //   leading: Icon(Icons.directions),
+  //             //   title: Text(jarak.toString()+' KM'),
+  //             // ),
+  //           ],
+  //         ),
+  //       );
+  //     },
+  //   );
+  // }
 
   changed(value) {
     setState(() {

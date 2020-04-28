@@ -1,17 +1,17 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:haverjob/components/details_account.dart';
 
 String _keahlian;
+
 class EmployeeList extends StatefulWidget {
   final String keahlian;
 
   const EmployeeList({Key key, this.keahlian}) : super(key: key);
-  
-  
+
   @override
   _EmployeeListState createState() => _EmployeeListState();
 }
-
 
 class _EmployeeListState extends State<EmployeeList> {
   @override
@@ -19,6 +19,7 @@ class _EmployeeListState extends State<EmployeeList> {
     super.initState();
     _keahlian = widget.keahlian;
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,14 +32,14 @@ class _EmployeeListState extends State<EmployeeList> {
   }
 }
 
-
 class EmployeeData extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<QuerySnapshot>(
-      stream: Firestore.instance.collection('employee').
-      where('keahlian', isEqualTo :_keahlian ).
-      snapshots(),
+      stream: Firestore.instance
+          .collection('employee')
+          .where('keahlian', isEqualTo: _keahlian)
+          .snapshots(),
       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
         if (snapshot.hasError) return new Text('Error: ${snapshot.error}');
         switch (snapshot.connectionState) {
@@ -79,14 +80,22 @@ class EmployeeData extends StatelessWidget {
                                   ),
                                   onPressed: () {},
                                 ),
-                                 FlatButton(
+                                FlatButton(
                                   child: Text(
                                     'DETAIL',
                                     style: TextStyle(
                                         color: Colors.blue,
                                         fontWeight: FontWeight.bold),
                                   ),
-                                  onPressed: () {},
+                                  onPressed: () => Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => AkunDetail(
+                                          userID: document.documentID,
+                                          nama: document['nama'],
+                                          jarak: null,
+                                        ),
+                                      )),
                                 ),
                               ],
                             ),

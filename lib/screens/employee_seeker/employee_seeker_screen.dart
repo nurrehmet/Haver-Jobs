@@ -1,20 +1,12 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:haverjob/components/banner_card.dart';
-import 'package:haverjob/components/details_account.dart';
 import 'package:haverjob/components/item_grid.dart';
 import 'package:haverjob/components/profile_avatar.dart';
-import 'package:haverjob/components/upload_picture.dart';
-import 'package:haverjob/functions/get_location.dart';
 import 'package:haverjob/screens/edit_data.dart';
 import 'package:haverjob/screens/maps_view.dart';
-import 'package:haverjob/components/setting_screen.dart';
-import 'package:haverjob/components/widgets.dart';
-import 'package:haverjob/models/global.dart';
 import 'package:haverjob/screens/employee/employee_list.dart';
-import 'package:haverjob/screens/employee_seeker/find_employee_screen.dart';
 import 'package:haverjob/screens/welcome_screen.dart';
 
 double lat, long;
@@ -204,7 +196,7 @@ class WelcomeES extends StatelessWidget {
                         height: 25,
                       ),
                       BannerCard(
-                        title: 'Tampilkan Semua Pekerja Part Time',
+                        title: 'Pekerja Part Time Terdekat',
                         subtitle:
                             'Menampilkan semua pekerja part time yang terdekat dengan lokasi kamu',
                         color: Colors.blue,

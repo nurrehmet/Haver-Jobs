@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:haverjob/components/banner_card.dart';
 import 'package:haverjob/components/details_account.dart';
 import 'package:haverjob/components/profile_avatar.dart';
-import 'package:haverjob/components/setting_screen.dart';
 import 'package:haverjob/models/global.dart';
 import 'package:haverjob/screens/edit_data.dart';
 import 'package:haverjob/screens/welcome_screen.dart';

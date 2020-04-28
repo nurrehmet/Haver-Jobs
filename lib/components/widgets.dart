@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:haverjob/screens/welcome_screen.dart';
-import 'package:settings_ui/settings_ui.dart';
 
 class ProfileHead extends StatelessWidget {
   final IconData titleIcon;

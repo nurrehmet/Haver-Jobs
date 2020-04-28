@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:haverjob/components/banner_card.dart';
 import 'package:haverjob/components/item_grid.dart';
 import 'package:haverjob/screens/maps_view.dart';
-import 'package:haverjob/components/setting_screen.dart';
 import 'package:haverjob/components/widgets.dart';
 import 'package:haverjob/models/global.dart';
 import 'package:haverjob/screens/admin/employee_seeker_data.dart';
@@ -38,7 +37,7 @@ class _AdminScreenState extends State<AdminScreen> {
             'Posting Pekerjaan',
           ),
         ),
-        SettingScreen(),
+        
       ];
   @override
   Widget build(BuildContext context) {

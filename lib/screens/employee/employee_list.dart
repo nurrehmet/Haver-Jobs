@@ -24,6 +24,7 @@ class _EmployeeListState extends State<EmployeeList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.grey[200],
       appBar: AppBar(
         title: Text('List ' + _keahlian + ' Part Time'),
         centerTitle: true,
@@ -57,25 +58,28 @@ class EmployeeData extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Card(
-                        color: Colors.amber,
+                        color: Colors.white,
                         semanticContainer: true,
                         clipBehavior: Clip.antiAliasWithSaveLayer,
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10.0),
+                          borderRadius: BorderRadius.circular(20.0),
                         ),
                         elevation: 1,
                         child: Column(
                           children: <Widget>[
-                            new ListTile(
-                              leading: new ProfileAvatar(uid: document.documentID,detailEmployee: true,),
-                              title: new Text(document['nama']),
-                              subtitle: new Text(document['email']),
+                            Container(
+                              color: Colors.amber,
+                              child: new ListTile(
+                                leading: new ProfileAvatar(uid: document.documentID,detailEmployee: true,),
+                                title: new Text(document['nama']),
+                                subtitle: new Text(document['email']),
+                              ),
                             ),
                             new ListTile(
                               title: Text('Gaji per Jam'),
                               leading: Icon(
                                 Icons.attach_money,
-                                color: Colors.white,
+                                color: Colors.blue,
                               ),
                               subtitle: Text(document['gaji'].toString()),
                             ),
@@ -83,7 +87,7 @@ class EmployeeData extends StatelessWidget {
                               title: Text('Kota'),
                               leading: Icon(
                                 Icons.location_city,
-                                color: Colors.white,
+                                color: Colors.blue,
                               ),
                               subtitle: Text(document['kota'].toString()),
                             ),
@@ -93,7 +97,7 @@ class EmployeeData extends StatelessWidget {
                                   child: Text(
                                     'CHAT',
                                     style: TextStyle(
-                                        color: Colors.white,
+                                        color: Colors.blue,
                                         fontWeight: FontWeight.bold),
                                   ),
                                   onPressed: () {},
@@ -102,7 +106,7 @@ class EmployeeData extends StatelessWidget {
                                   child: Text(
                                     'DETAIL',
                                     style: TextStyle(
-                                        color: Colors.white,
+                                        color: Colors.blue,
                                         fontWeight: FontWeight.bold),
                                   ),
                                   onPressed: () => Navigator.push(

@@ -44,7 +44,7 @@ class _EmployeeSeekerScreenState extends State<EmployeeSeekerScreen> {
     return Scaffold(
       body: _widgetOptions.elementAt(_selectedIndex),
       bottomNavigationBar: BottomNavigationBar(
-        elevation: 2,
+        elevation: 0,
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.search),
@@ -102,6 +102,7 @@ class WelcomeES extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.grey[200],
       appBar: AppBar(
         title: Text('Haver Jobs'),
         centerTitle: true,

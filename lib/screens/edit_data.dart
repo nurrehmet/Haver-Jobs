@@ -3,6 +3,7 @@ import 'package:dropdown_formfield/dropdown_formfield.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:geoflutterfire/geoflutterfire.dart';
+import 'package:haverjob/components/status_kerja.dart';
 import 'package:haverjob/components/upload_picture.dart';
 import 'package:haverjob/components/widgets.dart';
 import 'package:haverjob/models/list_data.dart';
@@ -215,6 +216,10 @@ class _EditDataState extends State<EditData> {
             children: <Widget>[
               new UploadPicture(
                 userID: _userID,
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: new StatusKerja(userId: _userID,statusKerja: snapshot.data['statusKerja'],),
               ),
               new TextFields(
                   labelText: 'Nama',

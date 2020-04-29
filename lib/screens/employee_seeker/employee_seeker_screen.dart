@@ -10,6 +10,7 @@ import 'package:haverjob/screens/employee/employee_list.dart';
 import 'package:haverjob/screens/welcome_screen.dart';
 
 double lat, long;
+String _email;
 
 class EmployeeSeekerScreen extends StatefulWidget {
   @override
@@ -20,7 +21,6 @@ class _EmployeeSeekerScreenState extends State<EmployeeSeekerScreen> {
   String _userID;
   String _documents = 'users';
   String _nama;
-  String _email;
 
   void initState() {
     getID();
@@ -75,6 +75,7 @@ class _EmployeeSeekerScreenState extends State<EmployeeSeekerScreen> {
     FirebaseUser user = await FirebaseAuth.instance.currentUser();
     setState(() {
       _userID = user.uid;
+      _email = user.email;
     });
   }
 
@@ -120,6 +121,10 @@ class WelcomeES extends StatelessWidget {
               child: Column(
                 children: <Widget>[
                   ProfileAvatar(radius: 50),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(_email == null? 'Email':_email,style: TextStyle(color: Colors.white),),
+                  )
                 ],
               ),
               decoration: BoxDecoration(
@@ -144,7 +149,7 @@ class WelcomeES extends StatelessWidget {
               onTap: () {
                 FirebaseAuth.instance.signOut();
                 Navigator.pushReplacement(context,
-                      MaterialPageRoute(builder: (context) => WelcomeScreen()));
+                    MaterialPageRoute(builder: (context) => WelcomeScreen()));
               },
             ),
           ],

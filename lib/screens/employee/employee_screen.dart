@@ -5,10 +5,15 @@ import 'package:flutter/material.dart';
 import 'package:haverjob/components/banner_card.dart';
 import 'package:haverjob/components/details_account.dart';
 import 'package:haverjob/components/profile_avatar.dart';
+import 'package:haverjob/components/status_kerja.dart';
+import 'package:haverjob/functions/get_data.dart';
 import 'package:haverjob/models/global.dart';
 import 'package:haverjob/screens/edit_data.dart';
 import 'package:haverjob/screens/welcome_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+bool _statusKerja = false;
+String _userID, email;
 
 class EmployeeScreen extends StatefulWidget {
   @override
@@ -16,8 +21,8 @@ class EmployeeScreen extends StatefulWidget {
 }
 
 class _EmployeeScreenState extends State<EmployeeScreen> {
-  String _userID;
   String _imageUrl;
+  FirebaseUser currentUser;
   void initState() {
     getID();
     super.initState();
@@ -69,6 +74,7 @@ class _EmployeeScreenState extends State<EmployeeScreen> {
     FirebaseUser user = await FirebaseAuth.instance.currentUser();
     setState(() {
       _userID = user.uid;
+      email = user.email;
       var ref = FirebaseStorage.instance.ref().child('avatar/$_userID');
       ref.getDownloadURL().then((loc) => setState(() => _imageUrl = loc));
       print(_imageUrl);
@@ -76,9 +82,15 @@ class _EmployeeScreenState extends State<EmployeeScreen> {
   }
 }
 
-class WelcomeEmployee extends StatelessWidget {
+class WelcomeEmployee extends StatefulWidget {
   String imageUrl;
   WelcomeEmployee({this.imageUrl});
+
+  @override
+  _WelcomeEmployeeState createState() => _WelcomeEmployeeState();
+}
+
+class _WelcomeEmployeeState extends State<WelcomeEmployee> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -104,6 +116,13 @@ class WelcomeEmployee extends StatelessWidget {
               child: Column(
                 children: <Widget>[
                   ProfileAvatar(radius: 50),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      email == null ? 'Email' : email,
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  )
                 ],
               ),
               decoration: BoxDecoration(
@@ -128,14 +147,14 @@ class WelcomeEmployee extends StatelessWidget {
               onTap: () {
                 FirebaseAuth.instance.signOut();
                 Navigator.pushReplacement(context,
-                      MaterialPageRoute(builder: (context) => WelcomeScreen()));
+                    MaterialPageRoute(builder: (context) => WelcomeScreen()));
               },
             ),
           ],
         ),
       ),
-      body: SafeArea(
-        child: Padding(
+      body: Scaffold(
+        body: Padding(
           padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
           child: SingleChildScrollView(
             child: Column(
@@ -165,6 +184,28 @@ class WelcomeEmployee extends StatelessWidget {
                       ),
                       SizedBox(
                         height: 25,
+                      ),
+                      Card(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                        ),
+                        color: Colors.amber,
+                        elevation: 1,
+                        child: ListTile(
+                          leading: Icon(Icons.lightbulb_outline,color: Colors.white,),
+                          title: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text('Tip of the day'),
+                          ),
+                          subtitle: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(
+                                'Tambahkan foto profil di menu Edit Data Diri, untuk membuat profilmu tampil meyakinkan'),
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 15,
                       ),
                       BannerCard(
                           title: 'Update Data Diri Kamu',

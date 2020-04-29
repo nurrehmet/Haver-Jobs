@@ -507,6 +507,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
       'latitude': _lat,
       'longitude': _long,
       'position': myLocation.data,
+      'statusKerja': true
     });
     _firestore.collection('users').document(userId).setData(
       {

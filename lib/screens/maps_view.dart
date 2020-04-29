@@ -239,32 +239,6 @@ class MapsViewState extends State<MapsView> {
     });
   }
 
-  // Future<void> _showModal() async {
-  //   return showModalBottomSheet(
-  //     context: context,
-  //     builder: (BuildContext context) {
-  //       return Container(
-  //         child: Wrap(
-  //           children: <Widget>[
-  //             ListTile(
-  //               leading: Icon(Icons.account_circle),
-  //               title: Text(namaWindow[]),
-  //             ),
-  //             ListTile(
-  //               leading: Icon(Icons.star),
-  //               title: Text(keahlianWindow),
-  //             ),
-  //             // ListTile(
-  //             //   leading: Icon(Icons.directions),
-  //             //   title: Text(jarak.toString()+' KM'),
-  //             // ),
-  //           ],
-  //         ),
-  //       );
-  //     },
-  //   );
-  // }
-
   changed(value) {
     setState(() {
       _value = value;
@@ -314,7 +288,8 @@ class MapsViewState extends State<MapsView> {
           .where('pendidikan', isEqualTo: widget.pendidikan)
           .where('gender', isEqualTo: widget.gender)
           .where('kota', isEqualTo: widget.kota)
-          .where('jamKerja', isEqualTo: widget.jamKerja);
+          .where('jamKerja', isEqualTo: widget.jamKerja)
+          .where('statusKerja', isEqualTo: true);
       return geo.collection(collectionRef: collectionReference).within(
           center: center, radius: rad, field: 'position', strictMode: true);
     });

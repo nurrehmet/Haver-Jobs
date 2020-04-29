@@ -4,7 +4,9 @@ import 'package:flutter/material.dart';
 
 class ProfileAvatar extends StatefulWidget {
     double radius;
-    ProfileAvatar({this.radius});
+    bool detailEmployee;
+    String uid;
+    ProfileAvatar({this.radius,this.detailEmployee,this.uid});
 
   @override
   _ProfileAvatarState createState() => _ProfileAvatarState();
@@ -34,7 +36,7 @@ class _ProfileAvatarState extends State<ProfileAvatar> {
   getImage() async {
     FirebaseUser user = await FirebaseAuth.instance.currentUser();
     setState(() {
-      var _userID = user.uid;
+      var _userID = widget.detailEmployee == true ? widget.uid:user.uid;
       var ref = FirebaseStorage.instance.ref().child('avatar/$_userID');
       ref.getDownloadURL().then((loc) => setState(() => imageUrl = loc));
     });

@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:haverjob/components/profile_avatar.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class AkunDetail extends StatelessWidget {
@@ -36,6 +37,10 @@ class AkunDetail extends StatelessWidget {
       body: SingleChildScrollView(
         child: Column(
           children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: ProfileAvatar(uid: snapshot.documentID,detailEmployee: true,radius: 70,),
+            ),
             Container(
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
@@ -43,9 +48,6 @@ class AkunDetail extends StatelessWidget {
                   trailing: Icon(
                     Icons.chat,
                     color: Colors.green,
-                  ),
-                  leading: CircleAvatar(
-                    radius: 30,
                   ),
                   title: Text(snapshot.data['nama'],
                       style: TextStyle(

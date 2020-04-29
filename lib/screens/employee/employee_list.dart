@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:haverjob/components/details_account.dart';
+import 'package:haverjob/components/profile_avatar.dart';
 
 String _keahlian;
 
@@ -43,6 +44,7 @@ class EmployeeData extends StatelessWidget {
           .snapshots(),
       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
         if (snapshot.hasError) return new Text('Error: ${snapshot.error}');
+        if (!snapshot.hasData) return Text('Tidak Ada Pekerja');
         switch (snapshot.connectionState) {
           case ConnectionState.waiting:
             return new Text('Loading...');
@@ -55,6 +57,7 @@ class EmployeeData extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Card(
+                        color: Colors.amber,
                         semanticContainer: true,
                         clipBehavior: Clip.antiAliasWithSaveLayer,
                         shape: RoundedRectangleBorder(
@@ -64,11 +67,25 @@ class EmployeeData extends StatelessWidget {
                         child: Column(
                           children: <Widget>[
                             new ListTile(
-                              leading: CircleAvatar(
-                                child: Text('TI'),
-                              ),
+                              leading: new ProfileAvatar(uid: document.documentID,detailEmployee: true,),
                               title: new Text(document['nama']),
-                              subtitle: new Text(document['alamat']),
+                              subtitle: new Text(document['email']),
+                            ),
+                            new ListTile(
+                              title: Text('Gaji per Jam'),
+                              leading: Icon(
+                                Icons.attach_money,
+                                color: Colors.white,
+                              ),
+                              subtitle: Text(document['gaji'].toString()),
+                            ),
+                            new ListTile(
+                              title: Text('Kota'),
+                              leading: Icon(
+                                Icons.location_city,
+                                color: Colors.white,
+                              ),
+                              subtitle: Text(document['kota'].toString()),
                             ),
                             ButtonBar(
                               children: <Widget>[
@@ -76,7 +93,7 @@ class EmployeeData extends StatelessWidget {
                                   child: Text(
                                     'CHAT',
                                     style: TextStyle(
-                                        color: Colors.blue,
+                                        color: Colors.white,
                                         fontWeight: FontWeight.bold),
                                   ),
                                   onPressed: () {},
@@ -85,7 +102,7 @@ class EmployeeData extends StatelessWidget {
                                   child: Text(
                                     'DETAIL',
                                     style: TextStyle(
-                                        color: Colors.blue,
+                                        color: Colors.white,
                                         fontWeight: FontWeight.bold),
                                   ),
                                   onPressed: () => Navigator.push(

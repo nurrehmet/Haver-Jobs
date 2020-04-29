@@ -94,26 +94,32 @@ class MapsViewState extends State<MapsView> {
           SafeArea(
             child: Column(
               children: <Widget>[
-                Card(
-                    child: Column(
-                  children: <Widget>[
-                    Text('Informasi'),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: markers.isEmpty
-                          ? Text(
-                              'Tidak Ada Pekerja Part Time Terdekat',
-                              style: TextStyle(
-                                  color: Colors.red,
-                                  fontWeight: FontWeight.bold),
-                            )
-                          : Text('Pekerja Part Time Ditemukan',
-                              style: TextStyle(
-                                  color: Colors.blue,
-                                  fontWeight: FontWeight.bold)),
-                    ),
-                  ],
-                )),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Card(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                      child: Column(
+                        children: <Widget>[
+                          Icon(Icons.info_outline),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: markers.isEmpty
+                                ? Text(
+                                    'Tidak Ada Pekerja Part Time Terdekat',
+                                    style: TextStyle(
+                                        color: Colors.red,
+                                        fontWeight: FontWeight.bold),
+                                  )
+                                : Text('Pekerja Part Time Ditemukan',
+                                    style: TextStyle(
+                                        color: Colors.blue,
+                                        fontWeight: FontWeight.bold)),
+                          ),
+                        ],
+                      )),
+                ),
                 Spacer(),
                 Spacer(),
                 Spacer(),
@@ -196,10 +202,7 @@ class MapsViewState extends State<MapsView> {
   }
 
   Future<void> _addMarker(
-    double lat,
-    double lng,
-    String nama,userid,keahlian
-  ) async {
+      double lat, double lng, String nama, userid, keahlian) async {
     var point = geo.point(latitude: widget.lat, longitude: widget.long);
     var distance = point.distance(lat: lat, lng: lng);
     MarkerId id = MarkerId(lat.toString() + lng.toString());
@@ -214,10 +217,16 @@ class MapsViewState extends State<MapsView> {
           onTap: () => Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => AkunDetail(userID: userid,nama: nama,jarak: distance.toString(),),
+                builder: (context) => AkunDetail(
+                  userID: userid,
+                  nama: nama,
+                  jarak: distance.toString(),
+                ),
               )),
           title: nama,
-          snippet: widget.type == 'filter' ? 'Jarak ' + distance.toString() + ' KM': 'Keahlian: ' + keahlian ),
+          snippet: widget.type == 'filter'
+              ? 'Jarak ' + distance.toString() + ' KM'
+              : 'Keahlian: ' + keahlian),
     );
     setState(() {
       markers[id] = _marker;

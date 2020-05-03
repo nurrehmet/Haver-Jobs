@@ -11,6 +11,7 @@ import 'package:haverjob/screens/welcome_screen.dart';
 
 double lat, long;
 String _email;
+List<Placemark> lokasi;
 
 class EmployeeSeekerScreen extends StatefulWidget {
   @override
@@ -94,6 +95,7 @@ class _EmployeeSeekerScreenState extends State<EmployeeSeekerScreen> {
     }).catchError((e) {
       print(e);
     });
+    lokasi = await Geolocator().placemarkFromCoordinates(lat, long);
   }
 }
 
@@ -124,7 +126,10 @@ class WelcomeES extends StatelessWidget {
                   ProfileAvatar(radius: 50),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: Text(_email == null? 'Email':_email,style: TextStyle(color: Colors.white),),
+                    child: Text(
+                      _email == null ? 'Email' : _email,
+                      style: TextStyle(color: Colors.white),
+                    ),
                   )
                 ],
               ),
@@ -156,92 +161,88 @@ class WelcomeES extends StatelessWidget {
           ],
         ),
       ),
-      body: SafeArea(
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
-          child: SingleChildScrollView(
-            child: Column(
-              children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.all(20.0),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      Align(
-                        alignment: Alignment.topLeft,
-                        child: Text(
-                          'Selamat Datang',
-                          style: TextStyle(
-                              fontSize: 27, fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                      SizedBox(
-                        height: 15,
-                      ),
-                      Align(
-                        alignment: Alignment.topLeft,
-                        child: Text(
-                          'Haver Jobs adalah platform untuk mencari pekerja Part Time terdekat',
-                          style: TextStyle(fontSize: 18, color: Colors.grey),
-                        ),
-                      ),
-                      SizedBox(
-                        height: 25,
-                      ),
-                      BannerCard(
-                        title: 'Cari Pekerja Part Time Dengan Filter',
-                        subtitle:
-                            'Cari pekerja part time dengan menggunakan kriteria tertentu, seperti lokasi, pendidikan, dan keahlian',
-                        color: Colors.amber,
-                        btText: 'CARI PEKERJA PART TIME',
-                        image: 'assets/images/filter.png',
-                        action: () =>
-                            {Navigator.pushNamed(context, "/findEmployee")},
-                      ),
-                      SizedBox(
-                        height: 25,
-                      ),
-                      BannerCard(
-                        title: 'Pekerja Part Time Terdekat',
-                        subtitle:
-                            'Menampilkan semua pekerja part time yang terdekat dengan lokasi kamu',
-                        color: Colors.blue,
-                        btText: 'TAMPILKAN SEMUA',
-                        image: 'assets/images/all.png',
-                        action: () => {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => MapsView(
-                                type: 'all',
-                                lat: lat,
-                                long: long,
-                              ),
-                            ),
-                          )
-                        },
-                      ),
-                      SizedBox(
-                        height: 25,
-                      ),
-                      Align(
-                        alignment: Alignment.topLeft,
-                        child: Text(
-                          'Cari Pekerja Dengan Kategori',
-                          style: TextStyle(
-                              fontSize: 20, fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                      SizedBox(
-                        height: 25,
-                      ),
-                      GridBanner(),
-                    ],
+      body: SingleChildScrollView(
+        child: Column(
+          children: <Widget>[
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 30.0, vertical: 10.0),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  Align(
+                    alignment: Alignment.topLeft,
+                    child: Text(
+                      'Selamat Datang',
+                      style:
+                          TextStyle(fontSize: 27, fontWeight: FontWeight.bold),
+                    ),
                   ),
-                ),
-              ],
+                  SizedBox(
+                    height: 15,
+                  ),
+                  Align(
+                    alignment: Alignment.topLeft,
+                    child: Text(
+                      'Haver Jobs adalah platform untuk mencari pekerja Part Time terdekat',
+                      style: TextStyle(fontSize: 18, color: Colors.grey),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 25,
+                  ),
+                  
+                  BannerCard(
+                    title: 'Cari Pekerja Part Time Dengan Filter',
+                    subtitle:
+                        'Cari pekerja part time dengan menggunakan kriteria tertentu, seperti lokasi, pendidikan, dan keahlian',
+                    color: Colors.amber,
+                    btText: 'CARI PEKERJA PART TIME',
+                    image: 'assets/images/filter.png',
+                    action: () =>
+                        {Navigator.pushNamed(context, "/findEmployee")},
+                  ),
+                  SizedBox(
+                    height: 25,
+                  ),
+                  BannerCard(
+                    title: 'Pekerja Part Time Terdekat',
+                    subtitle:
+                        'Menampilkan semua pekerja part time yang terdekat dengan lokasi kamu',
+                    color: Colors.blue,
+                    btText: 'TAMPILKAN SEMUA',
+                    image: 'assets/images/all.png',
+                    action: () => {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => MapsView(
+                            type: 'all',
+                            lat: lat,
+                            long: long,
+                          ),
+                        ),
+                      )
+                    },
+                  ),
+                  SizedBox(
+                    height: 25,
+                  ),
+                  Align(
+                    alignment: Alignment.topLeft,
+                    child: Text(
+                      'Cari Pekerja Dengan Kategori',
+                      style:
+                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 25,
+                  ),
+                  GridBanner(),
+                ],
+              ),
             ),
-          ),
+          ],
         ),
       ),
     );

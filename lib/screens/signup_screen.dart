@@ -1,4 +1,5 @@
 import 'package:dropdown_formfield/dropdown_formfield.dart';
+import 'package:edge_alert/edge_alert.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:haverjob/components/upload_picture.dart';
@@ -25,7 +26,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   //data employee seeker
   String _nama, _email, _password, _alamat, _noHp, _kategoriPerusahaan;
   //data employee
-  String _gender, _pendidikan, _usia, _jamKerja, _keahlian,_gaji;
+  String _gender, _pendidikan, _usia, _jamKerja, _keahlian, _gaji,_pengKerja;
   //data lokasi
   double _lat, _long;
   bool showCircular = false;
@@ -59,7 +60,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(primaryColor: Colors.blue),
+      theme: ThemeData(primaryColor: Colors.blue, fontFamily: 'Poppins'),
       home: DefaultTabController(
         length: 2,
         child: Scaffold(
@@ -75,10 +76,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   ),
                 )
               ],
-              title: Text('Registrasi Akun',
-                  style: TextStyle(
-                    fontFamily: 'Product Sans',
-                  )),
+              title: Text(
+                'Registrasi Akun',
+              ),
               bottom: TabBar(
                 tabs: <Widget>[
                   Tab(
@@ -163,6 +163,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               _kategoriPerusahaan = value;
                             });
                           },
+                          validator: (value) {
+                            if (value == null) {
+                              return 'Kategori Perusahaan tidak boleh kosong';
+                            }
+                            return null;
+                          },
                           onChanged: (value) {
                             setState(() {
                               _kategoriPerusahaan = value;
@@ -184,6 +190,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             setState(() {
                               _kota = value;
                             });
+                          },
+                          validator: (value) {
+                            if (value == null) {
+                              return 'Kota tidak boleh kosong';
+                            }
+                            return null;
                           },
                           onChanged: (value) {
                             setState(() {
@@ -243,7 +255,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
           key: _formKeyEmployee,
           child: Column(
             children: <Widget>[
-              
               new TextFields(
                   labelText: 'Nama Lengkap',
                   iconData: Icons.person,
@@ -402,13 +413,17 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   onSaved: (input) => _gaji = input,
                   obscureText: false,
                   textInputType: TextInputType.number),
+              new TextFields(
+                  labelText: 'Pengalaman Kerja',
+                  iconData: Icons.access_time,
+                  onSaved: (input) => _pengKerja = input,
+                  obscureText: false,
+                  textInputType: TextInputType.text),
               showCircular
                   ? Center(child: CircularProgressIndicator())
                   : SizedBox(),
               new RoundedButton(
-                  text: 'Registrasi',
-                  onPress: _cekInput,
-                  color: Colors.blue),
+                  text: 'Registrasi', onPress: _cekInput, color: Colors.blue),
               SizedBox(
                 height: 20.0,
               ),
@@ -423,25 +438,33 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   void _cekInput() {
     if (_pendidikan == null) {
-      Fluttertoast.showToast(
-        msg: "Pendidikan belum dipilih",
-        toastLength: Toast.LENGTH_LONG,
-      );
+      EdgeAlert.show(context,
+          title: 'Error',
+          description: 'Pendidikan Belum Dipilih',
+          gravity: EdgeAlert.TOP,
+          icon: Icons.error,
+          backgroundColor: Colors.red);
     } else if (_gender == null) {
-      Fluttertoast.showToast(
-        msg: "Jenis Kelamin belum dipilih",
-        toastLength: Toast.LENGTH_LONG,
-      );
+      EdgeAlert.show(context,
+          title: 'Error',
+          description: 'Gender Belum Dipilih',
+          gravity: EdgeAlert.TOP,
+          icon: Icons.error,
+          backgroundColor: Colors.red);
     } else if (_alamat == null) {
-      Fluttertoast.showToast(
-        msg: "Lokasi belum dipilih",
-        toastLength: Toast.LENGTH_LONG,
-      );
+      EdgeAlert.show(context,
+          title: 'Error',
+          description: 'Lokasi Belum Dipilih',
+          gravity: EdgeAlert.TOP,
+          icon: Icons.error,
+          backgroundColor: Colors.red);
     } else if (_jamKerja == null) {
-      Fluttertoast.showToast(
-        msg: "Hari Kerja belum dipilih",
-        toastLength: Toast.LENGTH_LONG,
-      );
+      EdgeAlert.show(context,
+          title: 'Error',
+          description: 'Jam Kerja Belum Dipilih',
+          gravity: EdgeAlert.TOP,
+          icon: Icons.error,
+          backgroundColor: Colors.red);
     } else {
       _submitEmployee();
     }
@@ -507,7 +530,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
       'latitude': _lat,
       'longitude': _long,
       'position': myLocation.data,
-      'statusKerja': true
+      'statusKerja': true,
+      'pengKerja': _pengKerja
     });
     _firestore.collection('users').document(userId).setData(
       {

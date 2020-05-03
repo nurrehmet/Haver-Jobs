@@ -7,6 +7,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:haverjob/components/details_account.dart';
 import 'package:haverjob/screens/employee_seeker/find_employee_screen.dart';
 import 'package:geoflutterfire/geoflutterfire.dart';
+import 'package:haverjob/utils/map_styles.dart';
 import 'package:rxdart/rxdart.dart';
 import 'dart:ui' as ui;
 
@@ -68,6 +69,7 @@ class MapsViewState extends State<MapsView> {
   void initState() {
     super.initState();
     print(widget.listQuery);
+    _nilaiRadius = 1000;
     initData();
   }
 
@@ -83,7 +85,7 @@ class MapsViewState extends State<MapsView> {
       appBar: AppBar(
         title: Text(
           'Hasil Pencarian',
-          style: TextStyle(fontFamily: 'Product Sans'),
+          
         ),
         centerTitle: true,
       ),
@@ -94,32 +96,6 @@ class MapsViewState extends State<MapsView> {
           SafeArea(
             child: Column(
               children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Card(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10.0),
-                      ),
-                      child: Column(
-                        children: <Widget>[
-                          Icon(Icons.info_outline),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: markers.isEmpty
-                                ? Text(
-                                    'Tidak Ada Pekerja Part Time Terdekat',
-                                    style: TextStyle(
-                                        color: Colors.red,
-                                        fontWeight: FontWeight.bold),
-                                  )
-                                : Text('Pekerja Part Time Ditemukan',
-                                    style: TextStyle(
-                                        color: Colors.blue,
-                                        fontWeight: FontWeight.bold)),
-                          ),
-                        ],
-                      )),
-                ),
                 Spacer(),
                 Spacer(),
                 Spacer(),
@@ -148,24 +124,41 @@ class MapsViewState extends State<MapsView> {
                     child: FloatingActionButton(
                         heroTag: "btn2",
                         tooltip: 'Lokasi Sekarang',
-                        backgroundColor: Colors.white,
-                        child: Icon(Icons.near_me, color: Colors.blue),
+                        backgroundColor: Colors.blue,
+                        child: Icon(Icons.near_me, color: Colors.white),
                         onPressed: () => _currentLocation()),
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 2.0),
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Container(
-                      child: Card(
-                        color: Colors.white,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10.0),
+                Container(
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(20.0),
+                        topRight: Radius.circular(20.0)),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey,
+                        blurRadius: 25.0, // soften the shadow
+                        spreadRadius: 5.0, //extend the shadow
+                        offset: Offset(
+                          15.0, // Move to right 10  horizontally
+                          15.0, // Move to bottom 10 Vertically
                         ),
+                      )
+                    ],
+                  ),
+                  height: 150,
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 2.0),
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Container(
                         child: Column(
                           children: <Widget>[
-                            Text('Atur Jarak Radius'),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text('Atur Jarak Radius'),
+                            ),
                             Slider(
                               min: 1,
                               max: 15,
@@ -175,6 +168,20 @@ class MapsViewState extends State<MapsView> {
                               activeColor: Colors.blue,
                               inactiveColor: Colors.blue.withOpacity(0.2),
                               onChanged: (double value) => changed(value),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: markers.isEmpty
+                                  ? Text(
+                                      'Tidak Ada Pekerja Part Time Terdekat',
+                                      style: TextStyle(
+                                          color: Colors.red,
+                                          fontWeight: FontWeight.bold),
+                                    )
+                                  : Text('Pekerja Part Time Ditemukan',
+                                      style: TextStyle(
+                                          color: Colors.blue,
+                                          fontWeight: FontWeight.bold)),
                             ),
                           ],
                         ),
@@ -191,6 +198,7 @@ class MapsViewState extends State<MapsView> {
   }
 
   void _onMapCreated(GoogleMapController controller) {
+    controller.setMapStyle(MapStyles.mapStyles);
     setState(() {
       _mapController = controller;
 //      _showHome();
@@ -233,8 +241,6 @@ class MapsViewState extends State<MapsView> {
     });
   }
 
-  void _openDetail() {}
-
   void _updateMarkers(List<DocumentSnapshot> documentList) {
     documentList.forEach((DocumentSnapshot document) {
       GeoPoint point = document.data['position']['geopoint'];
@@ -251,6 +257,7 @@ class MapsViewState extends State<MapsView> {
   changed(value) {
     setState(() {
       _value = value;
+      _nilaiRadius = value * 1000;
       _label = '${_value.toInt().toString()} KM';
       circles = Set.from([
         Circle(
@@ -259,7 +266,7 @@ class MapsViewState extends State<MapsView> {
           strokeColor: Colors.blue,
           circleId: CircleId('circle'),
           center: LatLng(widget.lat, widget.long),
-          radius: value * 1000,
+          radius: _nilaiRadius,
         )
       ]);
       // print(value);

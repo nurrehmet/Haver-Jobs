@@ -2,17 +2,28 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:haverjob/components/profile_avatar.dart';
+import 'package:haverjob/screens/direction_map.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class AkunDetail extends StatelessWidget {
   String userID, nama, jarak;
   AkunDetail({this.userID, this.nama, this.jarak});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(nama),
         centerTitle: true,
+      ),
+      floatingActionButton: FloatingActionButton.extended(
+        icon: Icon(Icons.directions),
+        label: Text('Arahkan'),
+        onPressed: () => Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => DirectionMap(),
+            )),
       ),
       body: StreamBuilder<DocumentSnapshot>(
         stream: Firestore.instance
@@ -39,7 +50,11 @@ class AkunDetail extends StatelessWidget {
           children: <Widget>[
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: ProfileAvatar(uid: snapshot.documentID,detailEmployee: true,radius: 70,),
+              child: ProfileAvatar(
+                uid: snapshot.documentID,
+                detailEmployee: true,
+                radius: 70,
+              ),
             ),
             Container(
               child: Padding(
@@ -54,7 +69,7 @@ class AkunDetail extends StatelessWidget {
                         fontSize: 22,
                       )),
                   subtitle: Text(
-                      '${snapshot.data['gender']} , ${snapshot.data['keahlian']}  ',
+                      '${snapshot.data['keahlian']}  ',
                       style: TextStyle(
                         fontSize: 18,
                       )),
@@ -91,13 +106,38 @@ class AkunDetail extends StatelessWidget {
                   subtitle: Text(snapshot.data['alamat']),
                 ),
                 ListTile(
+                  leading: Icon(
+                    Icons.access_time,
+                    color: Colors.blue,
+                  ),
+                  title: Text('Jam Kerja'),
+                  subtitle: Text(snapshot.data['jamKerja']),
+                ),
+                ListTile(
+                  leading: Icon(
+                    Icons.attach_money,
+                    color: Colors.blue,
+                  ),
+                  title: Text('Gaji per Jam'),
+                  subtitle: Text(snapshot.data['gaji'].toString()),
+                ),
+                ListTile(
+                  leading: Icon(
+                    Icons.access_time,
+                    color: Colors.blue,
+                  ),
+                  title: Text('Pengalaman Kerja'),
+                  subtitle: Text(snapshot.data['pengKerja'] == null? 'Pengalaman Kerja Belum Tersedia':snapshot.data['pengKerja']),
+                ),
+                ListTile(
                   trailing: FlatButton(
                     textColor: Colors.blue,
                     onPressed: () async {
-                      await launch("tel:${snapshot.data['noHp']}");
+                      await launch("https://api.whatsapp.com/send?phone=${snapshot.data['noHp']}&text=&source=&data=&app_absent=");
                     },
-                    child: Text('HUBUNGI',
+                    child: Text('CHAT WHATSAPP',
                         style: TextStyle(
+                          color: Colors.green,
                           fontWeight: FontWeight.bold,
                         )),
                   ),
@@ -114,7 +154,7 @@ class AkunDetail extends StatelessWidget {
                     onPressed: () async {
                       await launch("mailto:${snapshot.data['email']}");
                     },
-                    child: Text('HUBUNGI',
+                    child: Text('KIRIM EMAIL',
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                         )),
@@ -142,22 +182,7 @@ class AkunDetail extends StatelessWidget {
                   title: Text('Usia'),
                   subtitle: Text(snapshot.data['usia']),
                 ),
-                ListTile(
-                  leading: Icon(
-                    Icons.access_time,
-                    color: Colors.blue,
-                  ),
-                  title: Text('Jam Kerja'),
-                  subtitle: Text(snapshot.data['jamKerja']),
-                ),
-                ListTile(
-                  leading: Icon(
-                    Icons.attach_money,
-                    color: Colors.blue,
-                  ),
-                  title: Text('Gaji per Jam'),
-                  subtitle: Text(snapshot.data['gaji'].toString()),
-                ),
+                
               ],
             ),
           ],
@@ -166,5 +191,3 @@ class AkunDetail extends StatelessWidget {
     );
   }
 }
-
-

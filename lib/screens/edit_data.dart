@@ -25,6 +25,7 @@ String _nama,
     _gaji,
     _alamat,
     _kota,
+    _pengKerja,
     _userID;
 final _formKey = GlobalKey<FormState>();
 final _formKeyES = GlobalKey<FormState>();
@@ -413,6 +414,15 @@ class _EditDataState extends State<EditData> {
                   onSaved: (input) => _gaji = input,
                   obscureText: false,
                   textInputType: TextInputType.number),
+              new TextFields(
+                  labelText: 'Pengalaman Kerja',
+                  value: snapshot.data['pengKerja'].toString() == null
+                      ? 'Pengalaman Kerja'
+                      : snapshot.data['pengKerja'].toString(),
+                  iconData: Icons.access_time,
+                  onSaved: (input) => _pengKerja = input,
+                  obscureText: false,
+                  textInputType: TextInputType.text),
               showCircular
                   ? Center(child: CircularProgressIndicator())
                   : SizedBox(),
@@ -476,6 +486,7 @@ class _EditDataState extends State<EditData> {
         'latitude': _lat,
         'longitude': _long,
         'position': myLocation.data,
+        'pengKerja': _pengKerja
       };
 
       Map<String, dynamic> dataUsers = {

@@ -94,6 +94,7 @@ class _WelcomeEmployeeState extends State<WelcomeEmployee> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.grey[200],
       appBar: AppBar(
         title: Text('Haver Jobs'),
         centerTitle: true,
@@ -153,82 +154,79 @@ class _WelcomeEmployeeState extends State<WelcomeEmployee> {
           ],
         ),
       ),
-      body: Scaffold(
-        body: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
-          child: SingleChildScrollView(
-            child: Column(
-              children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.all(20.0),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      Align(
-                        alignment: Alignment.topLeft,
-                        child: Text(
-                          'Selamat Datang',
-                          style: TextStyle(
-                              fontSize: 27, fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                      SizedBox(
-                        height: 15,
-                      ),
-                      Align(
-                        alignment: Alignment.topLeft,
-                        child: Text(
-                          'Update data diri kamu untuk mendapatkan penawaran pekerjaan part time',
-                          style: TextStyle(fontSize: 18, color: Colors.grey),
-                        ),
-                      ),
-                      SizedBox(
-                        height: 25,
-                      ),
-                      Card(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10.0),
-                        ),
-                        color: Colors.amber,
-                        elevation: 1,
-                        child: ListTile(
-                          leading: Icon(Icons.lightbulb_outline,color: Colors.white,),
-                          title: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text('Tip of the day'),
-                          ),
-                          subtitle: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text(
-                                'Tambahkan foto profil di menu Edit Data Diri, untuk membuat profilmu tampil meyakinkan'),
-                          ),
-                        ),
-                      ),
-                      SizedBox(
-                        height: 15,
-                      ),
-                      BannerCard(
-                          title: 'Update Data Diri Kamu',
-                          subtitle:
-                              'Update data diri kamu agar memudahkan pemilik perusahaan untuk mencari pekerja part time yang sesuai',
-                          color: Colors.green,
-                          btText: 'UPDATE DATA DIRI',
-                          image: 'assets/images/update.png',
-                          action: () => Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) =>
-                                    EditData(role: 'employee'),
-                              ))),
-                      SizedBox(
-                        height: 25,
-                      ),
-                    ],
+      body: SingleChildScrollView(
+        child: Column(
+          children: <Widget>[
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 30.0, vertical: 10.0),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  Align(
+                    alignment: Alignment.topLeft,
+                    child: Text(
+                      'Selamat Datang',
+                      style:
+                          TextStyle(fontSize: 27, fontWeight: FontWeight.bold),
+                    ),
                   ),
-                ),
-              ],
+                  SizedBox(
+                    height: 15,
+                  ),
+                  Align(
+                    alignment: Alignment.topLeft,
+                    child: Text(
+                      'Update data diri kamu untuk mendapatkan penawaran pekerjaan part time',
+                      style: TextStyle(fontSize: 18, color: Colors.grey),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 25,
+                  ),
+                  Card(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                    color: Colors.amber,
+                    elevation: 1,
+                    child: ListTile(
+                      leading: Icon(
+                        Icons.lightbulb_outline,
+                        color: Colors.white,
+                      ),
+                      title: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text('Tip of the day'),
+                      ),
+                      subtitle: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                            'Tambahkan foto profil di menu Edit Data Diri, untuk membuat profilmu tampil meyakinkan'),
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 15,
+                  ),
+                  BannerCard(
+                      title: 'Update Data Diri Kamu',
+                      subtitle:
+                          'Update data diri kamu agar memudahkan pemilik perusahaan untuk mencari pekerja part time yang sesuai',
+                      color: Colors.green,
+                      btText: 'UPDATE DATA DIRI',
+                      image: 'assets/images/update.png',
+                      action: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => EditData(role: 'employee'),
+                          ))),
+                  SizedBox(
+                    height: 25,
+                  ),
+                ],
+              ),
             ),
-          ),
+          ],
         ),
       ),
     );

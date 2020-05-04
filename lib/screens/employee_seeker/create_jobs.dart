@@ -292,6 +292,7 @@ class _CreateJobsState extends State<CreateJobs> {
         gravity: EdgeAlert.TOP,
         icon: Icons.check_circle,
         backgroundColor: Colors.green);
+    Navigator.pop(context);
   }
 
   //get location

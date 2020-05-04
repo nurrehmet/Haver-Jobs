@@ -20,6 +20,9 @@ class _JobsDataState extends State<JobsData> {
     double heightScreen = mediaQueryData.size.height;
 
     return Scaffold(
+      appBar: AppBar(
+        title: Text('Atur Lowongan Pekerjaan'),
+      ),
       key: scaffoldState,
       backgroundColor: Colors.white,
       body: SafeArea(
@@ -52,85 +55,84 @@ class _JobsDataState extends State<JobsData> {
     return Container(
       width: widthScreen,
       height: heightScreen,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.only(left: 16.0, top: 16.0),
-            child: Align(
-              alignment: Alignment.topLeft,
-              child: Text(
-                'Data Pekerjaan',
-                style: TextStyle(fontSize: 27, fontWeight: FontWeight.bold),
+      child: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Expanded(
+              child: StreamBuilder<QuerySnapshot>(
+                stream: firestore
+                    .collection('jobs')
+                    .where('creator' ,isEqualTo: widget.userID)
+                    .snapshots(),
+                builder: (BuildContext context,
+                    AsyncSnapshot<QuerySnapshot> snapshot) {
+                  if (!snapshot.hasData) {
+                    return Center(child: CircularProgressIndicator());
+                  }
+                  return ListView.builder(
+                    padding: EdgeInsets.all(8.0),
+                    itemCount: snapshot.data.documents.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      DocumentSnapshot document = snapshot.data.documents[index];
+                      Map<String, dynamic> jobsData = document.data;
+                      return Card(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                        ),
+                        color: Colors.blue[200],
+                        elevation: 1,
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: ListTile(
+                            title: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(jobsData['judul']),
+                            ),
+                            subtitle: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(
+                                jobsData['deskripsi'],
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ),
+                            isThreeLine: false,
+                            trailing: PopupMenuButton(
+                              itemBuilder: (BuildContext context) {
+                                return List<PopupMenuEntry<String>>()
+                                  ..add(PopupMenuItem<String>(
+                                    value: 'edit',
+                                    child: Text('Edit'),
+                                  ))
+                                  ..add(PopupMenuItem<String>(
+                                    value: 'delete',
+                                    child: Text(
+                                      'Delete',
+                                      style: TextStyle(color: Colors.red),
+                                    ),
+                                  ));
+                              },
+                              onSelected: (String value) async {
+                                if (value == 'edit') {
+                                  // TODO: fitur edit task
+                                } else if (value == 'delete') {
+                                  // TODO: fitur hapus task
+                                }
+                              },
+                              child: Icon(Icons.more_vert),
+                            ),
+                          ),
+                        ),
+                      );
+                    },
+                  );
+                },
               ),
             ),
-          ),
-          SizedBox(
-            height: 20,
-          ),
-          Expanded(
-            child: StreamBuilder<QuerySnapshot>(
-              stream: firestore
-                  .collection('jobs')
-                  .where('creator' ,isEqualTo: widget.userID)
-                  .snapshots(),
-              builder: (BuildContext context,
-                  AsyncSnapshot<QuerySnapshot> snapshot) {
-                if (!snapshot.hasData) {
-                  return Center(child: CircularProgressIndicator());
-                }
-                return ListView.builder(
-                  padding: EdgeInsets.all(8.0),
-                  itemCount: snapshot.data.documents.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    DocumentSnapshot document = snapshot.data.documents[index];
-                    Map<String, dynamic> jobsData = document.data;
-                    return Card(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10.0),
-                      ),
-                      color: Colors.blue[50],
-                      elevation: 1,
-                      child: ListTile(
-                        title: Text(jobsData['judul']),
-                        subtitle: Text(
-                          jobsData['deskripsi'],
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                        isThreeLine: false,
-                        trailing: PopupMenuButton(
-                          itemBuilder: (BuildContext context) {
-                            return List<PopupMenuEntry<String>>()
-                              ..add(PopupMenuItem<String>(
-                                value: 'edit',
-                                child: Text('Edit'),
-                              ))
-                              ..add(PopupMenuItem<String>(
-                                value: 'delete',
-                                child: Text(
-                                  'Delete',
-                                  style: TextStyle(color: Colors.red),
-                                ),
-                              ));
-                          },
-                          onSelected: (String value) async {
-                            if (value == 'edit') {
-                              // TODO: fitur edit task
-                            } else if (value == 'delete') {
-                              // TODO: fitur hapus task
-                            }
-                          },
-                          child: Icon(Icons.more_vert),
-                        ),
-                      ),
-                    );
-                  },
-                );
-              },
-            ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

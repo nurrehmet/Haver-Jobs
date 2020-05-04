@@ -5,16 +5,16 @@ import 'package:haverjob/components/profile_avatar.dart';
 
 String _keahlian;
 
-class EmployeeList extends StatefulWidget {
+class JobsList extends StatefulWidget {
   final String keahlian;
 
-  const EmployeeList({Key key, this.keahlian}) : super(key: key);
+  const JobsList({Key key, this.keahlian}) : super(key: key);
 
   @override
-  _EmployeeListState createState() => _EmployeeListState();
+  _JobsListState createState() => _JobsListState();
 }
 
-class _EmployeeListState extends State<EmployeeList> {
+class _JobsListState extends State<JobsList> {
   @override
   void initState() {
     super.initState();
@@ -26,7 +26,7 @@ class _EmployeeListState extends State<EmployeeList> {
     return Scaffold(
       backgroundColor: Colors.grey[200],
       appBar: AppBar(
-        title: Text('List ' + _keahlian + ' Part Time'),
+        title: Text('Loker ' + _keahlian + ' Part Time'),
         centerTitle: true,
       ),
       body: EmployeeData(),
@@ -39,13 +39,12 @@ class EmployeeData extends StatelessWidget {
   Widget build(BuildContext context) {
     return StreamBuilder<QuerySnapshot>(
       stream: Firestore.instance
-          .collection('employee')
-          .where('keahlian', isEqualTo: _keahlian)
-          .where('statusKerja', isEqualTo: true)
+          .collection('jobs')
+          .where('kategoriPekerjaan', isEqualTo: _keahlian)
           .snapshots(),
       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
         if (snapshot.hasError) return new Text('Error: ${snapshot.error}');
-        if (!snapshot.hasData) return Text('Tidak Ada Pekerja');
+        if (!snapshot.hasData) return Text('Tidak Ada Lowongan Kerja Tersedia');
         switch (snapshot.connectionState) {
           case ConnectionState.waiting:
             return new Text('Loading...');
@@ -70,9 +69,9 @@ class EmployeeData extends StatelessWidget {
                             Container(
                               color: Colors.amber,
                               child: new ListTile(
-                                leading: new ProfileAvatar(uid: document.documentID,detailEmployee: true,),
-                                title: new Text(document['nama']),
-                                subtitle: new Text(document['email']),
+                                leading: new ProfileAvatar(uid: document['creator'],detailEmployee: true,),
+                                title: new Text(document['judul']),
+                                subtitle: new Text(document['lokasi'],maxLines: 2,),
                               ),
                             ),
                             new ListTile(
@@ -84,12 +83,12 @@ class EmployeeData extends StatelessWidget {
                               subtitle: Text(document['gaji'].toString()),
                             ),
                             new ListTile(
-                              title: Text('Kota'),
+                              title: Text('Kategori Pekerjaan'),
                               leading: Icon(
-                                Icons.location_city,
+                                Icons.local_drink,
                                 color: Colors.blue,
                               ),
-                              subtitle: Text(document['kota'].toString()),
+                              subtitle: Text(document['kategoriPekerjaan'].toString()),
                             ),
                             ButtonBar(
                               children: <Widget>[

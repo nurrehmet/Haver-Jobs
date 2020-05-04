@@ -236,7 +236,7 @@ class WelcomeES extends StatelessWidget {
                   SizedBox(
                     height: 25,
                   ),
-                  GridBanner(),
+                  
                 ],
               ),
             ),
@@ -247,109 +247,4 @@ class WelcomeES extends StatelessWidget {
   }
 }
 
-class GridBanner extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: <Widget>[
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            ItemGrid(
-              label: 'Programmer',
-              action: () => {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => EmployeeList(
-                      keahlian: 'Programmer',
-                    ),
-                  ),
-                )
-              },
-              image: 'assets/icons/programmer.png',
-            ),
-            ItemGrid(
-              label: 'Barista',
-              action: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => EmployeeList(
-                      keahlian: 'Barista',
-                    ),
-                  ),
-                );
-              },
-              image: 'assets/icons/barista.png',
-            ),
-            ItemGrid(
-              label: 'Penulis Lepas',
-              action: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => EmployeeList(
-                      keahlian: 'Penulis Lepas',
-                    ),
-                  ),
-                );
-              },
-              image: 'assets/icons/penulis.png',
-            ),
-          ],
-        ),
-        SizedBox(
-          height: 20,
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            ItemGrid(
-              label: 'Guru Les',
-              action: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => EmployeeList(
-                      keahlian: 'Guru Les Privat',
-                    ),
-                  ),
-                );
-              },
-              image: 'assets/icons/guru.png',
-            ),
-            ItemGrid(
-              label: 'Desain Grafis',
-              action: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => EmployeeList(
-                      keahlian: 'Desainer Grafis',
-                    ),
-                  ),
-                );
-              },
-              image: 'assets/icons/designer.png',
-            ),
-            ItemGrid(
-              label: 'Waiter',
-              action: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => EmployeeList(
-                      keahlian: 'Waiter',
-                    ),
-                  ),
-                );
-              },
-              image: 'assets/icons/waiter.png',
-            ),
-          ],
-        ),
-      ],
-    );
-  }
-}
+

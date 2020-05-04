@@ -4,11 +4,13 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:haverjob/components/banner_card.dart';
 import 'package:haverjob/components/details_account.dart';
+import 'package:haverjob/components/item_grid.dart';
 import 'package:haverjob/components/profile_avatar.dart';
 import 'package:haverjob/components/status_kerja.dart';
 import 'package:haverjob/functions/get_data.dart';
 import 'package:haverjob/models/global.dart';
 import 'package:haverjob/screens/edit_data.dart';
+import 'package:haverjob/screens/employee/employee_list.dart';
 import 'package:haverjob/screens/welcome_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -34,67 +36,11 @@ class _EmployeeScreenState extends State<EmployeeScreen> {
         WelcomeEmployee(
           imageUrl: _imageUrl,
         ),
-        Center(child: Text('Cari Pekerjaan')),
+        FindJob(),
       ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _widgetOptions.elementAt(_selectedIndex),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            title: Text(
-              'Beranda',
-              style: TextStyle(fontWeight: FontWeight.bold),
-            ),
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.chat),
-            title: Text(
-              'Chat',
-              style: TextStyle(fontWeight: FontWeight.bold),
-            ),
-          ),
-        ],
-        currentIndex: _selectedIndex,
-        selectedItemColor: Colors.blue,
-        onTap: _onItemTapped,
-      ),
-    );
-  }
-
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-  }
-
-  getID() async {
-    FirebaseUser user = await FirebaseAuth.instance.currentUser();
-    setState(() {
-      _userID = user.uid;
-      email = user.email;
-      var ref = FirebaseStorage.instance.ref().child('avatar/$_userID');
-      ref.getDownloadURL().then((loc) => setState(() => _imageUrl = loc));
-      print(_imageUrl);
-    });
-  }
-}
-
-class WelcomeEmployee extends StatefulWidget {
-  String imageUrl;
-  WelcomeEmployee({this.imageUrl});
-
-  @override
-  _WelcomeEmployeeState createState() => _WelcomeEmployeeState();
-}
-
-class _WelcomeEmployeeState extends State<WelcomeEmployee> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.grey[200],
       appBar: AppBar(
         title: Text('Haver Jobs'),
         centerTitle: true,
@@ -154,6 +100,62 @@ class _WelcomeEmployeeState extends State<WelcomeEmployee> {
           ],
         ),
       ),
+      body: _widgetOptions.elementAt(_selectedIndex),
+      bottomNavigationBar: BottomNavigationBar(
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            title: Text(
+              'Beranda',
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.search),
+            title: Text(
+              'Cari Lowongan Kerja',
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
+          ),
+        ],
+        currentIndex: _selectedIndex,
+        selectedItemColor: Colors.blue,
+        onTap: _onItemTapped,
+      ),
+    );
+  }
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
+
+  getID() async {
+    FirebaseUser user = await FirebaseAuth.instance.currentUser();
+    setState(() {
+      _userID = user.uid;
+      email = user.email;
+      var ref = FirebaseStorage.instance.ref().child('avatar/$_userID');
+      ref.getDownloadURL().then((loc) => setState(() => _imageUrl = loc));
+      print(_imageUrl);
+    });
+  }
+}
+
+class WelcomeEmployee extends StatefulWidget {
+  String imageUrl;
+  WelcomeEmployee({this.imageUrl});
+
+  @override
+  _WelcomeEmployeeState createState() => _WelcomeEmployeeState();
+}
+
+class _WelcomeEmployeeState extends State<WelcomeEmployee> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.grey[200],
       body: SingleChildScrollView(
         child: Column(
           children: <Widget>[
@@ -229,6 +231,150 @@ class _WelcomeEmployeeState extends State<WelcomeEmployee> {
           ],
         ),
       ),
+    );
+  }
+}
+
+class FindJob extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.grey[200],
+      body: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 30.0, vertical: 10.0),
+        child: Column(
+          children: <Widget>[
+            Align(
+              alignment: Alignment.topLeft,
+              child: Text(
+                'Cari Lowongan Pekerjaan',
+                style: TextStyle(fontSize: 27, fontWeight: FontWeight.bold),
+              ),
+            ),
+            SizedBox(
+              height: 15,
+            ),
+            Align(
+              alignment: Alignment.topLeft,
+              child: Text(
+                'Cari lowongan pekerjaan part time dengan kategori keahlian tertentu',
+                style: TextStyle(fontSize: 18, color: Colors.grey),
+              ),
+            ),
+            SizedBox(
+              height: 25,
+            ),
+           GridBanner()
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class GridBanner extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: <Widget>[
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            ItemGrid(
+              label: 'Programmer',
+              action: () => {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => JobsList(
+                      keahlian: 'Programmer',
+                    ),
+                  ),
+                )
+              },
+              image: 'assets/icons/programmer.png',
+            ),
+            ItemGrid(
+              label: 'Barista',
+              action: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => JobsList(
+                      keahlian: 'Barista',
+                    ),
+                  ),
+                );
+              },
+              image: 'assets/icons/barista.png',
+            ),
+            ItemGrid(
+              label: 'Penulis Lepas',
+              action: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => JobsList(
+                      keahlian: 'Penulis Lepas',
+                    ),
+                  ),
+                );
+              },
+              image: 'assets/icons/penulis.png',
+            ),
+          ],
+        ),
+        SizedBox(
+          height: 20,
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            ItemGrid(
+              label: 'Guru Les',
+              action: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => JobsList(
+                      keahlian: 'Guru Les Privat',
+                    ),
+                  ),
+                );
+              },
+              image: 'assets/icons/guru.png',
+            ),
+            ItemGrid(
+              label: 'Desain Grafis',
+              action: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => JobsList(
+                      keahlian: 'Desainer Grafis',
+                    ),
+                  ),
+                );
+              },
+              image: 'assets/icons/designer.png',
+            ),
+            ItemGrid(
+              label: 'Waiter',
+              action: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => JobsList(
+                      keahlian: 'Waiter',
+                    ),
+                  ),
+                );
+              },
+              image: 'assets/icons/waiter.png',
+            ),
+          ],
+        ),
+      ],
     );
   }
 }

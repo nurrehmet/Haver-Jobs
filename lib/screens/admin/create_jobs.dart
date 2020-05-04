@@ -5,15 +5,14 @@ import 'package:flutter/material.dart';
 import 'package:geoflutterfire/geoflutterfire.dart';
 import 'package:haverjob/components/widgets.dart';
 import 'package:haverjob/models/list_data.dart';
-import 'package:haverjob/screens/admin/admin_screen.dart';
 import 'package:place_picker/place_picker.dart';
 
-class CreateES extends StatefulWidget {
+class CreateJobs extends StatefulWidget {
   @override
-  _CreateESState createState() => _CreateESState();
+  _CreateJobsState createState() => _CreateJobsState();
 }
 
-class _CreateESState extends State<CreateES> {
+class _CreateJobsState extends State<CreateJobs> {
   final _formKey = GlobalKey<FormState>();
   //data ES
   String _nama, _email, _password, _alamat, _noHp, _kategoriPerusahaan, _kota;
@@ -205,8 +204,7 @@ class _CreateESState extends State<CreateES> {
         'long': _long
       },
     );
-    Navigator.pop(
-        context, MaterialPageRoute(builder: (context) => AdminScreen()));
+    
   }
 
   //get location

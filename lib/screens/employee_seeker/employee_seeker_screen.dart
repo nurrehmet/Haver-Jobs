@@ -5,6 +5,7 @@ import 'package:haverjob/components/banner_card.dart';
 import 'package:haverjob/components/item_grid.dart';
 import 'package:haverjob/components/profile_avatar.dart';
 import 'package:haverjob/screens/edit_data.dart';
+import 'package:haverjob/screens/employee_seeker/job_screen.dart';
 import 'package:haverjob/screens/maps_view.dart';
 import 'package:haverjob/screens/employee/employee_list.dart';
 import 'package:haverjob/screens/welcome_screen.dart';
@@ -34,77 +35,12 @@ class _EmployeeSeekerScreenState extends State<EmployeeSeekerScreen> {
   List<Widget> get _widgetOptions => [
         // FindEmployeeScreen(),
         WelcomeES(),
-        Center(
-          child: Text(
-            'Posting Pekerjaan',
-          ),
-        ),
+        JobScreen(userID: _userID,)
       ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _widgetOptions.elementAt(_selectedIndex),
-      bottomNavigationBar: BottomNavigationBar(
-        elevation: 0,
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.search),
-            title: Text(
-              'Cari Pekerja',
-              style: TextStyle(fontWeight: FontWeight.bold),
-            ),
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.chat),
-            title: Text('Chat', style: TextStyle(fontWeight: FontWeight.bold)),
-          ),
-        ],
-        currentIndex: _selectedIndex,
-        selectedItemColor: Colors.blue,
-        onTap: _onItemTapped,
-      ),
-    );
-  }
-
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-  }
-
-  getID() async {
-    FirebaseUser user = await FirebaseAuth.instance.currentUser();
-    setState(() {
-      _userID = user.uid;
-      _email = user.email;
-    });
-  }
-
-  //get user location
-  Future<void> _getCurrentLocation() async {
-    final Geolocator geolocator = Geolocator()..forceAndroidLocationManager;
-    await geolocator
-        .getCurrentPosition(desiredAccuracy: LocationAccuracy.high)
-        .then((Position position) {
-      setState(() {
-        lat = position.latitude;
-        long = position.longitude;
-      });
-      print(lat);
-      print(long);
-    }).catchError((e) {
-      print(e);
-    });
-    lokasi = await Geolocator().placemarkFromCoordinates(lat, long);
-  }
-}
-
-class WelcomeES extends StatelessWidget {
-  var user = FirebaseAuth.instance.currentUser();
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.grey[200],
+      
       appBar: AppBar(
         title: Text('Haver Jobs'),
         centerTitle: true,
@@ -161,6 +97,68 @@ class WelcomeES extends StatelessWidget {
           ],
         ),
       ),
+      body: _widgetOptions.elementAt(_selectedIndex),
+      bottomNavigationBar: BottomNavigationBar(
+        elevation: 1,
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(Icons.search),
+            title: Text(
+              'Cari Pekerja',
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.business_center),
+            title: Text('Lowongan Kerja', style: TextStyle(fontWeight: FontWeight.bold)),
+          ),
+        ],
+        currentIndex: _selectedIndex,
+        selectedItemColor: Colors.blue,
+        onTap: _onItemTapped,
+      ),
+    );
+  }
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
+
+  getID() async {
+    FirebaseUser user = await FirebaseAuth.instance.currentUser();
+    setState(() {
+      _userID = user.uid;
+      _email = user.email;
+    });
+  }
+
+  //get user location
+  Future<void> _getCurrentLocation() async {
+    final Geolocator geolocator = Geolocator()..forceAndroidLocationManager;
+    await geolocator
+        .getCurrentPosition(desiredAccuracy: LocationAccuracy.high)
+        .then((Position position) {
+      setState(() {
+        lat = position.latitude;
+        long = position.longitude;
+      });
+      print(lat);
+      print(long);
+    }).catchError((e) {
+      print(e);
+    });
+    lokasi = await Geolocator().placemarkFromCoordinates(lat, long);
+  }
+}
+
+class WelcomeES extends StatelessWidget {
+  var user = FirebaseAuth.instance.currentUser();
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.grey[200],
       body: SingleChildScrollView(
         child: Column(
           children: <Widget>[

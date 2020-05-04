@@ -53,6 +53,27 @@ class ListGender{
   }
 }
 
+class ListGenderPekerjaan{
+ static List<Map<String, String>> gender;
+  getList(){
+    gender = [
+    {
+      "display": "Laki-Laki",
+      "value": "Laki-Laki",
+    },
+    {
+      "display": "Perempuan",
+      "value": "Perempuan",
+    },
+    {
+      "display": "Semua gender",
+      "value": "Semua gender",
+    },
+  ];
+  return gender;
+  }
+}
+
 class ListPendidikan{
   List<Map<String, String>> pendidikan;
   getList(){
@@ -68,7 +89,11 @@ class ListPendidikan{
     {
       "display": "S1",
       "value": "S1",
-    }
+    },
+    {
+      "display": "Lainnya",
+      "value": "Lainnya",
+    },
   ];
   return pendidikan;
   }
@@ -89,6 +114,10 @@ class ListJamKerja{
     {
       "display": "18:00 - 00:00",
       "value": "18:00 - 00:00",
+    },
+    {
+      "display": "00:00 - 08:00",
+      "value": "00:00 - 08:00",
     }
   ];
   return jamKerja;

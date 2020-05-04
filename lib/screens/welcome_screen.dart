@@ -5,7 +5,7 @@ class WelcomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.amber,
+      backgroundColor: Colors.blue,
       body: Column(
         children: <Widget>[
           SizedBox(

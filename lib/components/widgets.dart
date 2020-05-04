@@ -110,6 +110,7 @@ class TextFields extends StatelessWidget {
   final bool obscureText;
   final TextInputType textInputType;
   final String value;
+  
   TextFields(
       {this.labelText,
       this.iconData,

@@ -4,7 +4,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:haverjob/components/upload_picture.dart';
 import 'package:haverjob/components/widgets.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:haverjob/models/list_data.dart';
 import 'package:place_picker/place_picker.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';

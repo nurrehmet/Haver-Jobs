@@ -1,13 +1,15 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:haverjob/screens/admin/create_employee_seeker.dart';
+import 'package:haverjob/screens/employee_seeker/create_jobs.dart';
 
-class EmployeeSeekerData extends StatefulWidget {
+class JobsData extends StatefulWidget {
+  String userID;
+  JobsData({this.userID});
   @override
-  _EmployeeSeekerDataState createState() => _EmployeeSeekerDataState();
+  _JobsDataState createState() => _JobsDataState();
 }
 
-class _EmployeeSeekerDataState extends State<EmployeeSeekerData> {
+class _JobsDataState extends State<JobsData> {
   final GlobalKey<ScaffoldState> scaffoldState = GlobalKey<ScaffoldState>();
   final Firestore firestore = Firestore.instance;
 
@@ -36,7 +38,7 @@ class _EmployeeSeekerDataState extends State<EmployeeSeekerData> {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => CreateES(),
+              builder: (context) => CreateJobs(),
             ),
           );
         },
@@ -58,7 +60,7 @@ class _EmployeeSeekerDataState extends State<EmployeeSeekerData> {
             child: Align(
               alignment: Alignment.topLeft,
               child: Text(
-                'Data Employee Seeker',
+                'Data Pekerjaan',
                 style: TextStyle(fontSize: 27, fontWeight: FontWeight.bold),
               ),
             ),
@@ -69,8 +71,8 @@ class _EmployeeSeekerDataState extends State<EmployeeSeekerData> {
           Expanded(
             child: StreamBuilder<QuerySnapshot>(
               stream: firestore
-                  .collection('employee-seeker')
-                  .orderBy('namaPerusahaan')
+                  .collection('jobs')
+                  .where('creator' ,isEqualTo: widget.userID)
                   .snapshots(),
               builder: (BuildContext context,
                   AsyncSnapshot<QuerySnapshot> snapshot) {
@@ -82,7 +84,7 @@ class _EmployeeSeekerDataState extends State<EmployeeSeekerData> {
                   itemCount: snapshot.data.documents.length,
                   itemBuilder: (BuildContext context, int index) {
                     DocumentSnapshot document = snapshot.data.documents[index];
-                    Map<String, dynamic> dataES = document.data;
+                    Map<String, dynamic> jobsData = document.data;
                     return Card(
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10.0),
@@ -90,14 +92,13 @@ class _EmployeeSeekerDataState extends State<EmployeeSeekerData> {
                       color: Colors.blue[50],
                       elevation: 1,
                       child: ListTile(
-                        title: Text(dataES['namaPerusahaan']),
+                        title: Text(jobsData['judul']),
                         subtitle: Text(
-                          dataES['alamat'],
+                          jobsData['deskripsi'],
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                         ),
                         isThreeLine: false,
-                        leading: CircleAvatar(),
                         trailing: PopupMenuButton(
                           itemBuilder: (BuildContext context) {
                             return List<PopupMenuEntry<String>>()

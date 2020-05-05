@@ -10,7 +10,7 @@ import 'package:haverjob/components/status_kerja.dart';
 import 'package:haverjob/functions/get_data.dart';
 import 'package:haverjob/models/global.dart';
 import 'package:haverjob/screens/edit_data.dart';
-import 'package:haverjob/screens/employee/employee_list.dart';
+import 'package:haverjob/screens/employee/job_list.dart';
 import 'package:haverjob/screens/welcome_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

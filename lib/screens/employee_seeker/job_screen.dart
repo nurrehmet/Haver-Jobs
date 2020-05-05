@@ -51,7 +51,7 @@ class _JobScreenState extends State<JobScreen> {
                 btText: 'BUAT LOWONGAN KERJA',
                 image: 'assets/images/update.png',
                 action: () => Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => CreateJobs())),
+                    MaterialPageRoute(builder: (context) => CreateJobs(userID: widget.userID,))),
               ),
               jarak,
               BannerCard(

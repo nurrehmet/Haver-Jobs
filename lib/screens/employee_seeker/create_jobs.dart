@@ -7,17 +7,26 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:geoflutterfire/geoflutterfire.dart';
 import 'package:haverjob/components/widgets.dart';
+import 'package:haverjob/functions/get_data.dart';
+import 'package:haverjob/models/employee_seeker.dart';
 import 'package:haverjob/models/list_data.dart';
+import 'package:haverjob/screens/admin/create_jobs.dart';
 import 'package:place_picker/place_picker.dart';
 import 'package:random_string/random_string.dart';
 
 class CreateJobs extends StatefulWidget {
+  String userID;
+  CreateJobs({this.userID});
   @override
   _CreateJobsState createState() => _CreateJobsState();
 }
 
 class _CreateJobsState extends State<CreateJobs> {
   final _formKey = GlobalKey<FormState>();
+  void initState() {
+    getData();
+    super.initState();
+  }
 
   //data pekerjaan
   String _judul,
@@ -28,7 +37,9 @@ class _CreateJobsState extends State<CreateJobs> {
       _gender,
       _jamKerja,
       _deskripsi,
-      _lokasi;
+      _lokasi,
+      _namaPerusahaan,
+      _emailPerusahaan;
   String userID;
   //data lokasi
   double _lat, _long;
@@ -112,7 +123,7 @@ class _CreateJobsState extends State<CreateJobs> {
                       ),
                     ),
                     new TextFields(
-                      labelText: 'Gaji per Jam (tanpa titik / koma)',
+                      labelText: 'Gaji per Jam',
                       iconData: Icons.attach_money,
                       onSaved: (input) => _gaji = input,
                       obscureText: false,
@@ -244,6 +255,19 @@ class _CreateJobsState extends State<CreateJobs> {
     );
   }
 
+  getData() {
+    Firestore.instance
+        .collection('employee-seeker')
+        .document(widget.userID)
+        .get()
+        .then(
+          (DocumentSnapshot) => setState(() {
+            _namaPerusahaan = DocumentSnapshot.data['namaPerusahaan'];
+            _emailPerusahaan = DocumentSnapshot.data['email'];
+          }),
+        );
+  }
+
   //submit employee seeker
   Future<void> _submitJob() async {
     if (_formKey.currentState.validate()) {
@@ -252,10 +276,6 @@ class _CreateJobsState extends State<CreateJobs> {
         showCircular = true;
       });
       try {
-        final FirebaseUser user = await FirebaseAuth.instance.currentUser();
-        setState(() {
-          userID = user.uid;
-        });
         _createJob();
       } catch (e) {
         print(e.message);
@@ -265,17 +285,20 @@ class _CreateJobsState extends State<CreateJobs> {
 
   //registrasi employee seeker
   Future<void> _createJob() async {
+    String _gajiFormat = _gaji.replaceAll(',', '');
     Firestore.instance
         .collection('jobs')
         .document(randomAlphaNumeric(20))
         .setData({
-      'creator': userID,
+      'creator': widget.userID,
+      'namaPerusahaan': _namaPerusahaan,
+      'emailPerusahaan': _emailPerusahaan,
       'createdAt': DateTime.now(),
       'judul': _judul,
       'kategoriPekerjaan': _kategoriPekerjaan,
       'gender': _gender,
       'jamKerja': _jamKerja,
-      'gaji': _gaji,
+      'gaji': _gajiFormat.replaceAll('.', ''),
       'pendidikan': _pendidikan,
       'deskripsi': _deskripsi,
       'lokasi': _lokasi,

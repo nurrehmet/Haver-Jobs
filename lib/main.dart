@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:haverjob/components/upload_picture.dart';
 import 'package:haverjob/screens/edit_data.dart';
-import 'package:haverjob/screens/employee/employee_list.dart';
 import 'package:haverjob/screens/employee_seeker/find_employee_screen.dart';
 import 'package:haverjob/screens/home.dart';
 import 'package:haverjob/screens/login_screen.dart';

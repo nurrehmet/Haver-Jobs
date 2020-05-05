@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:haverjob/screens/edit_data.dart';
 import 'package:haverjob/screens/employee_seeker/create_jobs.dart';
+import 'package:haverjob/screens/employee_seeker/edit_jobs.dart';
 
 class JobsData extends StatefulWidget {
   String userID;
@@ -12,6 +14,52 @@ class JobsData extends StatefulWidget {
 class _JobsDataState extends State<JobsData> {
   final GlobalKey<ScaffoldState> scaffoldState = GlobalKey<ScaffoldState>();
   final Firestore firestore = Firestore.instance;
+  bool delete = false;
+
+  //confirm delete
+  Future<void> _confirmDelete() async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text('Peringatan'),
+          ),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                      'Apakah anda yakin untuk menghapus data pekerjaan ini?'),
+                ),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            FlatButton(
+                child: Text(
+                  'HAPUS',
+                  style: TextStyle(color: Colors.red),
+                ),
+                onPressed: () {
+                  setState(() {
+                    delete = true;
+                  });
+                  Navigator.pop(context);
+                }),
+            FlatButton(
+                child: Text('BATAL'),
+                onPressed: () {
+                  Navigator.pop(context);
+                }),
+          ],
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +89,7 @@ class _JobsDataState extends State<JobsData> {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => CreateJobs(),
+              builder: (context) => CreateJobs(userID: widget.userID,),
             ),
           );
         },
@@ -64,7 +112,7 @@ class _JobsDataState extends State<JobsData> {
               child: StreamBuilder<QuerySnapshot>(
                 stream: firestore
                     .collection('jobs')
-                    .where('creator' ,isEqualTo: widget.userID)
+                    .where('creator', isEqualTo: widget.userID)
                     .snapshots(),
                 builder: (BuildContext context,
                     AsyncSnapshot<QuerySnapshot> snapshot) {
@@ -75,7 +123,8 @@ class _JobsDataState extends State<JobsData> {
                     padding: EdgeInsets.all(8.0),
                     itemCount: snapshot.data.documents.length,
                     itemBuilder: (BuildContext context, int index) {
-                      DocumentSnapshot document = snapshot.data.documents[index];
+                      DocumentSnapshot document =
+                          snapshot.data.documents[index];
                       Map<String, dynamic> jobsData = document.data;
                       return Card(
                         shape: RoundedRectangleBorder(
@@ -109,16 +158,28 @@ class _JobsDataState extends State<JobsData> {
                                   ..add(PopupMenuItem<String>(
                                     value: 'delete',
                                     child: Text(
-                                      'Delete',
+                                      'Hapus',
                                       style: TextStyle(color: Colors.red),
                                     ),
                                   ));
                               },
                               onSelected: (String value) async {
                                 if (value == 'edit') {
-                                  // TODO: fitur edit task
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => EditJobs(
+                                            jobID: document.documentID),
+                                      ));
                                 } else if (value == 'delete') {
-                                  // TODO: fitur hapus task
+                                  _confirmDelete();
+                                  if (delete == true) {
+                                    await Firestore.instance.runTransaction(
+                                        (Transaction myTransaction) async {
+                                      await myTransaction.delete(snapshot
+                                          .data.documents[index].reference);
+                                    });
+                                  }
                                 }
                               },
                               child: Icon(Icons.more_vert),

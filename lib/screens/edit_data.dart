@@ -193,7 +193,7 @@ class _EditDataState extends State<EditData> {
                         ? 'Lokasi belum dipilih'
                         : 'Lokasi Anda: $_alamat',
                     style: TextStyle(
-                        color: Colors.grey, fontFamily: 'Product Sans'),
+                        color: Colors.grey, ),
                   ),
                 ),
               ),

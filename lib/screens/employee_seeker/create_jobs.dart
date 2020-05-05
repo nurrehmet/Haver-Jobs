@@ -227,7 +227,7 @@ class _CreateJobsState extends State<CreateJobs> {
                               ? 'Lokasi belum dipilih'
                               : 'Lokasi Anda: $_lokasi',
                           style: TextStyle(
-                              color: Colors.grey, fontFamily: 'Product Sans'),
+                              color: Colors.grey, ),
                         ),
                       ),
                     ),

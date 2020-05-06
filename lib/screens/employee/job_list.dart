@@ -92,7 +92,7 @@ class EmployeeData extends StatelessWidget {
                             ),
                             new ListTile(
                               title: Text('Deskripsi Pekerjaan'),
-                              subtitle: Text(document['deskripsi']),
+                              subtitle: Text(document['deskripsi'],maxLines: 5,),
                             ),
                             new ListTile(
                               title: Text('Lokasi'),

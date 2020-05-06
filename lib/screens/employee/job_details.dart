@@ -64,73 +64,87 @@ class JobDetail extends StatelessWidget {
                 ),
               ),
             ),
-            Column(
-              children: <Widget>[
-                FloatingActionButton.extended(
-                  backgroundColor: Colors.green,
-                  icon: Icon(Icons.send),
-                  label: Text('Kirim Email Lamaran'),
-                  onPressed: () async {
-                    await launch("mailto:${snapshot.data['emailPerusahaan']}");
-                  },
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Card(
+                color: Colors.amber[200],
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20.0),
                 ),
-                ListTile(
-                  leading: Icon(
-                    Icons.date_range,
-                    color: Colors.blue,
-                  ),
-                  title: Text('Tanggal Dipublikasikan'),
-                  subtitle: Text(date.toString()),
+                elevation: 1,
+                child: Column(
+                  children: <Widget>[
+                    ListTile(
+                      // leading: Icon(
+                      //   Icons.date_range,
+                      //   color: Colors.blue,
+                      // ),
+                      title: Text('Tanggal Dipublikasikan'),
+                      subtitle: Text(date.toString()),
+                    ),
+                    ListTile(
+                      // leading: Icon(
+                      //   Icons.title,
+                      //   color: Colors.blue,
+                      // ),
+                      title: Text('Deksripsi Pekerjaan'),
+                      subtitle: Text(snapshot.data['deskripsi']),
+                    ),
+                    ListTile(
+                      // leading: Icon(
+                      //   Icons.location_city,
+                      //   color: Colors.blue,
+                      // ),
+                      title: Text('Lokasi'),
+                      subtitle: Text(snapshot.data['lokasi']),
+                    ),
+                    ListTile(
+                      // leading: Icon(
+                      //   Icons.attach_money,
+                      //   color: Colors.blue,
+                      // ),
+                      title: Text('Gaji per Jam'),
+                      subtitle: Text('Rp. ' + snapshot.data['gaji']),
+                    ),
+                    ListTile(
+                      // leading: Icon(
+                      //   Icons.access_time,
+                      //   color: Colors.blue,
+                      // ),
+                      title: Text('Jam Kerja'),
+                      subtitle: Text(snapshot.data['jamKerja']),
+                    ),
+                    ListTile(
+                      // leading: Icon(
+                      //   Icons.school,
+                      //   color: Colors.blue,
+                      // ),
+                      title: Text('Pendidikan Minimal'),
+                      subtitle: Text(snapshot.data['pendidikan']),
+                    ),
+                    ListTile(
+                      // leading: Icon(
+                      //   Icons.people,
+                      //   color: Colors.blue,
+                      // ),
+                      title: Text('Gender Yang Dibutuhkan'),
+                      subtitle: Text(snapshot.data['gender']),
+                    ),
+                    FloatingActionButton.extended(
+                      backgroundColor: Colors.green,
+                      icon: Icon(Icons.send),
+                      label: Text('Kirim Email Lamaran'),
+                      onPressed: () async {
+                        await launch(
+                            "mailto:${snapshot.data['emailPerusahaan']}");
+                      },
+                    ),
+                    SizedBox(
+                      height: 15,
+                    )
+                  ],
                 ),
-                ListTile(
-                  leading: Icon(
-                    Icons.title,
-                    color: Colors.blue,
-                  ),
-                  title: Text('Deksripsi Pekerjaan'),
-                  subtitle: Text(snapshot.data['deskripsi']),
-                ),
-                ListTile(
-                  leading: Icon(
-                    Icons.location_city,
-                    color: Colors.blue,
-                  ),
-                  title: Text('Lokasi'),
-                  subtitle: Text(snapshot.data['lokasi']),
-                ),
-                ListTile(
-                  leading: Icon(
-                    Icons.attach_money,
-                    color: Colors.blue,
-                  ),
-                  title: Text('Gaji per Jam'),
-                  subtitle: Text('Rp. '+snapshot.data['gaji']),
-                ),
-                ListTile(
-                  leading: Icon(
-                    Icons.access_time,
-                    color: Colors.blue,
-                  ),
-                  title: Text('Jam Kerja'),
-                  subtitle: Text(snapshot.data['jamKerja']),
-                ),
-                ListTile(
-                  leading: Icon(
-                    Icons.school,
-                    color: Colors.blue,
-                  ),
-                  title: Text('Pendidikan Minimal'),
-                  subtitle: Text(snapshot.data['pendidikan']),
-                ),
-                ListTile(
-                  leading: Icon(
-                    Icons.people,
-                    color: Colors.blue,
-                  ),
-                  title: Text('Gender Yang Dibutuhkan'),
-                  subtitle: Text(snapshot.data['gender']),
-                ),
-              ],
+              ),
             ),
           ],
         ),

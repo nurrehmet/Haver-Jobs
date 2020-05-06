@@ -16,15 +16,6 @@ class AkunDetail extends StatelessWidget {
         title: Text(nama),
         centerTitle: true,
       ),
-      floatingActionButton: FloatingActionButton.extended(
-        icon: Icon(Icons.directions),
-        label: Text('Arahkan'),
-        onPressed: () => Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => DirectionMap(),
-            )),
-      ),
       body: StreamBuilder<DocumentSnapshot>(
         stream: Firestore.instance
             .collection('employee')
@@ -45,6 +36,7 @@ class AkunDetail extends StatelessWidget {
 
   accountScreen(DocumentSnapshot snapshot) {
     return Scaffold(
+      backgroundColor: Colors.grey[350],
       body: SingleChildScrollView(
         child: Column(
           children: <Widget>[
@@ -60,130 +52,156 @@ class AkunDetail extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: ListTile(
-                  trailing: Icon(
-                    Icons.chat,
-                    color: Colors.green,
-                  ),
                   title: Text(snapshot.data['nama'],
                       style: TextStyle(
                         fontSize: 22,
                       )),
-                  subtitle: Text(
-                      '${snapshot.data['keahlian']}  ',
+                  subtitle: Text('${snapshot.data['keahlian']}  ',
                       style: TextStyle(
                         fontSize: 18,
                       )),
                 ),
               ),
             ),
-            Column(
-              children: <Widget>[
-                Visibility(
-                  visible: jarak == null ? false : true,
-                  child: ListTile(
+            FloatingActionButton.extended(
+                   backgroundColor: Colors.green,
+                    icon: Icon(Icons.chat),
+                    label: Text('Hubungi WhatsApp'),
+                    onPressed: () async {
+                        await launch(
+                            "https://api.whatsapp.com/send?phone=${snapshot.data['noHp']}&text=&source=&data=&app_absent=");
+                      },
+                  ),
+            SizedBox(height: 15,),
+            Container(
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(25.0),
+                  topRight: Radius.circular(25.0)),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.white,
+                  blurRadius: 25.0, // soften the shadow
+                  spreadRadius: 5.0, //extend the shadow
+                  offset: Offset(
+                    15.0, // Move to right 10  horizontally
+                    15.0, // Move to bottom 10 Vertically
+                  ),
+                ),
+              ],
+            ),
+              child: Column(
+                children: <Widget>[
+                  Visibility(
+                    visible: jarak == null ? false : true,
+                    child: ListTile(
+                      leading: Icon(
+                        Icons.directions,
+                        color: Colors.blue,
+                      ),
+                      title: Text('Jarak'),
+                      subtitle: Text('$jarak KM'),
+                    ),
+                  ),
+                  ListTile(
                     leading: Icon(
-                      Icons.directions,
+                      Icons.location_city,
                       color: Colors.blue,
                     ),
-                    title: Text('Jarak'),
-                    subtitle: Text('$jarak KM'),
+                    title: Text('Kota'),
+                    subtitle: Text(snapshot.data['kota']),
                   ),
-                ),
-                ListTile(
-                  leading: Icon(
-                    Icons.location_city,
-                    color: Colors.blue,
+                  ListTile(
+                    leading: Icon(
+                      Icons.map,
+                      color: Colors.blue,
+                    ),
+                    title: Text('Alamat'),
+                    subtitle: Text(snapshot.data['alamat']),
                   ),
-                  title: Text('Kota'),
-                  subtitle: Text(snapshot.data['kota']),
-                ),
-                ListTile(
-                  leading: Icon(
-                    Icons.map,
-                    color: Colors.blue,
+                  ListTile(
+                    leading: Icon(
+                      Icons.access_time,
+                      color: Colors.blue,
+                    ),
+                    title: Text('Jam Kerja'),
+                    subtitle: Text(snapshot.data['jamKerja']),
                   ),
-                  title: Text('Alamat'),
-                  subtitle: Text(snapshot.data['alamat']),
-                ),
-                ListTile(
-                  leading: Icon(
-                    Icons.access_time,
-                    color: Colors.blue,
+                  ListTile(
+                    leading: Icon(
+                      Icons.attach_money,
+                      color: Colors.blue,
+                    ),
+                    title: Text('Gaji per Jam'),
+                    subtitle: Text(snapshot.data['gaji'].toString()),
                   ),
-                  title: Text('Jam Kerja'),
-                  subtitle: Text(snapshot.data['jamKerja']),
-                ),
-                ListTile(
-                  leading: Icon(
-                    Icons.attach_money,
-                    color: Colors.blue,
+                  ListTile(
+                    leading: Icon(
+                      Icons.access_time,
+                      color: Colors.blue,
+                    ),
+                    title: Text('Pengalaman Kerja'),
+                    subtitle: Text(snapshot.data['pengKerja'] == null
+                        ? 'Pengalaman Kerja Belum Tersedia'
+                        : snapshot.data['pengKerja']),
                   ),
-                  title: Text('Gaji per Jam'),
-                  subtitle: Text(snapshot.data['gaji'].toString()),
-                ),
-                ListTile(
-                  leading: Icon(
-                    Icons.access_time,
-                    color: Colors.blue,
+                  ListTile(
+                    trailing: FlatButton(
+                      textColor: Colors.blue,
+                      onPressed: () async {
+                        await launch(
+                            "tel:${snapshot.data['noHp']}");
+                      },
+                      child: Text('TELPON',
+                          style: TextStyle(
+                            color: Colors.green,
+                            fontWeight: FontWeight.bold,
+                          )),
+                    ),
+                    leading: Icon(
+                      Icons.phone,
+                      color: Colors.blue,
+                    ),
+                    title: Text('No Handphone'),
+                    subtitle: Text(snapshot.data['noHp']),
                   ),
-                  title: Text('Pengalaman Kerja'),
-                  subtitle: Text(snapshot.data['pengKerja'] == null? 'Pengalaman Kerja Belum Tersedia':snapshot.data['pengKerja']),
-                ),
-                ListTile(
-                  trailing: FlatButton(
-                    textColor: Colors.blue,
-                    onPressed: () async {
-                      await launch("https://api.whatsapp.com/send?phone=${snapshot.data['noHp']}&text=&source=&data=&app_absent=");
-                    },
-                    child: Text('CHAT WHATSAPP',
-                        style: TextStyle(
-                          color: Colors.green,
-                          fontWeight: FontWeight.bold,
-                        )),
+                  ListTile(
+                    trailing: FlatButton(
+                      textColor: Colors.blue,
+                      onPressed: () async {
+                        await launch("mailto:${snapshot.data['email']}");
+                      },
+                      child: Text('KIRIM EMAIL',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                          )),
+                    ),
+                    leading: Icon(
+                      Icons.email,
+                      color: Colors.blue,
+                    ),
+                    title: Text('Email'),
+                    subtitle: Text(snapshot.data['email']),
                   ),
-                  leading: Icon(
-                    Icons.phone,
-                    color: Colors.blue,
+                  ListTile(
+                    leading: Icon(
+                      Icons.school,
+                      color: Colors.blue,
+                    ),
+                    title: Text('Pendidikan Terakhir'),
+                    subtitle: Text(snapshot.data['pendidikan']),
                   ),
-                  title: Text('No Handphone'),
-                  subtitle: Text(snapshot.data['noHp']),
-                ),
-                ListTile(
-                  trailing: FlatButton(
-                    textColor: Colors.blue,
-                    onPressed: () async {
-                      await launch("mailto:${snapshot.data['email']}");
-                    },
-                    child: Text('KIRIM EMAIL',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                        )),
+                  ListTile(
+                    leading: Icon(
+                      Icons.date_range,
+                      color: Colors.blue,
+                    ),
+                    title: Text('Usia'),
+                    subtitle: Text(snapshot.data['usia']),
                   ),
-                  leading: Icon(
-                    Icons.email,
-                    color: Colors.blue,
-                  ),
-                  title: Text('Email'),
-                  subtitle: Text(snapshot.data['email']),
-                ),
-                ListTile(
-                  leading: Icon(
-                    Icons.school,
-                    color: Colors.blue,
-                  ),
-                  title: Text('Pendidikan Terakhir'),
-                  subtitle: Text(snapshot.data['pendidikan']),
-                ),
-                ListTile(
-                  leading: Icon(
-                    Icons.date_range,
-                    color: Colors.blue,
-                  ),
-                  title: Text('Usia'),
-                  subtitle: Text(snapshot.data['usia']),
-                ),
-                
-              ],
+                ],
+              ),
             ),
           ],
         ),

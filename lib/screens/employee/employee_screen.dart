@@ -100,28 +100,29 @@ class _EmployeeScreenState extends State<EmployeeScreen> {
           ],
         ),
       ),
-      body: _widgetOptions.elementAt(_selectedIndex),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            title: Text(
-              'Beranda',
-              style: TextStyle(fontWeight: FontWeight.bold),
-            ),
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.search),
-            title: Text(
-              'Cari Lowongan Kerja',
-              style: TextStyle(fontWeight: FontWeight.bold),
-            ),
-          ),
-        ],
-        currentIndex: _selectedIndex,
-        selectedItemColor: Colors.blue,
-        onTap: _onItemTapped,
-      ),
+      body: FindJob(),
+      // body: _widgetOptions.elementAt(_selectedIndex),
+      // bottomNavigationBar: BottomNavigationBar(
+      //   items: const <BottomNavigationBarItem>[
+      //     BottomNavigationBarItem(
+      //       icon: Icon(Icons.home),
+      //       title: Text(
+      //         'Beranda',
+      //         style: TextStyle(fontWeight: FontWeight.bold),
+      //       ),
+      //     ),
+      //     BottomNavigationBarItem(
+      //       icon: Icon(Icons.search),
+      //       title: Text(
+      //         'Cari Lowongan Kerja',
+      //         style: TextStyle(fontWeight: FontWeight.bold),
+      //       ),
+      //     ),
+      //   ],
+      //   currentIndex: _selectedIndex,
+      //   selectedItemColor: Colors.blue,
+      //   onTap: _onItemTapped,
+      // ),
     );
   }
 

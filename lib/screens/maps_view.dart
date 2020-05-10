@@ -133,8 +133,8 @@ class MapsViewState extends State<MapsView> {
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(20.0),
-                        topRight: Radius.circular(20.0)),
+                        topLeft: Radius.circular(25.0),
+                        topRight: Radius.circular(25.0)),
                     boxShadow: [
                       BoxShadow(
                         color: Colors.grey,
@@ -157,7 +157,7 @@ class MapsViewState extends State<MapsView> {
                           children: <Widget>[
                             Padding(
                               padding: const EdgeInsets.all(8.0),
-                              child: Text('Atur Jarak Radius'),
+                              child: Text('Atur Jarak Radius Pencarian'),
                             ),
                             Slider(
                               min: 1,
@@ -198,7 +198,7 @@ class MapsViewState extends State<MapsView> {
   }
 
   void _onMapCreated(GoogleMapController controller) {
-    controller.setMapStyle(MapStyles.mapStyles);
+    // controller.setMapStyle(MapStyles.mapStyles);
     setState(() {
       _mapController = controller;
 //      _showHome();

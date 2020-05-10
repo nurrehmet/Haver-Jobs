@@ -72,7 +72,7 @@ class AkunDetail extends StatelessWidget {
                             "https://api.whatsapp.com/send?phone=${snapshot.data['noHp']}&text=&source=&data=&app_absent=");
                       },
                   ),
-            SizedBox(height: 15,),
+            SizedBox(height: 20,),
             Container(
             decoration: BoxDecoration(
               color: Colors.white,
@@ -81,7 +81,7 @@ class AkunDetail extends StatelessWidget {
                   topRight: Radius.circular(25.0)),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.white,
+                  color: Colors.grey,
                   blurRadius: 25.0, // soften the shadow
                   spreadRadius: 5.0, //extend the shadow
                   offset: Offset(

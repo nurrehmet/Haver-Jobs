@@ -68,11 +68,7 @@ class _JobsDataState extends State<JobsData> {
     double heightScreen = mediaQueryData.size.height;
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Atur Lowongan Pekerjaan'),
-      ),
-      key: scaffoldState,
-      backgroundColor: Colors.white,
+     backgroundColor: Colors.grey[200],
       body: SafeArea(
         child: Stack(
           children: <Widget>[

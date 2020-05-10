@@ -59,68 +59,82 @@ class EmployeeData extends StatelessWidget {
                 return Column(
                   children: <Widget>[
                     Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Card(
-                        color: Colors.white,
-                        semanticContainer: true,
-                        clipBehavior: Clip.antiAliasWithSaveLayer,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10.0),
-                        ),
-                        elevation: 1,
-                        child: Column(
-                          children: <Widget>[
-                            Container(
-                              color: Colors.amber,
-                              child: new ListTile(
-                                leading: new ProfileAvatar(
-                                  uid: document['creator'],
-                                  detailEmployee: true,
-                                  radius: 25,
-                                ),
-                                title: new Text(document['judul']),
-                                subtitle: new Text(
-                                  document['namaPerusahaan'] == null
-                                      ? 'Nama Perusahaan'
-                                      : document['namaPerusahaan'],
-                                ),
+                      padding: const EdgeInsets.all(10.0),
+                      child: InkWell(
+                        borderRadius: BorderRadius.circular(15),
+                        onTap: () => Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => JobDetail(
+                                jobID: document.documentID,
                               ),
-                            ),
-                            new ListTile(
-                              title: Text('Tanggal Dipublikasikan'),
-                              subtitle: Text(date.toString()),
-                            ),
-                            new ListTile(
-                              title: Text('Deskripsi Pekerjaan'),
-                              subtitle: Text(document['deskripsi'],maxLines: 5,),
-                            ),
-                            new ListTile(
-                              title: Text('Lokasi'),
-                              subtitle: Text(
-                                document['lokasi'],
-                                maxLines: 2,
-                              ),
-                            ),
-                            ButtonBar(
-                              children: <Widget>[
-                                FlatButton(
-                                  child: Text(
-                                    'DETAIL PEKERJAAN',
-                                    style: TextStyle(
-                                        color: Colors.blue,
-                                        fontWeight: FontWeight.bold),
+                            )),
+                        child: Card(
+                          color: Colors.white,
+                          semanticContainer: true,
+                          clipBehavior: Clip.antiAliasWithSaveLayer,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(15.0),
+                          ),
+                          elevation: 1,
+                          child: Column(
+                            children: <Widget>[
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Container(
+                                  color: Colors.white,
+                                  child: new ListTile(
+                                    leading: new ProfileAvatar(
+                                      uid: document['creator'],
+                                      detailEmployee: true,
+                                      radius: 25,
+                                    ),
+                                    title: new Text(document['judul']),
+                                    subtitle: new Text(
+                                      document['namaPerusahaan'] == null
+                                          ? 'Nama Perusahaan'
+                                          : document['namaPerusahaan'],
+                                    ),
+                                    trailing: Text(document['gaji'] + ' /jam'),
                                   ),
-                                  onPressed: () => Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) => JobDetail(
-                                          jobID: document.documentID,
-                                        ),
-                                      )),
                                 ),
-                              ],
-                            ),
-                          ],
+                              ),
+                              // new ListTile(
+                              //   title: Text('Tanggal Dipublikasikan'),
+                              //   subtitle: Text(date.toString()),
+                              // ),
+                              // new ListTile(
+                              //   title: Text('Deskripsi Pekerjaan'),
+                              //   subtitle: Text(document['deskripsi'],maxLines: 5,),
+                              // ),
+                              // new ListTile(
+                              //   title: Text('Lokasi'),
+                              //   subtitle: Text(
+                              //     document['lokasi'],
+                              //     maxLines: 2,
+                              //   ),
+                              // ),
+                              // ButtonBar(
+                              //   children: <Widget>[
+                              //     FlatButton(
+                              //       child: Text(
+                              //         'DETAIL PEKERJAAN',
+                              //         style: TextStyle(
+                              //             color: Colors.blue,
+                              //             fontWeight: FontWeight.bold),
+                              //       ),
+                              // onPressed: () => Navigator.push(
+                              //     context,
+                              //     MaterialPageRoute(
+                              //       builder: (context) => JobDetail(
+                              //         jobID: document.documentID,
+                              //       ),
+                              //     )),
+                              //     ),
+                              //   ],
+                              // ),
+                            ],
+                          ),
                         ),
                       ),
                     ),

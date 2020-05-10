@@ -15,6 +15,7 @@ class JobDetail extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        elevation: 0,
         title: Text('Detail Pekerjaan'),
         centerTitle: true,
       ),
@@ -38,115 +39,181 @@ class JobDetail extends StatelessWidget {
     Timestamp t = snapshot.data['createdAt'];
     var date = DateFormat.yMMMd().add_jm().format(t.toDate());
     return Scaffold(
+      backgroundColor: Colors.blue,
       body: SingleChildScrollView(
-        child: Column(
-          children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: ProfileAvatar(
-                uid: snapshot.data['creator'],
-                detailEmployee: true,
-                radius: 70,
+        child: Container(
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(25.0),
+                topRight: Radius.circular(25.0)),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey,
+                blurRadius: 25.0, // soften the shadow
+                spreadRadius: 5.0, //extend the shadow
+                offset: Offset(
+                  15.0, // Move to right 10  horizontally
+                  15.0, // Move to bottom 10 Vertically
+                ),
+              )
+            ],
+          ),
+          child: Column(
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: ProfileAvatar(
+                  uid: snapshot.data['creator'],
+                  detailEmployee: true,
+                  radius: 30,
+                ),
               ),
-            ),
-            Container(
-              child: Padding(
+              Container(
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: ListTile(
+                    title: Center(
+                      child: Text(snapshot.data['judul'],
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              fontSize: 25, fontWeight: FontWeight.bold)),
+                    ),
+                    subtitle: Center(
+                      child: Text('${snapshot.data['namaPerusahaan']}  ',
+                          style: TextStyle(
+                            fontSize: 18,
+                          )),
+                    ),
+                  ),
+                ),
+              ),
+              Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: ListTile(
-                  title: Text(snapshot.data['judul'],
-                      style: TextStyle(
-                        fontSize: 22,
-                      )),
-                  subtitle: Text('${snapshot.data['namaPerusahaan']}  ',
-                      style: TextStyle(
-                        fontSize: 18,
-                      )),
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Card(
-                color: Colors.amber[200],
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20.0),
-                ),
-                elevation: 1,
                 child: Column(
                   children: <Widget>[
-                    ListTile(
-                      // leading: Icon(
-                      //   Icons.date_range,
-                      //   color: Colors.blue,
-                      // ),
-                      title: Text('Tanggal Dipublikasikan'),
-                      subtitle: Text(date.toString()),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: <Widget>[
+                        Container(
+                          decoration: BoxDecoration(
+                              color: Colors.grey[200],
+                              borderRadius: BorderRadius.circular(10)),
+                          height: 70,
+                          width: 150,
+                          child: Center(child: Text('Part Time')),
+                        ),
+                        Container(
+                          decoration: BoxDecoration(
+                              color: Colors.green[200],
+                              borderRadius: BorderRadius.circular(10)),
+                          height: 70,
+                          width: 150,
+                          child: Center(
+                            child:
+                                Text('Rp.' + snapshot.data['gaji'] + ' /Jam'),
+                          ),
+                        )
+                      ],
                     ),
-                    ListTile(
-                      // leading: Icon(
-                      //   Icons.title,
-                      //   color: Colors.blue,
-                      // ),
-                      title: Text('Deksripsi Pekerjaan'),
-                      subtitle: Text(snapshot.data['deskripsi']),
+                    SizedBox(
+                      height: 15,
                     ),
-                    ListTile(
-                      // leading: Icon(
-                      //   Icons.location_city,
-                      //   color: Colors.blue,
-                      // ),
-                      title: Text('Lokasi'),
-                      subtitle: Text(snapshot.data['lokasi']),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: ListTile(
+                        title: Text('Deksripsi Pekerjaan',
+                            style: TextStyle(fontWeight: FontWeight.bold)),
+                        subtitle: Text(snapshot.data['deskripsi']),
+                      ),
                     ),
-                    ListTile(
-                      // leading: Icon(
-                      //   Icons.attach_money,
-                      //   color: Colors.blue,
-                      // ),
-                      title: Text('Gaji per Jam'),
-                      subtitle: Text('Rp. ' + snapshot.data['gaji']),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: ListTile(
+                        title: Text('Lokasi',
+                            style: TextStyle(fontWeight: FontWeight.bold)),
+                        subtitle: Text(snapshot.data['lokasi']),
+                      ),
                     ),
-                    ListTile(
-                      // leading: Icon(
-                      //   Icons.access_time,
-                      //   color: Colors.blue,
-                      // ),
-                      title: Text('Jam Kerja'),
-                      subtitle: Text(snapshot.data['jamKerja']),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: ListTile(
+                        title: Text('Gaji per Jam',
+                            style: TextStyle(fontWeight: FontWeight.bold)),
+                        subtitle: Text('Rp. ' + snapshot.data['gaji']),
+                      ),
                     ),
-                    ListTile(
-                      // leading: Icon(
-                      //   Icons.school,
-                      //   color: Colors.blue,
-                      // ),
-                      title: Text('Pendidikan Minimal'),
-                      subtitle: Text(snapshot.data['pendidikan']),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: ListTile(
+                        title: Text('Jam Kerja',
+                            style: TextStyle(fontWeight: FontWeight.bold)),
+                        subtitle: Text(snapshot.data['jamKerja']),
+                      ),
                     ),
-                    ListTile(
-                      // leading: Icon(
-                      //   Icons.people,
-                      //   color: Colors.blue,
-                      // ),
-                      title: Text('Gender Yang Dibutuhkan'),
-                      subtitle: Text(snapshot.data['gender']),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: ListTile(
+                        title: Text('Pendidikan Minimal',
+                            style: TextStyle(fontWeight: FontWeight.bold)),
+                        subtitle: Text(snapshot.data['pendidikan']),
+                      ),
                     ),
-                    FloatingActionButton.extended(
-                      backgroundColor: Colors.green,
-                      icon: Icon(Icons.send),
-                      label: Text('Kirim Email Lamaran'),
-                      onPressed: () async {
-                        await launch(
-                            "mailto:${snapshot.data['emailPerusahaan']}");
-                      },
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: ListTile(
+                        title: Text('Gender Yang Dibutuhkan',
+                            style: TextStyle(fontWeight: FontWeight.bold)),
+                        subtitle: Text(snapshot.data['gender']),
+                      ),
                     ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: <Widget>[
+                        Container(
+                          decoration: BoxDecoration(
+                              color: Colors.grey[200],
+                              borderRadius: BorderRadius.circular(10)),
+                          height: 70,
+                          width: 100,
+                          child: Center(
+                            child: Icon(Icons.bookmark_border),
+                          ),
+                        ),
+                        InkWell(
+                          onTap: () async {
+                            await launch(
+                                "mailto:${snapshot.data['emailPerusahaan']}");
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(
+                                color: Colors.red[200],
+                                borderRadius: BorderRadius.circular(10)),
+                            height: 70,
+                            width: 200,
+                            child: Center(
+                              child: Text('Kirim Email Lamaran'),
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                    // FloatingActionButton.extended(
+                    //   backgroundColor: Colors.green,
+                    //   icon: Icon(Icons.send),
+                    //   label: Text('Kirim Email Lamaran'),
+                    //   onPressed: () async {
+
+                    //   },
+                    // ),
                     SizedBox(
                       height: 15,
                     )
                   ],
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

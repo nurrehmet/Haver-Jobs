@@ -6,6 +6,7 @@ import 'package:haverjob/components/item_grid.dart';
 import 'package:haverjob/components/profile_avatar.dart';
 import 'package:haverjob/screens/edit_data.dart';
 import 'package:haverjob/screens/employee_seeker/job_screen.dart';
+import 'package:haverjob/screens/employee_seeker/jobs_data.dart';
 import 'package:haverjob/screens/maps_view.dart';
 import 'package:haverjob/screens/employee/job_list.dart';
 import 'package:haverjob/screens/welcome_screen.dart';
@@ -35,7 +36,7 @@ class _EmployeeSeekerScreenState extends State<EmployeeSeekerScreen> {
   List<Widget> get _widgetOptions => [
         // FindEmployeeScreen(),
         WelcomeES(),
-        JobScreen(userID: _userID,)
+        JobsData(userID: _userID,)
       ];
   @override
   Widget build(BuildContext context) {

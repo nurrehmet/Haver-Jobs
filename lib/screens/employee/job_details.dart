@@ -122,6 +122,14 @@ class JobDetail extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: ListTile(
+                        title: Text('Tanggal Diposting',
+                            style: TextStyle(fontWeight: FontWeight.bold)),
+                        subtitle: Text(date.toString()),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: ListTile(
                         title: Text('Deksripsi Pekerjaan',
                             style: TextStyle(fontWeight: FontWeight.bold)),
                         subtitle: Text(snapshot.data['deskripsi']),

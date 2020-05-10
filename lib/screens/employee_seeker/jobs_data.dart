@@ -77,6 +77,7 @@ class _JobsDataState extends State<JobsData> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
+          
         child: Icon(
           Icons.add,
           color: Colors.white,
@@ -89,7 +90,7 @@ class _JobsDataState extends State<JobsData> {
             ),
           );
         },
-        backgroundColor: Colors.blue,
+        backgroundColor: Colors.green,
       ),
     );
   }
@@ -126,14 +127,14 @@ class _JobsDataState extends State<JobsData> {
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10.0),
                         ),
-                        color: Colors.blue[200],
+                        color: Colors.white,
                         elevation: 1,
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: ListTile(
                             title: Padding(
                               padding: const EdgeInsets.all(8.0),
-                              child: Text(jobsData['judul']),
+                              child: Text(jobsData['judul'],style: TextStyle(fontWeight: FontWeight.bold,)),
                             ),
                             subtitle: Padding(
                               padding: const EdgeInsets.all(8.0),

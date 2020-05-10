@@ -25,6 +25,7 @@ class _EditJobsState extends State<EditJobs> {
       _gender,
       _jamKerja,
       _deskripsi,
+      _kota,
       _lokasi,
       _namaPerusahaan,
       _emailPerusahaan;
@@ -227,6 +228,33 @@ class _EditJobsState extends State<EditJobs> {
                     });
                   },
                   dataSource: ListGenderPekerjaan().getList(),
+                  textField: 'display',
+                  valueField: 'value',
+                ),
+              ),
+              Container(
+                padding: EdgeInsets.symmetric(horizontal: 30.0, vertical: 10.0),
+                child: DropDownFormField(
+                  titleText: 'Kota',
+                  hintText: snapshot.data['kota'],
+                  value: _kota,
+                  onSaved: (value) {
+                    setState(() {
+                      _kota = value;
+                    });
+                  },
+                  validator: (value) {
+                    if (value == null) {
+                      return 'Kota tidak boleh kosong';
+                    }
+                    return null;
+                  },
+                  onChanged: (value) {
+                    setState(() {
+                      _kota = value;
+                    });
+                  },
+                  dataSource: ListKota().getList(),
                   textField: 'display',
                   valueField: 'value',
                 ),

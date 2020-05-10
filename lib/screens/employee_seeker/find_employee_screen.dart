@@ -221,10 +221,6 @@ class _FindEmployeeScreenState extends State<FindEmployeeScreen> {
                     },
                     color: Colors.blue
                   ),
-                  Container(
-                    padding: EdgeInsets.all(16),
-                    child: Text(_myActivityResult),
-                  ),
                 ],
               ),
             ),

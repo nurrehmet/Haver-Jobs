@@ -59,7 +59,7 @@ class EmployeeData extends StatelessWidget {
                 return Column(
                   children: <Widget>[
                     Padding(
-                      padding: const EdgeInsets.all(10.0),
+                      padding: const EdgeInsets.all(18.0),
                       child: InkWell(
                         borderRadius: BorderRadius.circular(15),
                         onTap: () => Navigator.push(
@@ -89,50 +89,20 @@ class EmployeeData extends StatelessWidget {
                                       detailEmployee: true,
                                       radius: 25,
                                     ),
-                                    title: new Text(document['judul']),
+                                    title: new Text(document['judul'],style: TextStyle(fontWeight: FontWeight.bold),),
                                     subtitle: new Text(
                                       document['namaPerusahaan'] == null
                                           ? 'Nama Perusahaan'
                                           : document['namaPerusahaan'],
                                     ),
-                                    trailing: Text(document['gaji'] + ' /jam'),
+                                    trailing: Text('Rp.'+document['gaji'] + ' /jam'),
                                   ),
                                 ),
                               ),
-                              // new ListTile(
-                              //   title: Text('Tanggal Dipublikasikan'),
-                              //   subtitle: Text(date.toString()),
-                              // ),
-                              // new ListTile(
-                              //   title: Text('Deskripsi Pekerjaan'),
-                              //   subtitle: Text(document['deskripsi'],maxLines: 5,),
-                              // ),
-                              // new ListTile(
-                              //   title: Text('Lokasi'),
-                              //   subtitle: Text(
-                              //     document['lokasi'],
-                              //     maxLines: 2,
-                              //   ),
-                              // ),
-                              // ButtonBar(
-                              //   children: <Widget>[
-                              //     FlatButton(
-                              //       child: Text(
-                              //         'DETAIL PEKERJAAN',
-                              //         style: TextStyle(
-                              //             color: Colors.blue,
-                              //             fontWeight: FontWeight.bold),
-                              //       ),
-                              // onPressed: () => Navigator.push(
-                              //     context,
-                              //     MaterialPageRoute(
-                              //       builder: (context) => JobDetail(
-                              //         jobID: document.documentID,
-                              //       ),
-                              //     )),
-                              //     ),
-                              //   ],
-                              // ),
+                              new ListTile(
+                                leading: Text(document['kota'],style: TextStyle(color: Colors.grey),),
+                                trailing: Text(date.toString(),style: TextStyle(color: Colors.grey),),
+                              ),
                             ],
                           ),
                         ),

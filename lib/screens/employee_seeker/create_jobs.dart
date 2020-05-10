@@ -38,6 +38,7 @@ class _CreateJobsState extends State<CreateJobs> {
       _jamKerja,
       _deskripsi,
       _lokasi,
+      _kota,
       _namaPerusahaan,
       _emailPerusahaan;
   String userID;
@@ -213,6 +214,34 @@ class _CreateJobsState extends State<CreateJobs> {
                         valueField: 'value',
                       ),
                     ),
+                    Container(
+                      padding: EdgeInsets.symmetric(
+                          horizontal: 30.0, vertical: 10.0),
+                      child: DropDownFormField(
+                        titleText: 'Kota',
+                        hintText: 'Pilih Kota',
+                        value: _kota,
+                        onSaved: (value) {
+                          setState(() {
+                            _kota = value;
+                          });
+                        },
+                        validator: (value) {
+                          if (value == null) {
+                            return 'Kota tidak boleh kosong';
+                          }
+                          return null;
+                        },
+                        onChanged: (value) {
+                          setState(() {
+                            _kota = value;
+                          });
+                        },
+                        dataSource: ListKota().getList(),
+                        textField: 'display',
+                        valueField: 'value',
+                      ),
+                    ),
                     new RoundedButton(
                         text: 'Tambahkan Lokasi Pekerjaan',
                         onPress: showPlacePicker,
@@ -300,6 +329,7 @@ class _CreateJobsState extends State<CreateJobs> {
       'jamKerja': _jamKerja,
       'gaji': _gajiFormat.replaceAll('.', ''),
       'pendidikan': _pendidikan,
+      'kota':_kota,
       'deskripsi': _deskripsi,
       'lokasi': _lokasi,
       'latitude': _lat,

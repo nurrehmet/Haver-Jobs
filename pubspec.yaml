@@ -37,8 +37,8 @@ dependencies:
   firebase_storage: ^3.1.5
   flutter_polyline_points:
   random_string: ^2.0.1
+  geocoder: ^0.2.1
 
-  
 flutter_icons:
   image_path: "assets/icons/ic_launcher.png" 
   android: true
@@ -89,7 +89,13 @@ flutter:
    - family: Poppins
      fonts:
        - asset: assets/fonts/Poppins-Regular.ttf
-  #       - asset: fonts/Schyler-Italic.ttf
+   - family: SF UI Display
+     fonts:
+       - asset: assets/fonts/SF-UI-Display-Regular.otf 
+   - family: SF Pro Display
+     fonts:
+       - asset: assets/fonts/SF-Pro.ttf 
+  #       - asset: fonts/SF-UI-Display-Regular
   #         style: italic
   #   - family: Trajan Pro
   #     fonts:

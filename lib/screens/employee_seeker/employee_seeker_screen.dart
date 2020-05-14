@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:geocoder/geocoder.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:haverjob/components/banner_card.dart';
 import 'package:haverjob/components/item_grid.dart';
@@ -12,8 +13,8 @@ import 'package:haverjob/screens/employee/job_list.dart';
 import 'package:haverjob/screens/welcome_screen.dart';
 
 double lat, long;
+String lokasi,kota;
 String _email;
-List<Placemark> lokasi;
 
 class EmployeeSeekerScreen extends StatefulWidget {
   @override
@@ -36,12 +37,13 @@ class _EmployeeSeekerScreenState extends State<EmployeeSeekerScreen> {
   List<Widget> get _widgetOptions => [
         // FindEmployeeScreen(),
         WelcomeES(),
-        JobsData(userID: _userID,)
+        JobsData(
+          userID: _userID,
+        )
       ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      
       appBar: AppBar(
         title: Text('Haver Jobs'),
         centerTitle: true,
@@ -111,7 +113,8 @@ class _EmployeeSeekerScreenState extends State<EmployeeSeekerScreen> {
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.business_center),
-            title: Text('Lowongan Kerja', style: TextStyle(fontWeight: FontWeight.bold)),
+            title: Text('Lowongan Kerja',
+                style: TextStyle(fontWeight: FontWeight.bold)),
           ),
         ],
         currentIndex: _selectedIndex,
@@ -150,9 +153,16 @@ class _EmployeeSeekerScreenState extends State<EmployeeSeekerScreen> {
     }).catchError((e) {
       print(e);
     });
-    lokasi = await Geolocator().placemarkFromCoordinates(lat, long);
+  List<Placemark> newPlace = await geolocator.placemarkFromCoordinates(lat, long);
+  Placemark placeMark  = newPlace[0]; 
+  setState(() {
+    lokasi = placeMark.name;
+    kota = placeMark.locality;
+  });
   }
 }
+
+
 
 class WelcomeES extends StatelessWidget {
   var user = FirebaseAuth.instance.currentUser();
@@ -171,25 +181,35 @@ class WelcomeES extends StatelessWidget {
                   Align(
                     alignment: Alignment.topLeft,
                     child: Text(
-                      'Selamat Datang',
+                      'Lokasi Anda:',
                       style:
-                          TextStyle(fontSize: 27, fontWeight: FontWeight.bold),
+                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                     ),
                   ),
                   SizedBox(
                     height: 15,
                   ),
-                  Align(
-                    alignment: Alignment.topLeft,
-                    child: Text(
-                      'Haver Jobs adalah platform untuk mencari pekerja Part Time terdekat',
-                      style: TextStyle(fontSize: 18, color: Colors.grey),
+                  Card(
+                    child: ListTile(
+                      trailing: Icon(Icons.location_on),
+                      title: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(lokasi==null?'Loading..':lokasi+' ,'+kota),
+                      )
+                      ),
                     ),
-                  ),
+                  
+                  // Align(
+                  //   alignment: Alignment.topLeft,
+                  //   child: Text(
+                  //     'Haver Jobs adalah platform untuk mencari pekerja Part Time terdekat',
+                  //     style: TextStyle(fontSize: 18, color: Colors.grey),
+                  //   ),
+                  // ),
                   SizedBox(
                     height: 25,
                   ),
-                  
+
                   BannerCard(
                     title: 'Cari Pekerja Part Time Dengan Filter',
                     subtitle:
@@ -226,7 +246,6 @@ class WelcomeES extends StatelessWidget {
                   SizedBox(
                     height: 25,
                   ),
-                  
                 ],
               ),
             ),
@@ -236,5 +255,3 @@ class WelcomeES extends StatelessWidget {
     );
   }
 }
-
-

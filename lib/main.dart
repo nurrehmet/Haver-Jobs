@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:haverjob/components/upload_picture.dart';
+import 'package:haverjob/models/users.dart';
 import 'package:haverjob/screens/edit_data.dart';
 import 'package:haverjob/screens/employee_seeker/find_employee_screen.dart';
 import 'package:haverjob/screens/home.dart';
@@ -38,19 +39,16 @@ class _MyAppState extends State<MyApp> {
       systemNavigationBarColor: Colors.black, //bottom bar color
       systemNavigationBarIconBrightness: Brightness.dark, //bottom bar icons
     ));
-    return MultiProvider(
-      providers: [
-        StreamProvider<FirebaseUser>.value(
-            value: FirebaseAuth.instance.onAuthStateChanged),
-      ],
-      child: MaterialApp(
+    return MaterialApp(
         theme: ThemeData(
           primaryColor: Colors.blue,
           fontFamily: 'Poppins'
         ),
         debugShowCheckedModeBanner: false,
         title: 'Haver Jobs',
-        home: _getLandingPage(),
+        home: MultiProvider(
+          providers: [FutureProvider(create: (_) => Users().getUID()),],
+          child: _getLandingPage()),
         routes: <String, WidgetBuilder>{
           '/login': (BuildContext context) => LoginScreen(),
           '/register': (BuildContext context) => SignUpScreen(),
@@ -60,7 +58,7 @@ class _MyAppState extends State<MyApp> {
           '/editEmployee': (BuildContext context) => EditData(),
           '/uploadPicture': (BuildContext context) => UploadPicture(),
         },
-      ),
+      
     );
   }
 

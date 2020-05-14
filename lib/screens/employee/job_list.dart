@@ -59,7 +59,7 @@ class EmployeeData extends StatelessWidget {
                 return Column(
                   children: <Widget>[
                     Padding(
-                      padding: const EdgeInsets.all(18.0),
+                      padding: const EdgeInsets.all(12.0),
                       child: InkWell(
                         borderRadius: BorderRadius.circular(15),
                         onTap: () => Navigator.push(
@@ -117,3 +117,4 @@ class EmployeeData extends StatelessWidget {
     );
   }
 }
+

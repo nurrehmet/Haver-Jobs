@@ -111,7 +111,7 @@ class JobDetail extends StatelessWidget {
                           width: 150,
                           child: Center(
                             child:
-                                Text('Rp.' + snapshot.data['gaji'] + ' /Jam'),
+                                Text('Rp.' + snapshot.data['gaji'] + ' /Jam',style: TextStyle(color: Colors.green[700]),),
                           ),
                         )
                       ],
@@ -200,7 +200,7 @@ class JobDetail extends StatelessWidget {
                             height: 70,
                             width: 200,
                             child: Center(
-                              child: Text('Kirim Email Lamaran'),
+                              child: Text('Kirim Email Lamaran',style: TextStyle(color: Colors.red[700])),
                             ),
                           ),
                         )

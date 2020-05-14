@@ -407,7 +407,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 ),
               ),
               new TextFields(
-                  labelText: 'Gaji per Jam (Tanpa Koma/Titik)',
+                  labelText: 'Gaji per Jam',
                   iconData: Icons.attach_money,
                   onSaved: (input) => _gaji = input,
                   obscureText: false,
@@ -513,6 +513,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
 //registrasi employee
   Future<void> _registerEmployee() async {
+    String _gajiFormat = _gaji.replaceAll(',', '');
     Firestore.instance.collection("employee").document(userId).setData({
       'nama': _nama,
       'email': _email,
@@ -524,7 +525,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
       'noHp': _noHp,
       'gender': _gender,
       'keahlian': _keahlian,
-      'gaji': int.parse(_gaji),
+      'gaji': _gajiFormat.replaceAll('.', ''),
       'kota': _kota,
       'latitude': _lat,
       'longitude': _long,

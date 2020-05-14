@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:edge_alert/edge_alert.dart';
 import 'package:flutter/material.dart';
 import 'package:haverjob/screens/edit_data.dart';
 import 'package:haverjob/screens/employee_seeker/create_jobs.dart';
@@ -66,18 +67,16 @@ class _JobsDataState extends State<JobsData> {
     MediaQueryData mediaQueryData = MediaQuery.of(context);
     double widthScreen = mediaQueryData.size.width;
     double heightScreen = mediaQueryData.size.height;
-
     return Scaffold(
-     backgroundColor: Colors.grey[200],
+      backgroundColor: Colors.grey[200],
       body: SafeArea(
         child: Stack(
           children: <Widget>[
-            _buildListES(widthScreen, heightScreen, context),
+            _buildListES(),
           ],
         ),
       ),
       floatingActionButton: FloatingActionButton(
-          
         child: Icon(
           Icons.add,
           color: Colors.white,
@@ -86,7 +85,9 @@ class _JobsDataState extends State<JobsData> {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => CreateJobs(userID: widget.userID,),
+              builder: (context) => CreateJobs(
+                userID: widget.userID,
+              ),
             ),
           );
         },
@@ -95,11 +96,8 @@ class _JobsDataState extends State<JobsData> {
     );
   }
 
-  Container _buildListES(
-      double widthScreen, double heightScreen, BuildContext context) {
+  Container _buildListES() {
     return Container(
-      width: widthScreen,
-      height: heightScreen,
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
         child: Column(
@@ -134,7 +132,10 @@ class _JobsDataState extends State<JobsData> {
                           child: ListTile(
                             title: Padding(
                               padding: const EdgeInsets.all(8.0),
-                              child: Text(jobsData['judul'],style: TextStyle(fontWeight: FontWeight.bold,)),
+                              child: Text(jobsData['judul'],
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                  )),
                             ),
                             subtitle: Padding(
                               padding: const EdgeInsets.all(8.0),
@@ -169,14 +170,18 @@ class _JobsDataState extends State<JobsData> {
                                             jobID: document.documentID),
                                       ));
                                 } else if (value == 'delete') {
-                                  _confirmDelete();
-                                  if (delete == true) {
-                                    await Firestore.instance.runTransaction(
-                                        (Transaction myTransaction) async {
-                                      await myTransaction.delete(snapshot
-                                          .data.documents[index].reference);
-                                    });
-                                  }
+                                  await Firestore.instance.runTransaction(
+                                      (Transaction myTransaction) async {
+                                    await myTransaction.delete(snapshot
+                                        .data.documents[index].reference);
+                                  });
+                                  EdgeAlert.show(context,
+                                      title: 'Sukses',
+                                      description:
+                                          'Pekerjaaan berhasil dihapus',
+                                      gravity: EdgeAlert.TOP,
+                                      icon: Icons.check_circle,
+                                      backgroundColor: Colors.green);
                                 }
                               },
                               child: Icon(Icons.more_vert),

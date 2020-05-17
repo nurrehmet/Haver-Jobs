@@ -48,6 +48,17 @@ class _JobDetailState extends State<JobDetail> {
         .get()
         .then((DocumentSnapshot) => setState(() {
               applyStatus = DocumentSnapshot.data['applier'];
+              if (applyStatus.contains(userID)){
+                setState(() {
+                  statusApply = true;
+                });
+              }
+              else{
+                setState(() {
+                  statusApply = false;
+                });
+              }
+              print(statusApply);
               jumlahPelamar = applyStatus.length;
             }));
   }
@@ -146,7 +157,7 @@ class _JobDetailState extends State<JobDetail> {
                               borderRadius: BorderRadius.circular(10)),
                           height: 70,
                           width: 170,
-                          child: Center(child: Text('${jumlahPelamar} Orang Pelamar')),
+                          child: Center(child: Text('${jumlahPelamar} Orang Pelamar',style: TextStyle(fontWeight: FontWeight.bold),)),
                         ),
                         Container(
                           decoration: BoxDecoration(
@@ -157,7 +168,7 @@ class _JobDetailState extends State<JobDetail> {
                           child: Center(
                             child: Text(
                               'Rp.' + snapshot.data['gaji'] + ' /Jam',
-                              style: TextStyle(color: Colors.green[700]),
+                              style: TextStyle(color: Colors.green[700],fontWeight: FontWeight.bold),
                             ),
                           ),
                         )
@@ -244,7 +255,7 @@ class _JobDetailState extends State<JobDetail> {
                           child: FlatButton.icon(
                             icon: Icon(Icons.send),
                             label: lamarWidget(),
-                            onPressed: applyStatus == null
+                            onPressed: statusApply == false
                                 ? () => applyJob(snapshot.documentID, userID)
                                 : null,
                           ),
@@ -274,9 +285,9 @@ class _JobDetailState extends State<JobDetail> {
   }
 
   lamarWidget() {
-    if (applyStatus == null) {
+    if (statusApply == false) {
       return Text('Lamar Pekerjaan');
-    } else {
+    } else if (statusApply == true){
       return Text('Pekerjaan Sudah Dilamar');
     }
   }

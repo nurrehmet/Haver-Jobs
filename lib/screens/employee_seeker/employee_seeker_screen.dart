@@ -178,34 +178,20 @@ class WelcomeES extends StatelessWidget {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
-                  Align(
-                    alignment: Alignment.topLeft,
-                    child: Text(
-                      'Lokasi Anda:',
-                      style:
-                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 15,
-                  ),
                   Card(
                     child: ListTile(
                       trailing: Icon(Icons.location_on),
                       title: Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: Text(lokasi==null?'Loading..':lokasi+' ,'+kota),
-                      )
+                        child: Text('Lokasi saat ini:'),
+                      ),
+                      subtitle: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(lokasi==null?'Loading..':lokasi+' , '+kota),
+                      ),
                       ),
                     ),
-                  
-                  // Align(
-                  //   alignment: Alignment.topLeft,
-                  //   child: Text(
-                  //     'Haver Jobs adalah platform untuk mencari pekerja Part Time terdekat',
-                  //     style: TextStyle(fontSize: 18, color: Colors.grey),
-                  //   ),
-                  // ),
+                 
                   SizedBox(
                     height: 25,
                   ),

@@ -1,15 +1,56 @@
+import 'dart:convert';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:edge_alert/edge_alert.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:haverjob/components/profile_avatar.dart';
+import 'package:haverjob/models/jobs.dart';
 import 'package:haverjob/screens/direction_map.dart';
 import 'package:haverjob/screens/maps_view.dart';
+import 'package:haverjob/services/firebase_auth_service.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class JobDetail extends StatelessWidget {
+String userID;
+List applyStatus;
+bool statusApply;
+int jumlahPelamar;
+
+class JobDetail extends StatefulWidget {
   String jobID;
   JobDetail({this.jobID});
+
+  @override
+  _JobDetailState createState() => _JobDetailState();
+}
+
+class _JobDetailState extends State<JobDetail> {
+  void initState() {
+    getID();
+    checkApplyStatus();
+    super.initState();
+  }
+
+  getID() async {
+    FirebaseUser user = await FirebaseAuth.instance.currentUser();
+    setState(() {
+      userID = user.uid;
+    });
+  }
+
+  checkApplyStatus() {
+    Firestore.instance
+        .collection('jobs')
+        .document(widget.jobID)
+        .get()
+        .then((DocumentSnapshot) => setState(() {
+              applyStatus = DocumentSnapshot.data['applier'];
+              jumlahPelamar = applyStatus.length;
+            }));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -20,10 +61,14 @@ class JobDetail extends StatelessWidget {
         centerTitle: true,
       ),
       body: StreamBuilder<DocumentSnapshot>(
-        stream:
-            Firestore.instance.collection('jobs').document(jobID).snapshots(),
-        builder:
-            (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
+        stream: Firestore.instance
+            .collection('jobs')
+            .document(widget.jobID)
+            .snapshots(),
+        builder: (
+          BuildContext context,
+          AsyncSnapshot<DocumentSnapshot> snapshot,
+        ) {
           if (snapshot.hasError) {
             return Text('Error: ${snapshot.error}');
           } else if (snapshot.hasData) {
@@ -100,8 +145,8 @@ class JobDetail extends StatelessWidget {
                               color: Colors.grey[200],
                               borderRadius: BorderRadius.circular(10)),
                           height: 70,
-                          width: 150,
-                          child: Center(child: Text('Part Time')),
+                          width: 170,
+                          child: Center(child: Text('${jumlahPelamar} Orang Pelamar')),
                         ),
                         Container(
                           decoration: BoxDecoration(
@@ -110,8 +155,10 @@ class JobDetail extends StatelessWidget {
                           height: 70,
                           width: 150,
                           child: Center(
-                            child:
-                                Text('Rp.' + snapshot.data['gaji'] + ' /Jam',style: TextStyle(color: Colors.green[700]),),
+                            child: Text(
+                              'Rp.' + snapshot.data['gaji'] + ' /Jam',
+                              style: TextStyle(color: Colors.green[700]),
+                            ),
                           ),
                         )
                       ],
@@ -188,32 +235,31 @@ class JobDetail extends StatelessWidget {
                             child: Icon(Icons.bookmark_border),
                           ),
                         ),
-                        InkWell(
-                          onTap: () async {
-                            await launch(
-                                "mailto:${snapshot.data['emailPerusahaan']}");
-                          },
-                          child: Container(
-                            decoration: BoxDecoration(
-                                color: Colors.red[200],
-                                borderRadius: BorderRadius.circular(10)),
-                            height: 70,
-                            width: 200,
-                            child: Center(
-                              child: Text('Kirim Email Lamaran',style: TextStyle(color: Colors.red[700])),
-                            ),
+                        Container(
+                          decoration: BoxDecoration(
+                              color: Colors.blue[200],
+                              borderRadius: BorderRadius.circular(10)),
+                          height: 70,
+                          width: 250,
+                          child: FlatButton.icon(
+                            icon: Icon(Icons.send),
+                            label: lamarWidget(),
+                            onPressed: applyStatus == null
+                                ? () => applyJob(snapshot.documentID, userID)
+                                : null,
                           ),
                         )
+                        // InkWell(
+                        //   onTap: () => applyJob(snapshot.documentID, userID),
+                        //   child: Container(
+
+                        //     child: Center(
+                        //       child: lamarWidget(),
+                        //     ),
+                        //   ),
+                        // )
                       ],
                     ),
-                    // FloatingActionButton.extended(
-                    //   backgroundColor: Colors.green,
-                    //   icon: Icon(Icons.send),
-                    //   label: Text('Kirim Email Lamaran'),
-                    //   onPressed: () async {
-
-                    //   },
-                    // ),
                     SizedBox(
                       height: 15,
                     )
@@ -225,5 +271,34 @@ class JobDetail extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  lamarWidget() {
+    if (applyStatus == null) {
+      return Text('Lamar Pekerjaan');
+    } else {
+      return Text('Pekerjaan Sudah Dilamar');
+    }
+  }
+
+  void applyJob(String jobID, String userID) async {
+    var id = '["${userID}"]';
+    var applier = json.decode(id);
+    final DocumentReference postRef =
+        Firestore.instance.document('jobs/${jobID}');
+    Firestore.instance.runTransaction((Transaction tx) async {
+      DocumentSnapshot postSnapshot = await tx.get(postRef);
+      if (postSnapshot.exists) {
+        await tx.update(postRef,
+            <String, dynamic>{'applier': FieldValue.arrayUnion(applier)});
+      }
+    }).whenComplete(() {
+      EdgeAlert.show(context,
+          title: 'Sukses',
+          description: 'Lamaran Pekerjaan Berhasil Dikirim',
+          gravity: EdgeAlert.TOP,
+          icon: Icons.error,
+          backgroundColor: Colors.green);
+    });
   }
 }

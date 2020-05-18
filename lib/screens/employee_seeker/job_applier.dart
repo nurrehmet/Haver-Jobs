@@ -1,29 +1,28 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:haverjob/screens/employee/job_details.dart';
+import 'package:haverjob/components/details_account.dart';
 
-class AppliedJobs extends StatefulWidget {
-  String userID;
-  AppliedJobs({this.userID});
+class JobApplier extends StatefulWidget {
+  String jobID;
+  JobApplier({this.jobID});
   @override
-  _AppliedJobsState createState() => _AppliedJobsState();
+  _JobApplierState createState() => _JobApplierState();
 }
 
-class _AppliedJobsState extends State<AppliedJobs> {
-  List appliedJobs = [];
-  int length;
+class _JobApplierState extends State<JobApplier> {
+  List jobApplier = [];
   void initState() {
-    checkAppliedJobs();
+    checkJobApplier();
     super.initState();
   }
 
-  checkAppliedJobs() async {
+  checkJobApplier() async {
     await Firestore.instance
-        .collection('employee')
-        .document(widget.userID)
+        .collection('jobs')
+        .document(widget.jobID)
         .get()
         .then((DocumentSnapshot) => setState(() {
-              appliedJobs = DocumentSnapshot.data['appliedJob'];
+              jobApplier = DocumentSnapshot.data['applier'];
             }));
   }
 
@@ -31,6 +30,9 @@ class _AppliedJobsState extends State<AppliedJobs> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text('Data Pelamar Pekerjaan'),
+      ),
       backgroundColor: Colors.grey[200],
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
@@ -38,28 +40,18 @@ class _AppliedJobsState extends State<AppliedJobs> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              ListTile(
-                leading: Icon(
-                  Icons.send,
-                  color: Colors.blue,
-                ),
-                title: Text(
-                  'Lamaran Pekerjaan Terkirim',
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                ),
-              ),
               SizedBox(
-                height: 15,
+                height: 5,
               ),
-              for (var i in appliedJobs)
+              for (var i in jobApplier)
                 StreamBuilder(
                     stream: Firestore.instance
-                        .collection('jobs')
+                        .collection('employee')
                         .document(i)
                         .snapshots(),
                     builder: (context, snapshot) {
                       if (!snapshot.hasData) {
-                        return Center(child: new Text('Belum ada lamaran terkirim'));
+                        return Center(child: new Text('Belum ada pelamar'));
                       }
                       var job = snapshot.data;
                       return Card(
@@ -71,16 +63,16 @@ class _AppliedJobsState extends State<AppliedJobs> {
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: ListTile(
-                            title: Text(job['judul']),
-                            subtitle: Text(job['namaPerusahaan']),
+                            title: Text(job['nama']),
+                            subtitle: Text(job['email']),
                             trailing: FlatButton.icon(
                               icon: Icon(Icons.exit_to_app),
-                              label: Text('Detail Pekerjaan'),
+                              label: Text('Detail Pelamar'),
                               onPressed: () => Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => JobDetail(
-                                  jobID: i,
+                                builder: (context) => AkunDetail(
+                                  userID: i,
                                 ),
                               )),
                             ),

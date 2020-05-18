@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:haverjob/screens/edit_data.dart';
 import 'package:haverjob/screens/employee_seeker/create_jobs.dart';
 import 'package:haverjob/screens/employee_seeker/edit_jobs.dart';
+import 'package:haverjob/screens/employee_seeker/job_applier.dart';
 
 class JobsData extends StatefulWidget {
   String userID;
@@ -103,6 +104,10 @@ class _JobsDataState extends State<JobsData> {
                             trailing: PopupMenuButton(
                               itemBuilder: (BuildContext context) {
                                 return List<PopupMenuEntry<String>>()
+                                ..add(PopupMenuItem<String>(
+                                    value: 'pelamar',
+                                    child: Text('Data Pelamar'),
+                                  ))
                                   ..add(PopupMenuItem<String>(
                                     value: 'edit',
                                     child: Text('Edit'),
@@ -136,6 +141,14 @@ class _JobsDataState extends State<JobsData> {
                                       gravity: EdgeAlert.TOP,
                                       icon: Icons.check_circle,
                                       backgroundColor: Colors.green);
+                                }
+                                else if (value == 'pelamar'){
+                                   Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => JobApplier(
+                                            jobID: document.documentID,),
+                                      ));
                                 }
                               },
                               child: Icon(Icons.more_vert),

@@ -13,7 +13,7 @@ class AkunDetail extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(nama),
+        title: Text('Data Calon Karyawan'),
         centerTitle: true,
         elevation: 0,
       ),

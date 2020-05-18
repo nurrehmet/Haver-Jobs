@@ -16,52 +16,6 @@ class _JobsDataState extends State<JobsData> {
   final GlobalKey<ScaffoldState> scaffoldState = GlobalKey<ScaffoldState>();
   final Firestore firestore = Firestore.instance;
   bool delete = false;
-
-  //confirm delete
-  Future<void> _confirmDelete() async {
-    return showDialog<void>(
-      context: context,
-      barrierDismissible: false, // user must tap button!
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text('Peringatan'),
-          ),
-          content: SingleChildScrollView(
-            child: ListBody(
-              children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                      'Apakah anda yakin untuk menghapus data pekerjaan ini?'),
-                ),
-              ],
-            ),
-          ),
-          actions: <Widget>[
-            FlatButton(
-                child: Text(
-                  'HAPUS',
-                  style: TextStyle(color: Colors.red),
-                ),
-                onPressed: () {
-                  setState(() {
-                    delete = true;
-                  });
-                  Navigator.pop(context);
-                }),
-            FlatButton(
-                child: Text('BATAL'),
-                onPressed: () {
-                  Navigator.pop(context);
-                }),
-          ],
-        );
-      },
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     MediaQueryData mediaQueryData = MediaQuery.of(context);

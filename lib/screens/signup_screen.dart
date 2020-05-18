@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:dropdown_formfield/dropdown_formfield.dart';
 import 'package:edge_alert/edge_alert.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -513,6 +515,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
 //registrasi employee
   Future<void> _registerEmployee() async {
+    var id = '[]';
+    var appliedJob = json.decode(id);
     String _gajiFormat = _gaji.replaceAll(',', '');
     Firestore.instance.collection("employee").document(userId).setData({
       'nama': _nama,
@@ -531,7 +535,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
       'longitude': _long,
       'position': myLocation.data,
       'statusKerja': true,
-      'pengKerja': _pengKerja
+      'pengKerja': _pengKerja,
+      'appliedJob': appliedJob
     });
     _firestore.collection('users').document(userId).setData(
       {

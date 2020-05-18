@@ -10,6 +10,7 @@ import 'package:haverjob/components/status_kerja.dart';
 import 'package:haverjob/functions/get_data.dart';
 import 'package:haverjob/models/global.dart';
 import 'package:haverjob/screens/edit_data.dart';
+import 'package:haverjob/screens/employee/applied_job.dart';
 import 'package:haverjob/screens/employee/job_list.dart';
 import 'package:haverjob/screens/welcome_screen.dart';
 import 'package:provider/provider.dart';
@@ -34,10 +35,8 @@ class _EmployeeScreenState extends State<EmployeeScreen> {
   int _selectedIndex = 0;
 
   List<Widget> get _widgetOptions => [
-        WelcomeEmployee(
-          imageUrl: _imageUrl,
-        ),
         FindJob(),
+        AppliedJobs(userID: _userID,)
       ];
   @override
   Widget build(BuildContext context) {
@@ -101,29 +100,29 @@ class _EmployeeScreenState extends State<EmployeeScreen> {
           ],
         ),
       ),
-      body: FindJob(),
-      // body: _widgetOptions.elementAt(_selectedIndex),
-      // bottomNavigationBar: BottomNavigationBar(
-      //   items: const <BottomNavigationBarItem>[
-      //     BottomNavigationBarItem(
-      //       icon: Icon(Icons.home),
-      //       title: Text(
-      //         'Beranda',
-      //         style: TextStyle(fontWeight: FontWeight.bold),
-      //       ),
-      //     ),
-      //     BottomNavigationBarItem(
-      //       icon: Icon(Icons.search),
-      //       title: Text(
-      //         'Cari Lowongan Kerja',
-      //         style: TextStyle(fontWeight: FontWeight.bold),
-      //       ),
-      //     ),
-      //   ],
-      //   currentIndex: _selectedIndex,
-      //   selectedItemColor: Colors.blue,
-      //   onTap: _onItemTapped,
-      // ),
+      // body: FindJob(),
+      body: _widgetOptions.elementAt(_selectedIndex),
+      bottomNavigationBar: BottomNavigationBar(
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(Icons.search),
+            title: Text(
+              'Cari Pekerjaan',
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.send),
+            title: Text(
+              'Lamaran Pekerjaan',
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
+          ),
+        ],
+        currentIndex: _selectedIndex,
+        selectedItemColor: Colors.blue,
+        onTap: _onItemTapped,
+      ),
     );
   }
 
@@ -244,30 +243,32 @@ class FindJob extends StatelessWidget {
       backgroundColor: Colors.grey[200],
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 30.0, vertical: 10.0),
-        child: Column(
-          children: <Widget>[
-            Align(
-              alignment: Alignment.topLeft,
-              child: Text(
-                'Cari Lowongan Pekerjaan',
-                style: TextStyle(fontSize: 27, fontWeight: FontWeight.bold),
+        child: SingleChildScrollView(
+                  child: Column(
+            children: <Widget>[
+              Align(
+                alignment: Alignment.topLeft,
+                child: Text(
+                  'Cari Lowongan Pekerjaan',
+                  style: TextStyle(fontSize: 27, fontWeight: FontWeight.bold),
+                ),
               ),
-            ),
-            SizedBox(
-              height: 15,
-            ),
-            Align(
-              alignment: Alignment.topLeft,
-              child: Text(
-                'Cari lowongan pekerjaan part time dengan kategori keahlian tertentu',
-                style: TextStyle(fontSize: 18, color: Colors.grey),
+              SizedBox(
+                height: 15,
               ),
-            ),
-            SizedBox(
-              height: 25,
-            ),
-           GridBanner(),
-          ],
+              Align(
+                alignment: Alignment.topLeft,
+                child: Text(
+                  'Cari lowongan pekerjaan part time dengan kategori keahlian tertentu',
+                  style: TextStyle(fontSize: 18, color: Colors.grey),
+                ),
+              ),
+              SizedBox(
+                height: 25,
+              ),
+             GridBanner(),
+            ],
+          ),
         ),
       ),
     );

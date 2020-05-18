@@ -48,12 +48,11 @@ class _JobDetailState extends State<JobDetail> {
         .get()
         .then((DocumentSnapshot) => setState(() {
               applyStatus = DocumentSnapshot.data['applier'];
-              if (applyStatus.contains(userID)){
+              if (applyStatus.contains(userID)) {
                 setState(() {
                   statusApply = true;
                 });
-              }
-              else{
+              } else {
                 setState(() {
                   statusApply = false;
                 });
@@ -157,7 +156,11 @@ class _JobDetailState extends State<JobDetail> {
                               borderRadius: BorderRadius.circular(10)),
                           height: 70,
                           width: 170,
-                          child: Center(child: Text('${jumlahPelamar} Orang Pelamar',style: TextStyle(fontWeight: FontWeight.bold),)),
+                          child: Center(
+                              child: Text(
+                            '${jumlahPelamar} Orang Pelamar',
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          )),
                         ),
                         Container(
                           decoration: BoxDecoration(
@@ -168,7 +171,9 @@ class _JobDetailState extends State<JobDetail> {
                           child: Center(
                             child: Text(
                               'Rp.' + snapshot.data['gaji'] + ' /Jam',
-                              style: TextStyle(color: Colors.green[700],fontWeight: FontWeight.bold),
+                              style: TextStyle(
+                                  color: Colors.green[700],
+                                  fontWeight: FontWeight.bold),
                             ),
                           ),
                         )
@@ -287,7 +292,7 @@ class _JobDetailState extends State<JobDetail> {
   lamarWidget() {
     if (statusApply == false) {
       return Text('Lamar Pekerjaan');
-    } else if (statusApply == true){
+    } else if (statusApply == true) {
       return Text('Pekerjaan Sudah Dilamar');
     }
   }
@@ -303,6 +308,7 @@ class _JobDetailState extends State<JobDetail> {
         await tx.update(postRef,
             <String, dynamic>{'applier': FieldValue.arrayUnion(applier)});
       }
+      saveJob(jobID, userID);
     }).whenComplete(() {
       EdgeAlert.show(context,
           title: 'Sukses',
@@ -310,6 +316,20 @@ class _JobDetailState extends State<JobDetail> {
           gravity: EdgeAlert.TOP,
           icon: Icons.error,
           backgroundColor: Colors.green);
+    });
+  }
+
+  void saveJob(String jobID, String userID) async {
+    var id = '["${jobID}"]';
+    var appliedJob = json.decode(id);
+    final DocumentReference postRef =
+        Firestore.instance.document('employee/${userID}');
+    Firestore.instance.runTransaction((Transaction tx) async {
+      DocumentSnapshot postSnapshot = await tx.get(postRef);
+      if (postSnapshot.exists) {
+        await tx.update(postRef,
+            <String, dynamic>{'appliedJob': FieldValue.arrayUnion(appliedJob)});
+      }
     });
   }
 }

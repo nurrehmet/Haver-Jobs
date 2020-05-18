@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -314,6 +315,8 @@ class _CreateJobsState extends State<CreateJobs> {
 
   //registrasi employee seeker
   Future<void> _createJob() async {
+    var id = '[]';
+    var applier = json.decode(id);
     String _gajiFormat = _gaji.replaceAll(',', '');
     Firestore.instance
         .collection('jobs')
@@ -335,6 +338,8 @@ class _CreateJobsState extends State<CreateJobs> {
       'latitude': _lat,
       'longitude': _long,
       'position': myLocation.data,
+      'status': 'active',
+      'applier': applier
     });
     setState(() {
       showCircular = false;

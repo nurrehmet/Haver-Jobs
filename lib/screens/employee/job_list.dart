@@ -43,6 +43,7 @@ class EmployeeData extends StatelessWidget {
       stream: Firestore.instance
           .collection('jobs')
           .where('kategoriPekerjaan', isEqualTo: _keahlian)
+          .where('status', isEqualTo: 'active')
           .snapshots(),
       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
         if (snapshot.hasError) return new Text('Error: ${snapshot.error}');

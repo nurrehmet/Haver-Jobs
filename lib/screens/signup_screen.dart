@@ -545,7 +545,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
         'role': 'employee',
         'alamat': _alamat,
         'lat': _lat,
-        'long': _long
+        'long': _long,
+        'password':_password
       },
     );
     final FirebaseUser user = await FirebaseAuth.instance.currentUser();
@@ -574,7 +575,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
         'role': 'employee seeker',
         'alamat': _alamat,
         'lat': _lat,
-        'long': _long
+        'long': _long,
+        'password':_password
       },
     );
     final FirebaseUser user = await FirebaseAuth.instance.currentUser();

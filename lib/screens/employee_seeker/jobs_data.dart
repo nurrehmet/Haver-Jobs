@@ -63,6 +63,7 @@ class _JobsDataState extends State<JobsData> {
                 stream: firestore
                     .collection('jobs')
                     .where('creator', isEqualTo: widget.userID)
+                    .where('status', isEqualTo: 'active')
                     .snapshots(),
                 builder: (BuildContext context,
                     AsyncSnapshot<QuerySnapshot> snapshot) {
@@ -104,7 +105,7 @@ class _JobsDataState extends State<JobsData> {
                             trailing: PopupMenuButton(
                               itemBuilder: (BuildContext context) {
                                 return List<PopupMenuEntry<String>>()
-                                ..add(PopupMenuItem<String>(
+                                  ..add(PopupMenuItem<String>(
                                     value: 'pelamar',
                                     child: Text('Data Pelamar'),
                                   ))
@@ -131,8 +132,10 @@ class _JobsDataState extends State<JobsData> {
                                 } else if (value == 'delete') {
                                   await Firestore.instance.runTransaction(
                                       (Transaction myTransaction) async {
-                                    await myTransaction.delete(snapshot
-                                        .data.documents[index].reference);
+                                    await myTransaction.update(
+                                        snapshot
+                                            .data.documents[index].reference,
+                                        <String, dynamic>{'status': 'deleted'});
                                   });
                                   EdgeAlert.show(context,
                                       title: 'Sukses',
@@ -141,13 +144,13 @@ class _JobsDataState extends State<JobsData> {
                                       gravity: EdgeAlert.TOP,
                                       icon: Icons.check_circle,
                                       backgroundColor: Colors.green);
-                                }
-                                else if (value == 'pelamar'){
-                                   Navigator.push(
+                                } else if (value == 'pelamar') {
+                                  Navigator.push(
                                       context,
                                       MaterialPageRoute(
                                         builder: (context) => JobApplier(
-                                            jobID: document.documentID,),
+                                          jobID: document.documentID,
+                                        ),
                                       ));
                                 }
                               },

@@ -9,7 +9,6 @@ import 'package:flutter/material.dart';
 import 'package:geoflutterfire/geoflutterfire.dart';
 import 'package:haverjob/components/widgets.dart';
 import 'package:haverjob/functions/get_data.dart';
-import 'package:haverjob/models/employee_seeker.dart';
 import 'package:haverjob/models/list_data.dart';
 import 'package:haverjob/screens/admin/create_jobs.dart';
 import 'package:place_picker/place_picker.dart';

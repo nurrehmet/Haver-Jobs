@@ -71,9 +71,9 @@ class _AppliedJobsState extends State<AppliedJobs> {
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: ListTile(
-                              title: Text(snapshot.data['judul']),
-                              subtitle: Text(snapshot.data['namaPerusahaan']),
-                              trailing: FlatButton.icon(icon: Icon(Icons.delete_forever),label: Text('Lowongan telah dihapus'),
+                              title: Text(snapshot.data['judul'],style: TextStyle(color: Colors.grey),),
+                              subtitle: Text(snapshot.data['namaPerusahaan'],style: TextStyle(color: Colors.grey),),
+                              trailing: FlatButton.icon(icon: Icon(Icons.delete_forever,color: Colors.red,),label: Text('Lowongan telah dihapus'),
                               onPressed: null),
                             ),
                           ),
@@ -96,7 +96,7 @@ class _AppliedJobsState extends State<AppliedJobs> {
                                 ? 'Lowongan telah dihapus'
                                 : job['namaPerusahaan']),
                             trailing: FlatButton.icon(
-                              icon: Icon(Icons.exit_to_app),
+                              icon: Icon(Icons.exit_to_app,color: Colors.green,),
                               label: Text('Detail Pekerjaan'),
                               onPressed: job['status'] == 'deleted'
                                   ? null

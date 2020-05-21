@@ -8,8 +8,12 @@ import 'package:haverjob/screens/edit_data.dart';
 import 'package:haverjob/screens/employee_seeker/find_employee_screen.dart';
 import 'package:haverjob/screens/home.dart';
 import 'package:haverjob/screens/login_screen.dart';
+import 'package:haverjob/screens/register_employee.dart';
+import 'package:haverjob/screens/register_es.dart';
+import 'package:haverjob/screens/reset_password.dart';
 import 'package:haverjob/screens/signup_screen.dart';
 import 'package:haverjob/screens/welcome_screen.dart';
+import 'package:haverjob/utils/global.dart';
 import 'package:provider/provider.dart';
 
 void main() => runApp(MyApp());
@@ -40,7 +44,7 @@ class _MyAppState extends State<MyApp> {
     ));
     return MaterialApp(
         theme: ThemeData(
-          primaryColor: Colors.blue,
+          primaryColor: mainColor,
           fontFamily: 'Poppins'
         ),
         debugShowCheckedModeBanner: false,
@@ -56,6 +60,9 @@ class _MyAppState extends State<MyApp> {
           '/findEmployee': (BuildContext context) => FindEmployeeScreen(),
           '/editEmployee': (BuildContext context) => EditData(),
           '/uploadPicture': (BuildContext context) => UploadPicture(),
+          '/resetPassword': (BuildContext context) => ResetPassword(),
+          '/registerES': (BuildContext context) => RegisterES(),
+          '/registerEmployee': (BuildContext context) => RegisterEmployee(),
         },
       
     );

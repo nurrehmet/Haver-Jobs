@@ -79,8 +79,8 @@ class ListPendidikan{
   getList(){
     pendidikan = [
     {
-      "display": "SMA",
-      "value": "SMA",
+      "display": "SMA / Sederajat",
+      "value": "SMA / Sederajat",
     },
     {
       "display": "D3",

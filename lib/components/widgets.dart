@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:haverjob/screens/welcome_screen.dart';
+import 'package:haverjob/utils/global.dart';
 
 class ProfileHead extends StatelessWidget {
   final IconData titleIcon;
@@ -87,14 +88,14 @@ class RoundedButton extends StatelessWidget {
         height: 50,
         child: FlatButton(
           shape: new RoundedRectangleBorder(
-            borderRadius: new BorderRadius.circular(10.0),
+            borderRadius: new BorderRadius.circular(25.0),
           ),
           onPressed: onPress,
           padding: EdgeInsets.all(10.0),
           color: color,
           child: Text(
             text,
-            style: TextStyle(color: Colors.white),
+            style: TextStyle(color: Colors.white, fontSize: 14,fontWeight: bold),
           ),
         ),
       ),
@@ -110,14 +111,14 @@ class TextFields extends StatelessWidget {
   final bool obscureText;
   final TextInputType textInputType;
   final String value;
-  
-  TextFields(
-      {this.labelText,
-      this.iconData,
-      this.onSaved,
-      this.obscureText,
-      this.textInputType,
-      this.value});
+  TextFields({
+    this.labelText,
+    this.iconData,
+    this.onSaved,
+    this.obscureText,
+    this.textInputType,
+    this.value,
+  });
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -149,3 +150,103 @@ class TextFields extends StatelessWidget {
     );
   }
 }
+
+class PasswordField extends StatelessWidget {
+  final String labelText;
+  final IconData iconData;
+  final Function onSaved;
+  final bool obscureText;
+  final TextInputType textInputType;
+  final String value;
+  PasswordField({
+    this.labelText,
+    this.iconData,
+    this.onSaved,
+    this.obscureText,
+    this.textInputType,
+    this.value,
+  });
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 30.0, vertical: 10.0),
+      child: TextFormField(
+        initialValue: value,
+        keyboardType: textInputType,
+        decoration: InputDecoration(
+            border: OutlineInputBorder(
+              // width: 0.0 produces a thin "hairline" border
+              borderRadius: BorderRadius.all(Radius.circular(10.0)),
+              borderSide: BorderSide.none,
+              //borderSide: const BorderSide(),
+            ),
+            filled: true,
+            fillColor: Colors.grey[200],
+            prefixIcon: Icon(iconData),
+            hintText: labelText,
+            labelStyle: TextStyle(fontFamily: 'Product Sans')),
+        validator: (value) {
+          if (value.isEmpty) {
+            return '$labelText tidak boleh kosong';
+          }
+          else if (value.length < 6) {
+            return '$labelText minimal 6 karakter';
+          }
+          return null;
+        },
+        onSaved: onSaved,
+        obscureText: obscureText,
+      ),
+    );
+  }
+}
+class AgeField extends StatelessWidget {
+  final String labelText;
+  final IconData iconData;
+  final Function onSaved;
+  final bool obscureText;
+  final TextInputType textInputType;
+  final String value;
+  AgeField({
+    this.labelText,
+    this.iconData,
+    this.onSaved,
+    this.obscureText,
+    this.textInputType,
+    this.value,
+  });
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 30.0, vertical: 10.0),
+      child: TextFormField(
+        initialValue: value,
+        keyboardType: textInputType,
+        decoration: InputDecoration(
+            border: OutlineInputBorder(
+              // width: 0.0 produces a thin "hairline" border
+              borderRadius: BorderRadius.all(Radius.circular(10.0)),
+              borderSide: BorderSide.none,
+              //borderSide: const BorderSide(),
+            ),
+            filled: true,
+            fillColor: Colors.grey[200],
+            prefixIcon: Icon(iconData),
+            hintText: labelText,
+            labelStyle: TextStyle(fontFamily: 'Product Sans')),
+        validator: (value) {
+          if (value.isEmpty) {
+            return '$labelText tidak boleh kosong';
+          }
+          else if (value.length > 2 || int.parse(value) < 15) {
+            return '$labelText tidak valid';
+          }
+          return null;
+        },
+        onSaved: onSaved,
+        obscureText: obscureText,
+      ),
+    );
+  }
+}
+

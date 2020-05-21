@@ -136,7 +136,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     obscureText: false,
                     textInputType: TextInputType.emailAddress,
                   ),
-                  new TextFields(
+                  new PasswordField(
                     labelText: 'Password',
                     iconData: Icons.lock,
                     onSaved: (input) => _password = input,
@@ -268,19 +268,19 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   onSaved: (input) => _email = input,
                   obscureText: false,
                   textInputType: TextInputType.emailAddress),
-              new TextFields(
+              new PasswordField(
                   labelText: 'Password',
                   iconData: Icons.lock,
                   onSaved: (input) => _password = input,
                   obscureText: true,
                   textInputType: TextInputType.text),
               new TextFields(
-                  labelText: 'No Handphone',
+                  labelText: 'No Handphone / WhatsApp',
                   iconData: Icons.phone,
                   onSaved: (input) => _noHp = input,
                   obscureText: false,
                   textInputType: TextInputType.number),
-              new TextFields(
+              new AgeField(
                   labelText: 'Usia',
                   iconData: Icons.date_range,
                   onSaved: (input) => _usia = input,
@@ -408,15 +408,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   valueField: 'value',
                 ),
               ),
-              new TextFields(
-                  labelText: 'Gaji per Jam',
+             TextFields(
+                  labelText: 'Gaji per Jam (Rp)',
                   iconData: Icons.attach_money,
                   onSaved: (input) => _gaji = input,
                   obscureText: false,
                   textInputType: TextInputType.number),
               new TextFields(
                   labelText: 'Pengalaman Kerja',
-                  iconData: Icons.access_time,
+                  iconData: Icons.history,
                   onSaved: (input) => _pengKerja = input,
                   obscureText: false,
                   textInputType: TextInputType.text),

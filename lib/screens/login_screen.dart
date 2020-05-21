@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:haverjob/components/widgets.dart';
 import 'package:haverjob/screens/home.dart';
 import 'package:haverjob/services/authentication_service.dart';
+import 'package:haverjob/utils/global.dart';
 
 class LoginScreen extends StatefulWidget {
   static final id = 'login_screen';
@@ -24,74 +25,98 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
       appBar: AppBar(
-        title: Text('Login'),
-        centerTitle: true,
-        elevation: 0.0,
+        iconTheme: IconThemeData(
+          color: secColor, //change your color here
+        ),
+        elevation: 0,
+        backgroundColor: Colors.transparent,
       ),
       body: SingleChildScrollView(
-        child: Center(
-          child: Column(
-            children: <Widget>[
-              SizedBox(
-                height: 27.0,
-              ),
-              Form(
-                key: _formKey,
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: <Widget>[
-                    new TextFields(
-                      labelText: 'Email',
-                      iconData: Icons.email,
-                      onSaved: (input) => _email = input,
-                      obscureText: false,
-                      textInputType: TextInputType.emailAddress,
-                    ),
-                    new TextFields(
-                      labelText: 'Password',
-                      iconData: Icons.lock,
-                      onSaved: (input) => _password = input,
-                      obscureText: true,
-                      textInputType: TextInputType.text,
-                    ),
-                    showCircular
-                        ? Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Center(child: CircularProgressIndicator()),
-                          )
-                        : SizedBox(),
-                    new RoundedButton(
-                        text: 'Login', onPress: signIn, color: Colors.blue),
-                    Row(children: <Widget>[
-                      Expanded(
-                          child: Padding(
-                        padding: const EdgeInsets.all(10.0),
-                        child: Divider(color: Colors.grey, height: 36),
-                      )),
-                      Text(
-                        'Belum punya akun?',
-                        style: TextStyle(
-                          color: Colors.grey,
+        child: Column(
+          children: <Widget>[
+            Heading(
+              title: 'Login ke Haver Jobs',
+              subtitle:
+                  'Dapatkan informasi mengenai pekerja part time terdekat.',
+            ),
+            Form(
+              key: _formKey,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  new TextFields(
+                    labelText: 'Email',
+                    iconData: Icons.email,
+                    onSaved: (input) => _email = input,
+                    obscureText: false,
+                    textInputType: TextInputType.emailAddress,
+                  ),
+                  new PasswordField(
+                    labelText: 'Password',
+                    iconData: Icons.lock,
+                    onSaved: (input) => _password = input,
+                    obscureText: true,
+                    textInputType: TextInputType.text,
+                  ),
+                  showCircular
+                      ? Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Center(
+                              child: CircularProgressIndicator(
+                            backgroundColor: secColor,
+                          )),
+                        )
+                      : SizedBox(),
+                  new RoundedButton(
+                      text: 'Login', onPress: signIn, color: secColor),
+                  Center(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: FlatButton.icon(
+                        icon: Icon(
+                          Icons.lock_outline,
+                          color: secColor,
                         ),
+                        label: Text(
+                          'Lupa password anda?',
+                          style: TextStyle(color: secColor, fontWeight: bold),
+                        ),
+                        onPressed: () {
+                          Navigator.pushNamed(context, '/resetPassword');
+                        },
                       ),
-                      Expanded(
-                          child: Padding(
-                        padding: const EdgeInsets.all(10.0),
-                        child: Divider(color: Colors.grey, height: 36),
-                      )),
-                    ]),
-                    new RoundedButton(
-                        text: 'Register',
-                        onPress: () =>
-                            {Navigator.pushNamed(context, "/register")},
-                        color: Colors.green),
-                  ],
-                ),
-              )
-            ],
-          ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Container(
+              height: 203,
+              width: MediaQuery.of(context).size.width,
+              color: Colors.grey[200],
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.all(12.0),
+                    child: Text('Dengan login ke dalam sistem anda setuju dengan Terms of Service dan Privacy Policy kami',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: subTextColor,
+                      fontSize: 12),),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: <Widget>[
+                      FlatButton(child: Text('Privacy Policy'), onPressed: (){},),
+                      FlatButton(child: Text('Terms of Service'),onPressed: (){},)
+                    ],
+                  )
+                ],
+              ),
+            )
+          ],
         ),
       ),
     );
@@ -142,14 +167,14 @@ class _LoginScreenState extends State<LoginScreen> {
             errorMessage = "Terjadi kesalahan sistem.";
         }
         setState(() {
-            showCircular = false;
-          });
+          showCircular = false;
+        });
         EdgeAlert.show(context,
-          title: 'Error',
-          description: errorMessage,
-          gravity: EdgeAlert.TOP,
-          icon: Icons.error,
-          backgroundColor: Colors.red);
+            title: 'Error',
+            description: errorMessage,
+            gravity: EdgeAlert.TOP,
+            icon: Icons.error,
+            backgroundColor: Colors.red);
         print(e);
       }
     }

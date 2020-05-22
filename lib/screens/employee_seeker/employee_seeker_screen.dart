@@ -9,7 +9,6 @@ import 'package:haverjob/screens/edit_data.dart';
 import 'package:haverjob/screens/employee_seeker/job_screen.dart';
 import 'package:haverjob/screens/employee_seeker/jobs_data.dart';
 import 'package:haverjob/screens/maps_view.dart';
-import 'package:haverjob/screens/employee/job_list.dart';
 import 'package:haverjob/screens/welcome_screen.dart';
 
 double lat, long;

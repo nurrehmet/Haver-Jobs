@@ -27,7 +27,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
           Padding(
             padding: const EdgeInsets.only(bottom: 10),
             child: Icon(
-              Icons.map,
+              Icons.pin_drop,
               color: secColor,
               size: 40,
             ),
@@ -149,7 +149,7 @@ void _roleModal(context) {
             ],
           ),
           child: Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(5.0),
             child: new Wrap(
               children: <Widget>[
                 Center(

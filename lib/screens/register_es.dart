@@ -6,7 +6,6 @@ import 'package:geoflutterfire/geoflutterfire.dart';
 import 'package:haverjob/components/widgets.dart';
 import 'package:haverjob/models/list_data.dart';
 import 'package:haverjob/models/users.dart';
-import 'package:haverjob/screens/employee/employee_screen.dart';
 import 'package:haverjob/screens/home.dart';
 import 'package:haverjob/utils/global.dart';
 import 'package:place_picker/place_picker.dart';
@@ -32,6 +31,9 @@ class _RegisterESState extends State<RegisterES> {
   @override
   void initState() {
     showCircular = false;
+    _kategoriPerusahaan = '';
+    _kota = '';
+    _alamat = '';
     super.initState();
   }
 

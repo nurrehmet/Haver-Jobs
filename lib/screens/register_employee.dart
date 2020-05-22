@@ -34,6 +34,10 @@ class _RegisterEmployeeState extends State<RegisterEmployee> {
   void initState() {
     _gender = '';
     _pendidikan = '';
+    showCircular = false;
+    _jamKerja='';
+    _keahlian='';
+    _kota='';
     super.initState();
   }
 

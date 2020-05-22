@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:haverjob/screens/employee/employee_screen.dart';
+import 'package:haverjob/screens/employee/employee_screen_temp.dart';
 import 'package:haverjob/screens/employee_seeker/employee_seeker_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -59,7 +59,7 @@ class _HomeState extends State<Home> {
       return new EmployeeSeekerScreen();
     }
     if (snapshot.data['role'] == 'employee') {
-      return EmployeeScreen();
+      return EmployeeScreenTemp();
     }
     // if (snapshot.data['role'] == 'admin') {
     //   return AdminScreen();

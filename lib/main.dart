@@ -11,7 +11,6 @@ import 'package:haverjob/screens/login_screen.dart';
 import 'package:haverjob/screens/register_employee.dart';
 import 'package:haverjob/screens/register_es.dart';
 import 'package:haverjob/screens/reset_password.dart';
-import 'package:haverjob/screens/signup_screen.dart';
 import 'package:haverjob/screens/welcome_screen.dart';
 import 'package:haverjob/utils/global.dart';
 import 'package:provider/provider.dart';
@@ -54,7 +53,6 @@ class _MyAppState extends State<MyApp> {
           child: _getLandingPage()),
         routes: <String, WidgetBuilder>{
           '/login': (BuildContext context) => LoginScreen(),
-          '/register': (BuildContext context) => SignUpScreen(),
           '/home': (BuildContext context) => Home(),
           '/welcome': (BuildContext context) => WelcomeScreen(),
           '/findEmployee': (BuildContext context) => FindEmployeeScreen(),

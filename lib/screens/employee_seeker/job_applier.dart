@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:haverjob/components/details_account.dart';
+import 'package:haverjob/utils/global.dart';
 
 class JobApplier extends StatefulWidget {
   String jobID;
@@ -31,68 +32,56 @@ class _JobApplierState extends State<JobApplier> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Data Pelamar Pekerjaan'),
+        title: Padding(
+          padding: const EdgeInsets.only(left: 15),
+          child: Text(
+            'Daftar Pelamar Pekerjaan',
+            style: TextStyle(color: mainColor, fontWeight: bold, fontSize: 22),
+          ),
+        ),
+        iconTheme: IconThemeData(
+          color: secColor, //change your color here
+        ),
+        elevation: 0,
+        backgroundColor: Colors.white,
       ),
-      backgroundColor: Colors.grey[200],
-      body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              SizedBox(
-                height: 5,
-              ),
-              for (var i in jobApplier)
-                StreamBuilder(
-                    stream: Firestore.instance
-                        .collection('employee')
-                        .document(i)
-                        .snapshots(),
-                    builder: (context, snapshot) {
-                      if (!snapshot.hasData) {
-                        return Center(child: new Text('Belum ada pelamar'));
-                      }
-                      var job = snapshot.data;
-                      return Card(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10.0),
-                        ),
-                        color: Colors.white,
-                        elevation: 1,
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: ListTile(
-                            title: Text(job['nama']),
-                            subtitle: Text(job['email']),
-                            trailing: FlatButton.icon(
-                              icon: Icon(Icons.exit_to_app),
-                              label: Text('Detail Pelamar'),
-                              onPressed: () => Navigator.push(
+      backgroundColor: bgColor,
+      body: ListView(
+        children: <Widget>[
+          for (var i in jobApplier)
+            StreamBuilder(
+                stream: Firestore.instance
+                    .collection('employee')
+                    .document(i)
+                    .snapshots(),
+                builder: (context, snapshot) {
+                  if (!snapshot.hasData) {
+                    return Container(child: new Text('Belum ada pelamar'));
+                  }
+                  var job = snapshot.data;
+                  return Padding(
+                    padding: const EdgeInsets.only(bottom: 1,),
+                    child: Container(
+                      color: Colors.white,
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: ListTile(
+                          title: Text(job['nama']),
+                          subtitle: Text(job['email']),
+                          trailing: Icon(Icons.keyboard_arrow_right),
+                          onTap: () => Navigator.push(
                               context,
                               MaterialPageRoute(
                                 builder: (context) => AkunDetail(
                                   userID: i,
                                 ),
                               )),
-                            ),
-                          ),
                         ),
-                      );
-                      // return Card(
-                      //    shape: RoundedRectangleBorder(
-                      //       borderRadius: BorderRadius.circular(10.0),
-                      //     ),
-                      //     color: Colors.white,
-                      //     elevation: 1,
-                      //   child: Padding(
-                      //     padding: const EdgeInsets.all(8.0),
-                      //     child: Text(job == null ?'Data tidak ditemukan':job["judul"]),
-                      //   ));
-                    })
-            ],
-          ),
-        ),
+                      ),
+                    ),
+                  );
+                })
+        ],
       ),
     );
   }

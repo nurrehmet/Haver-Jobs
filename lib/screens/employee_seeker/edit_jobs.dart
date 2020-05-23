@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:geoflutterfire/geoflutterfire.dart';
 import 'package:haverjob/components/widgets.dart';
 import 'package:haverjob/models/list_data.dart';
+import 'package:haverjob/utils/global.dart';
 import 'package:place_picker/place_picker.dart';
 
 class EditJobs extends StatefulWidget {
@@ -48,19 +49,19 @@ class _EditJobsState extends State<EditJobs> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Edit Data Pekerjaan'),
-        actions: <Widget>[
-          FlatButton.icon(
-            textColor: Colors.white,
-            icon: Icon(
-              Icons.save,
-              color: Colors.white,
-            ),
-            label: Text('Simpan'),
-            onPressed: updateData,
-          )
-        ],
+       appBar: AppBar(
+        title: Padding(
+          padding: const EdgeInsets.only(left: 15),
+          child: Text(
+            'Edit Pekerjaan',
+            style: TextStyle(color: mainColor, fontWeight: bold, fontSize: 22),
+          ),
+        ),
+        iconTheme: IconThemeData(
+          color: secColor, //change your color here
+        ),
+        elevation: 0,
+        backgroundColor: Colors.white,
       ),
       body: StreamBuilder<DocumentSnapshot>(
         stream: Firestore.instance
@@ -260,9 +261,9 @@ class _EditJobsState extends State<EditJobs> {
                 ),
               ),
               new RoundedButton(
-                  text: 'Tambahkan Lokasi Pekerjaan',
+                  text: 'Update Lokasi Pekerjaan',
                   onPress: showPlacePicker,
-                  color: Colors.green),
+                  color: mainColor),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 30.0, vertical: 10.0),
                 child: Align(
@@ -277,6 +278,10 @@ class _EditJobsState extends State<EditJobs> {
                   ),
                 ),
               ),
+              new RoundedButton(
+                  text: 'Simpan Perubahan',
+                  onPress: updateData,
+                  color: secColor),
               SizedBox(
                 height: 15,
               ),

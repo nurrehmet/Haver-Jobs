@@ -2,6 +2,8 @@ import 'dart:io';
 import 'dart:async';
 import 'package:edge_alert/edge_alert.dart';
 import 'package:haverjob/components/profile_avatar.dart';
+import 'package:haverjob/components/widgets.dart';
+import 'package:haverjob/utils/global.dart';
 import 'package:path/path.dart' as Path;
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -19,10 +21,10 @@ class _UploadPictureState extends State<UploadPicture> {
   String _uploadedFileURL;
   Future getImage() async {
     var image = await ImagePicker.pickImage(source: ImageSource.gallery);
-
     setState(() {
       _image = image;
     });
+    uploadFile();
   }
 
   @override
@@ -46,34 +48,15 @@ class _UploadPictureState extends State<UploadPicture> {
                         backgroundImage: FileImage(_image),
                       ),
                     ),
-              // : Image.file(_image, height: 100,width: 100,fit:BoxFit.cover),
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: FloatingActionButton.extended(
-                    heroTag: 'Hero1',
-                    onPressed: getImage,
-                    label: Text('Pilih Gambar'),
-                    tooltip: 'Pick Image',
-                    icon: Icon(Icons.add_a_photo),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: FloatingActionButton.extended(
-                    backgroundColor: Colors.green,
-                    onPressed: uploadFile,
-                    heroTag: 'Hero2',
-                    label: Text('Upload'),
-                    tooltip: 'Upload',
-                    icon: Icon(Icons.cloud_upload),
-                  ),
-                ),
-              ],
-            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: RoundedButton(
+                text: 'Edit Foto',
+                color: mainColor,
+                onPress: getImage,
+              ),
+            )
           ],
         ),
       ),
@@ -96,7 +79,6 @@ class _UploadPictureState extends State<UploadPicture> {
           gravity: EdgeAlert.TOP,
           icon: Icons.check_circle,
           backgroundColor: Colors.green);
-
       print(fileURL);
     });
   }

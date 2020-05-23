@@ -2,9 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:haverjob/models/list_data.dart';
 import 'package:haverjob/screens/jobs/find_jobs.dart';
 import 'package:haverjob/screens/jobs/job_list.dart';
+import 'package:haverjob/screens/maps_view.dart';
 import 'package:haverjob/utils/global.dart';
 
 class JobsCategory extends StatefulWidget {
+  String type,keahlian;
+  double lat,long;
+  JobsCategory({this.type,this.lat,this.long,this.keahlian});
   @override
   _JobsCategoryState createState() => _JobsCategoryState();
 }
@@ -29,7 +33,7 @@ class _JobsCategoryState extends State<JobsCategory> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => JobList(category: keahlian[index],),
+                          builder: (context) => widget.type == 'worker'?MapsView(keahlian:keahlian[index],lat: widget.lat,long: widget.long,type: 'worker',): JobList(category: keahlian[index],),
                         ));
                   },
                   title: Text(keahlian[index]),

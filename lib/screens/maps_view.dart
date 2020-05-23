@@ -5,8 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:haverjob/components/details_account.dart';
+import 'package:haverjob/components/widgets.dart';
 import 'package:haverjob/screens/employee_seeker/find_employee_screen.dart';
 import 'package:geoflutterfire/geoflutterfire.dart';
+import 'package:haverjob/utils/global.dart';
 import 'package:haverjob/utils/map_styles.dart';
 import 'package:rxdart/rxdart.dart';
 import 'dart:ui' as ui;
@@ -82,13 +84,23 @@ class MapsViewState extends State<MapsView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          'Hasil Pencarian',
-          
-        ),
-        centerTitle: true,
-      ),
+      appBar: widget.type == 'worker'
+          ? AppBar(
+              title: Padding(
+                padding: const EdgeInsets.only(left: 15),
+                child: Text(
+                  'Hasil Pencarian',
+                  style: TextStyle(
+                      color: mainColor, fontWeight: bold, fontSize: 22),
+                ),
+              ),
+              iconTheme: IconThemeData(
+                color: secColor, //change your color here
+              ),
+              elevation: 0,
+              backgroundColor: Colors.white,
+            )
+          : null,
       body: Stack(
         children: <Widget>[
           mapWidget(),
@@ -106,9 +118,10 @@ class MapsViewState extends State<MapsView> {
                     child: Visibility(
                       visible: widget.type == 'filter' ? true : false,
                       child: FloatingActionButton(
+                          elevation: 0,
                           heroTag: "btn1",
                           tooltip: 'Filter Karyawan',
-                          backgroundColor: Colors.blue,
+                          backgroundColor: mainColor,
                           child: Icon(Icons.tune),
                           onPressed: () => Navigator.push(
                               context,
@@ -122,71 +135,25 @@ class MapsViewState extends State<MapsView> {
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: FloatingActionButton(
+                        elevation: 0,
                         heroTag: "btn2",
                         tooltip: 'Lokasi Sekarang',
-                        backgroundColor: Colors.blue,
+                        backgroundColor: secColor,
                         child: Icon(Icons.near_me, color: Colors.white),
                         onPressed: () => _currentLocation()),
                   ),
                 ),
                 Container(
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(25.0),
-                        topRight: Radius.circular(25.0)),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.grey,
-                        blurRadius: 25.0, // soften the shadow
-                        spreadRadius: 5.0, //extend the shadow
-                        offset: Offset(
-                          15.0, // Move to right 10  horizontally
-                          15.0, // Move to bottom 10 Vertically
-                        ),
-                      )
-                    ],
-                  ),
-                  height: 150,
-                  child: Padding(
-                    padding: const EdgeInsets.only(top: 2.0),
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Container(
-                        child: Column(
-                          children: <Widget>[
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Text('Atur Jarak Radius Pencarian'),
-                            ),
-                            Slider(
-                              min: 1,
-                              max: 15,
-                              divisions: 5,
-                              value: _value,
-                              label: _label,
-                              activeColor: Colors.blue,
-                              inactiveColor: Colors.blue.withOpacity(0.2),
-                              onChanged: (double value) => changed(value),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: markers.isEmpty
-                                  ? Text(
-                                      'Tidak Ada Pekerja Part Time Terdekat',
-                                      style: TextStyle(
-                                          color: Colors.red,
-                                          fontWeight: FontWeight.bold),
-                                    )
-                                  : Text('Pekerja Part Time Ditemukan',
-                                      style: TextStyle(
-                                          color: Colors.blue,
-                                          fontWeight: FontWeight.bold)),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
+                  color: mainColor.withOpacity(0.2),
+                  child: Slider(
+                    min: 1,
+                    max: 15,
+                    divisions: 5,
+                    value: _value,
+                    label: _label,
+                    activeColor: mainColor,
+                    inactiveColor: secColor.withOpacity(0.2),
+                    onChanged: (double value) => changed(value),
                   ),
                 ),
               ],
@@ -262,8 +229,8 @@ class MapsViewState extends State<MapsView> {
       circles = Set.from([
         Circle(
           strokeWidth: 2,
-          fillColor: Colors.blue.withOpacity(0.2),
-          strokeColor: Colors.blue,
+          fillColor: secColor.withOpacity(0.2),
+          strokeColor: secColor,
           circleId: CircleId('circle'),
           center: LatLng(widget.lat, widget.long),
           radius: _nilaiRadius,

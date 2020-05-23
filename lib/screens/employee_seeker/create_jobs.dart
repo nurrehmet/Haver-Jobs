@@ -11,6 +11,7 @@ import 'package:haverjob/components/widgets.dart';
 import 'package:haverjob/functions/get_data.dart';
 import 'package:haverjob/models/list_data.dart';
 import 'package:haverjob/screens/admin/create_jobs.dart';
+import 'package:haverjob/utils/global.dart';
 import 'package:place_picker/place_picker.dart';
 import 'package:random_string/random_string.dart';
 
@@ -53,9 +54,19 @@ class _CreateJobsState extends State<CreateJobs> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Buat Lowongan Kerja'),
-        centerTitle: true,
+       appBar: AppBar(
+        title: Padding(
+          padding: const EdgeInsets.only(left: 15),
+          child: Text(
+            'Buat Lowongan Kerja',
+            style: TextStyle(color: mainColor, fontWeight: bold, fontSize: 22),
+          ),
+        ),
+        iconTheme: IconThemeData(
+          color: secColor, //change your color here
+        ),
+        elevation: 0,
+        backgroundColor: Colors.white,
       ),
       body: Container(
         child: SingleChildScrollView(
@@ -245,7 +256,7 @@ class _CreateJobsState extends State<CreateJobs> {
                     new RoundedButton(
                         text: 'Tambahkan Lokasi Pekerjaan',
                         onPress: showPlacePicker,
-                        color: Colors.green),
+                        color: mainColor),
                     Padding(
                       padding: EdgeInsets.symmetric(
                           horizontal: 30.0, vertical: 10.0),
@@ -269,7 +280,7 @@ class _CreateJobsState extends State<CreateJobs> {
                     new RoundedButton(
                       text: 'Tambah Lowongan Kerja',
                       onPress: _submitJob,
-                      color: Colors.blue,
+                      color: secColor,
                     ),
                     SizedBox(
                       height: 20.0,

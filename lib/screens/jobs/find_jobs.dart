@@ -10,6 +10,7 @@ class FindJob extends StatelessWidget {
       length: 2,
       child: Scaffold(
         appBar: AppBar(
+          automaticallyImplyLeading: false,
           iconTheme: IconThemeData(
             color: secColor, //change your color here
           ),

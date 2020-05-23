@@ -33,6 +33,7 @@ class _AppliedJobsState extends State<AppliedJobs> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         title: Padding(
           padding: const EdgeInsets.only(left: 15),
           child: Text(
@@ -103,14 +104,18 @@ class _AppliedJobsState extends State<AppliedJobs> {
                                         jobID: i,
                                       ),
                                     )),
-                                title: Text(job['judul'],style: TextStyle(fontWeight: bold),),
-                                subtitle: Text(
-                                    job['namaPerusahaan'] + ' - ' + job['kota']),
+                                title: Text(
+                                  job['judul'],
+                                  style: TextStyle(fontWeight: bold),
+                                ),
+                                subtitle: Text(job['namaPerusahaan'] +
+                                    ' - ' +
+                                    job['kota']),
                                 trailing: Icon(Icons.keyboard_arrow_right),
                               ),
                               ListTile(
                                 subtitle: Text(
-                                  job['deskripsi']+' ...',
+                                  job['deskripsi'] + ' ...',
                                   maxLines: 3,
                                 ),
                               )

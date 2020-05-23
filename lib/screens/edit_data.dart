@@ -7,6 +7,7 @@ import 'package:haverjob/components/status_kerja.dart';
 import 'package:haverjob/components/upload_picture.dart';
 import 'package:haverjob/components/widgets.dart';
 import 'package:haverjob/models/list_data.dart';
+import 'package:haverjob/utils/global.dart';
 import 'package:place_picker/place_picker.dart';
 import 'package:edge_alert/edge_alert.dart';
 
@@ -58,19 +59,20 @@ class _EditDataState extends State<EditData> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
-        title: Text('Edit Data Diri'),
-        actions: <Widget>[
-          FlatButton.icon(
-            textColor: Colors.white,
-            icon: Icon(
-              Icons.save,
-              color: Colors.white,
-            ),
-            label: Text('Simpan'),
-            onPressed: updateData,
-          )
-        ],
+        title: Padding(
+          padding: const EdgeInsets.only(left: 15),
+          child: Text(
+            'Edit Data',
+            style: TextStyle(color: mainColor, fontWeight: bold, fontSize: 22),
+          ),
+        ),
+        iconTheme: IconThemeData(
+          color: secColor, //change your color here
+        ),
+        elevation: 0,
+        backgroundColor: Colors.white,
       ),
       body: StreamBuilder<DocumentSnapshot>(
         stream: Firestore.instance
@@ -87,7 +89,7 @@ class _EditDataState extends State<EditData> {
               case 'employee':
                 return formEmployee(snapshot.data);
                 break;
-              case 'employee seeker':
+              case 'employee-seeker':
                 return formES(snapshot.data);
                 break;
             }
@@ -183,7 +185,7 @@ class _EditDataState extends State<EditData> {
               new RoundedButton(
                   text: 'Update Lokasi Anda',
                   onPress: showPlacePicker,
-                  color: Colors.green),
+                  color: mainColor),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 30.0, vertical: 10.0),
                 child: Align(
@@ -193,10 +195,15 @@ class _EditDataState extends State<EditData> {
                         ? 'Lokasi belum dipilih'
                         : 'Lokasi Anda: $_alamat',
                     style: TextStyle(
-                        color: Colors.grey, ),
+                      color: Colors.grey,
+                    ),
                   ),
                 ),
               ),
+              new RoundedButton(
+                  text: 'Simpan Perubahan',
+                  onPress: updateData,
+                  color: secColor),
               SizedBox(
                 height: 15,
               )
@@ -219,8 +226,11 @@ class _EditDataState extends State<EditData> {
                 userID: _userID,
               ),
               Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: new StatusKerja(userId: _userID,statusKerja: snapshot.data['statusKerja'],),
+                padding: const EdgeInsets.only(top: 10,bottom: 10),
+                child: new StatusKerja(
+                  userId: _userID,
+                  statusKerja: snapshot.data['statusKerja'],
+                ),
               ),
               new TextFields(
                   labelText: 'Nama',
@@ -236,7 +246,7 @@ class _EditDataState extends State<EditData> {
                   onSaved: (input) => _noHp = input,
                   obscureText: false,
                   textInputType: TextInputType.number),
-              new TextFields(
+              new AgeField(
                   labelText: 'Usia',
                   value: snapshot.data['usia'],
                   iconData: Icons.date_range,
@@ -333,7 +343,7 @@ class _EditDataState extends State<EditData> {
               new RoundedButton(
                   text: 'Update Lokasi Anda',
                   onPress: showPlacePicker,
-                  color: Colors.green),
+                  color: mainColor),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 30.0, vertical: 10.0),
                 child: Align(
@@ -343,7 +353,8 @@ class _EditDataState extends State<EditData> {
                         ? 'Lokasi belum dipilih'
                         : 'Lokasi Anda: $_alamat',
                     style: TextStyle(
-                        color: Colors.grey, fontFamily: 'Product Sans'),
+                      color: Colors.grey,
+                    ),
                   ),
                 ),
               ),
@@ -426,6 +437,10 @@ class _EditDataState extends State<EditData> {
               showCircular
                   ? Center(child: CircularProgressIndicator())
                   : SizedBox(),
+              new RoundedButton(
+                  text: 'Simpan Perubahan',
+                  onPress: updateData,
+                  color: secColor),
               SizedBox(
                 height: 20.0,
               ),

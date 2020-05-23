@@ -6,6 +6,7 @@ import 'package:haverjob/components/widgets.dart';
 import 'package:dropdown_formfield/dropdown_formfield.dart';
 import 'package:haverjob/models/list_data.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:haverjob/utils/global.dart';
 
 // Init firestore and geoFlutterFire
 
@@ -43,12 +44,19 @@ class _FindEmployeeScreenState extends State<FindEmployeeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          'Cari Karyawan',
-          style: TextStyle(fontFamily: 'Product Sans'),
+       appBar: AppBar(
+        title: Padding(
+          padding: const EdgeInsets.only(left: 15),
+          child: Text(
+            'Cari Pekerja',
+            style: TextStyle(color: mainColor, fontWeight: bold, fontSize: 22),
+          ),
         ),
-        centerTitle: true,
+        iconTheme: IconThemeData(
+          color: secColor, //change your color here
+        ),
+        elevation: 0,
+        backgroundColor: Colors.white,
       ),
       body: Container(
         child: SingleChildScrollView(
@@ -195,7 +203,7 @@ class _FindEmployeeScreenState extends State<FindEmployeeScreen> {
                     ),
                   ),
                   new RoundedButton(
-                    text: 'Cari Karyawan Part Time',
+                    text: 'Cari Pekerja Part Time',
                     onPress: () {
                       var form = formKey.currentState;
                       if (form.validate()) {
@@ -211,6 +219,7 @@ class _FindEmployeeScreenState extends State<FindEmployeeScreen> {
                               jamKerja: _jamKerja,
                               lat: _lat,
                               long: _long,
+                              type: 'worker',
                             ),
                           ),
                         );
@@ -219,7 +228,7 @@ class _FindEmployeeScreenState extends State<FindEmployeeScreen> {
                         });
                       }
                     },
-                    color: Colors.blue
+                    color: secColor
                   ),
                 ],
               ),

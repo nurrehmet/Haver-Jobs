@@ -54,6 +54,7 @@ class _JobListState extends State<JobList> {
               shrinkWrap: true,
               controller: controller,
               itemBuilder: (context, index) {
+                //fungsi time ago
                 var date = snapshot.data.documents[index]['createdAt'].toDate();
                 var now = DateTime.now();
                 var diff = now.difference(date);

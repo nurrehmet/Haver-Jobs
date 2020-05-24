@@ -13,7 +13,12 @@ var bold = FontWeight.bold;
 var poppins = TextStyle(fontFamily: 'Poppins');
 //key
 var formKey = GlobalKey<FormState>();
-
+//loading
+var loading = CircularProgressIndicator(
+  backgroundColor: mainColor,
+  valueColor: new AlwaysStoppedAnimation<Color>(secColor),
+);
+//layout
 //texts
 class Heading extends StatelessWidget {
   String title, subtitle;
@@ -53,7 +58,8 @@ class Logo extends StatelessWidget {
             padding: const EdgeInsets.only(top: 30),
             child: Text(
               'Haver Jobs',
-              style: TextStyle(color:mainColor,fontWeight: bold, fontSize: 24),
+              style:
+                  TextStyle(color: mainColor, fontWeight: bold, fontSize: 24),
               textAlign: TextAlign.center,
             ),
           ),
@@ -62,7 +68,7 @@ class Logo extends StatelessWidget {
             child: Icon(
               Icons.maximize,
               color: secColor,
-              size:25,
+              size: 25,
             ),
           ),
         ],

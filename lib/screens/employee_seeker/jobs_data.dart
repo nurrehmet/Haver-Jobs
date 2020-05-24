@@ -67,14 +67,6 @@ class _JobsDataState extends State<JobsData> {
                     child: Column(
                       children: <Widget>[
                         ListTile(
-                          // onTap: () => Navigator.push(
-                          //     context,
-                          //     MaterialPageRoute(
-                          //       builder: (context) => JobDetail(
-                          //         jobID:
-                          //             snapshot.data.documents[index].documentID,
-                          //       ),
-                          //     )),
                           trailing: PopupMenuButton(
                               itemBuilder: (BuildContext context) {
                                 return List<PopupMenuEntry<String>>()

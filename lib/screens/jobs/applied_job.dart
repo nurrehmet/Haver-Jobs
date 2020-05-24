@@ -32,6 +32,19 @@ class _AppliedJobsState extends State<AppliedJobs> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: Padding(
+        padding: const EdgeInsets.only(bottom: 50),
+        child: FloatingActionButton(
+          backgroundColor: secColor,
+          elevation: 0,
+          child: Icon(
+            Icons.refresh
+          ),
+          onPressed: (){
+            checkAppliedJobs();
+          },
+        ),
+      ),
       appBar: AppBar(
         automaticallyImplyLeading: false,
         title: Padding(

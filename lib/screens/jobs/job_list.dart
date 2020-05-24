@@ -29,6 +29,11 @@ class _JobListState extends State<JobList> {
       appBar: widget.category == null
           ? null
           : (AppBar(
+              title: Text(
+                'Lowongan ${widget.category}',
+                style:
+                    TextStyle(color: mainColor, fontWeight: bold, fontSize: 22),
+              ),
               iconTheme: IconThemeData(
                 color: secColor, //change your color here
               ),

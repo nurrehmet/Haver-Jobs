@@ -19,6 +19,7 @@ import 'package:haverjob/utils/global.dart';
 double lat, long;
 String lokasi, kota;
 String _email;
+Widget find;
 
 class EmployeeSeekerScreen extends StatefulWidget {
   @override
@@ -31,9 +32,9 @@ class _EmployeeSeekerScreenState extends State<EmployeeSeekerScreen> {
   String _nama;
 
   void initState() {
-    getID();
-    _getCurrentLocation();
     super.initState();
+    _getCurrentLocation();
+    getID();
   }
 
   @override
@@ -58,9 +59,11 @@ class _EmployeeSeekerScreenState extends State<EmployeeSeekerScreen> {
         tabBuilder: (context, index) {
           switch (index) {
             case 0:
-              return WelcomeES(
-                lat1: lat,long1: long,
-              );
+              return find == null
+                  ? Center(
+                      child: loading
+                    )
+                  : find;
               break;
             case 1:
               return JobsData(
@@ -76,7 +79,7 @@ class _EmployeeSeekerScreenState extends State<EmployeeSeekerScreen> {
             //   return ThirdPage();
             //   break;
             default:
-              return WelcomeES();
+              return Center(child: loading);
               break;
           }
         });
@@ -99,6 +102,10 @@ class _EmployeeSeekerScreenState extends State<EmployeeSeekerScreen> {
       setState(() {
         lat = position.latitude;
         long = position.longitude;
+        find = WelcomeES(
+          lat1: lat,
+          long1: long,
+        );
       });
       print(lat);
       print(long);
@@ -116,8 +123,8 @@ class _EmployeeSeekerScreenState extends State<EmployeeSeekerScreen> {
 }
 
 class WelcomeES extends StatelessWidget {
-  double lat1,long1;
-  WelcomeES({this.lat1,this.long1});
+  double lat1, long1;
+  WelcomeES({this.lat1, this.long1});
   var user = FirebaseAuth.instance.currentUser();
   @override
   Widget build(BuildContext context) {
@@ -159,7 +166,11 @@ class WelcomeES extends StatelessWidget {
                 type: 'filter',
               ),
             ),
-            JobsCategory(lat: lat,long: long,type: 'worker',)
+            JobsCategory(
+              lat: lat,
+              long: long,
+              type: 'worker',
+            )
           ],
         ),
       ),

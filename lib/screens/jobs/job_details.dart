@@ -6,6 +6,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:haverjob/components/profile_avatar.dart';
+import 'package:haverjob/components/widgets.dart';
 import 'package:haverjob/models/jobs.dart';
 import 'package:haverjob/screens/direction_map.dart';
 import 'package:haverjob/screens/maps_view.dart';
@@ -14,6 +15,7 @@ import 'package:haverjob/utils/global.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:timeago/timeago.dart' as timeago;
 
 String userID;
 List applyStatus;
@@ -66,18 +68,21 @@ class _JobDetailState extends State<JobDetail> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-     appBar: AppBar(
+      appBar: AppBar(
         actions: <Widget>[
           FlatButton(
-            child: Icon(Icons.bookmark_border,color: secColor,),
-            onPressed: (){},
+            child: Icon(
+              Icons.bookmark_border,
+              color: secColor,
+            ),
+            onPressed: () {},
           )
         ],
         iconTheme: IconThemeData(
           color: secColor, //change your color here
         ),
         elevation: 0,
-        backgroundColor: Colors.transparent,
+        backgroundColor: Colors.white,
       ),
       body: StreamBuilder<DocumentSnapshot>(
         stream: Firestore.instance
@@ -100,191 +105,101 @@ class _JobDetailState extends State<JobDetail> {
   }
 
   accountScreen(DocumentSnapshot snapshot) {
+    //fungsi time ago
+    var date = snapshot.data['createdAt'].toDate();
+    var now = DateTime.now();
+    var diff = now.difference(date);
     return Scaffold(
+      bottomNavigationBar: new Container(
+        height: 100,
+        width: MediaQuery.of(context).size.width,
+        color: Colors.white.withOpacity(0.5),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            Container(
+              height: 70,
+              width: 250,
+              child: RoundedButton(
+                text: 'Lamar Pekerjaan',
+                color: secColor,
+                onPress: statusApply == false?() => applyJob(snapshot.documentID, userID):null,
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(right: 50),
+              child: Text(jumlahPelamar.toString()+' Orang Pelamar'),
+            )
+          ],
+        ),
+      ),
       backgroundColor: bgColor,
       body: SingleChildScrollView(
         child: Column(
-            children: <Widget>[
-              // Padding(
-              //   padding: const EdgeInsets.all(10.0),
-              //   child: ProfileAvatar(
-              //     uid: snapshot.data['creator'],
-              //     detailEmployee: true,
-              //     radius: 30,
-              //   ),
-              // ),
-              // Container(
-              //   child: Padding(
-              //     padding: const EdgeInsets.all(8.0),
-              //     child: ListTile(
-              //       title: Center(
-              //         child: Text(snapshot.data['judul'],
-              //             textAlign: TextAlign.center,
-              //             style: TextStyle(
-              //                 fontSize: 25, fontWeight: FontWeight.bold)),
-              //       ),
-              //       subtitle: Center(
-              //         child: Text('${snapshot.data['namaPerusahaan']}  ',
-              //             style: TextStyle(
-              //               fontSize: 18,
-              //             )),
-              //       ),
-              //     ),
-              //   ),
-              // ),
-              // Padding(
-              //   padding: const EdgeInsets.all(8.0),
-              //   child: Column(
-              //     children: <Widget>[
-              //       Row(
-              //         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              //         children: <Widget>[
-              //           Container(
-              //             decoration: BoxDecoration(
-              //                 color: Colors.grey[200],
-              //                 borderRadius: BorderRadius.circular(10)),
-              //             height: 70,
-              //             width: 170,
-              //             child: Center(
-              //                 child: Text(
-              //               '${jumlahPelamar} Orang Pelamar',
-              //               style: TextStyle(fontWeight: FontWeight.bold),
-              //             )),
-              //           ),
-              //           Container(
-              //             decoration: BoxDecoration(
-              //                 color: Colors.green[200],
-              //                 borderRadius: BorderRadius.circular(10)),
-              //             height: 70,
-              //             width: 150,
-              //             child: Center(
-              //               child: Text(
-              //                 'Rp.' + snapshot.data['gaji'] + ' /Jam',
-              //                 style: TextStyle(
-              //                     color: Colors.green[700],
-              //                     fontWeight: FontWeight.bold),
-              //               ),
-              //             ),
-              //           )
-              //         ],
-              //       ),
-              //       SizedBox(
-              //         height: 15,
-              //       ),
-              //       Padding(
-              //         padding: const EdgeInsets.all(8.0),
-              //         child: ListTile(
-              //           title: Text('Tanggal Diposting',
-              //               style: TextStyle(fontWeight: FontWeight.bold)),
-              //           // subtitle: Text(date.toString()),
-              //         ),
-              //       ),
-              //       Padding(
-              //         padding: const EdgeInsets.all(8.0),
-              //         child: ListTile(
-              //           title: Text('Deksripsi Pekerjaan',
-              //               style: TextStyle(fontWeight: FontWeight.bold)),
-              //           subtitle: Text(snapshot.data['deskripsi']),
-              //         ),
-              //       ),
-              //       Padding(
-              //         padding: const EdgeInsets.all(8.0),
-              //         child: ListTile(
-              //           title: Text('Lokasi',
-              //               style: TextStyle(fontWeight: FontWeight.bold)),
-              //           subtitle: Text(snapshot.data['lokasi']),
-              //         ),
-              //       ),
-              //       Padding(
-              //         padding: const EdgeInsets.all(8.0),
-              //         child: ListTile(
-              //           title: Text('Gaji per Jam',
-              //               style: TextStyle(fontWeight: FontWeight.bold)),
-              //           subtitle: Text('Rp. ' + snapshot.data['gaji']),
-              //         ),
-              //       ),
-              //       Padding(
-              //         padding: const EdgeInsets.all(8.0),
-              //         child: ListTile(
-              //           title: Text('Jam Kerja',
-              //               style: TextStyle(fontWeight: FontWeight.bold)),
-              //           subtitle: Text(snapshot.data['jamKerja']),
-              //         ),
-              //       ),
-              //       Padding(
-              //         padding: const EdgeInsets.all(8.0),
-              //         child: ListTile(
-              //           title: Text('Pendidikan Minimal',
-              //               style: TextStyle(fontWeight: FontWeight.bold)),
-              //           subtitle: Text(snapshot.data['pendidikan']),
-              //         ),
-              //       ),
-              //       Padding(
-              //         padding: const EdgeInsets.all(8.0),
-              //         child: ListTile(
-              //           title: Text('Gender Yang Dibutuhkan',
-              //               style: TextStyle(fontWeight: FontWeight.bold)),
-              //           subtitle: Text(snapshot.data['gender']),
-              //         ),
-              //       ),
-              //       Row(
-              //         mainAxisAlignment: MainAxisAlignment.spaceAround,
-              //         children: <Widget>[
-              //           Container(
-              //             decoration: BoxDecoration(
-              //                 color: Colors.grey[200],
-              //                 borderRadius: BorderRadius.circular(10)),
-              //             height: 70,
-              //             width: 100,
-              //             child: Center(
-              //               child: Icon(Icons.bookmark_border),
-              //             ),
-              //           ),
-              //           Container(
-              //             decoration: BoxDecoration(
-              //                 color: Colors.blue[200],
-              //                 borderRadius: BorderRadius.circular(10)),
-              //             height: 70,
-              //             width: 250,
-              //             child: FlatButton.icon(
-              //               icon: Icon(Icons.send),
-              //               label: lamarWidget(),
-              //               onPressed: statusApply == false
-              //                   ? () => applyJob(snapshot.documentID, userID)
-              //                   : null,
-              //             ),
-              //           )
-              //           // InkWell(
-              //           //   onTap: () => applyJob(snapshot.documentID, userID),
-              //           //   child: Container(
-
-              //           //     child: Center(
-              //           //       child: lamarWidget(),
-              //           //     ),
-              //           //   ),
-              //           // )
-              //         ],
-              //       ),
-              //       SizedBox(
-              //         height: 15,
-              //       )
-              //     ],
-              //   ),
-              // ),
-            ],
-          ),
+          children: <Widget>[
+            Container(
+              color: Colors.white,
+              child: Column(
+                children: <Widget>[
+                  ListTile(
+                    title: Text(
+                      snapshot.data['judul'],
+                      style: TextStyle(fontSize: 22,fontWeight: FontWeight.bold),
+                    ),
+                    subtitle: Text(snapshot.data['namaPerusahaan'] +
+                        ' - ' +
+                        snapshot.data['kota'],style: TextStyle(fontSize: 15,fontWeight: FontWeight.bold)),
+                  ),
+                  ListTile(
+                    leading: Text('Part Time'),
+                    trailing: Text('Rp.'+snapshot.data['gaji']+'/ jam'),
+                  )
+                ],
+              ),
+            ),
+            Column(
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.only(top: 15),
+                  child: ListTile(
+                    title: Text('Deskripsi pekerjaan', style: styleBold,),
+                    subtitle: Text(
+                      timeago.format(now.subtract(diff)),
+                      // snapshot.data.documents[index]['createdAt'].toString(),
+                      style: styleFade,
+                    ),
+                  ),
+                ),
+                ListTile(
+                  subtitle: Text(snapshot.data['deskripsi']),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 20),
+                  child: ListTile(
+                    title: Text('Kualifikasi pekerjaan', style: styleBold),
+                  ),
+                ),
+                 ListTile(
+                  title: Text('Pendidikan'),
+                  subtitle: Text(snapshot.data['pendidikan']),
+                ),
+                 ListTile(
+                  title: Text('Kategori Pekerjaan'),
+                  subtitle: Text(snapshot.data['kategoriPekerjaan']),
+                ),
+                 ListTile(
+                  title: Text('Gender'),
+                  subtitle: Text(snapshot.data['gender']),
+                ),
+              ],
+            )
+          ],
         ),
+      ),
     );
   }
 
-  lamarWidget() {
-    if (statusApply == false) {
-      return Text('Lamar Pekerjaan');
-    } else if (statusApply == true) {
-      return Text('Pekerjaan Sudah Dilamar');
-    }
-  }
-
+  //fungsi lamar pekerjaan
   void applyJob(String jobID, String userID) async {
     var id = '["${userID}"]';
     var applier = json.decode(id);
@@ -302,11 +217,11 @@ class _JobDetailState extends State<JobDetail> {
           title: 'Sukses',
           description: 'Lamaran Pekerjaan Berhasil Dikirim',
           gravity: EdgeAlert.TOP,
-          icon: Icons.error,
-          backgroundColor: Colors.green);
+          icon: Icons.check_circle,
+          backgroundColor: secColor);
     });
   }
-
+  //save id ke db
   void saveJob(String jobID, String userID) async {
     var id = '["${jobID}"]';
     var appliedJob = json.decode(id);

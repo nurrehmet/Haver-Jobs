@@ -65,17 +65,25 @@ class _JobApplierState extends State<JobApplier> {
                       color: Colors.white,
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: ListTile(
-                          title: Text(job['nama']),
-                          subtitle: Text(job['email']),
-                          trailing: Icon(Icons.keyboard_arrow_right),
-                          onTap: () => Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => AkunDetail(
-                                  userID: i,
-                                ),
-                              )),
+                        child: Column(
+                          children: <Widget>[
+                            ListTile(
+                              title: Text(job['nama'],style: styleBold,),
+                              subtitle: Text(job['email']),
+                              trailing: Icon(Icons.keyboard_arrow_right),
+                              onTap: () => Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => AkunDetail(
+                                      userID: i,
+                                    ),
+                                  )),
+                            ),
+                            ListTile(
+                              leading: Text('Pendidikan: '+ job['pendidikan'],style: styleFade,),
+                              trailing: Text('Gaji / Jam: Rp.'+ job['gaji'].toString(),style: styleFade,),
+                            )
+                          ],
                         ),
                       ),
                     ),

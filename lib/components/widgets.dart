@@ -87,6 +87,7 @@ class RoundedButton extends StatelessWidget {
         width: MediaQuery.of(context).size.width,
         height: 50,
         child: FlatButton(
+          disabledColor: mainColor.withOpacity(0.2),
           shape: new RoundedRectangleBorder(
             borderRadius: new BorderRadius.circular(25.0),
           ),

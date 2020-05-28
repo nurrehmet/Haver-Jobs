@@ -39,6 +39,8 @@ dependencies:
   random_string: ^2.0.1
   geocoder: ^0.2.1
   timeago: ^2.0.26
+  device_preview: ^0.4.5
+
 
 flutter_icons:
   image_path: "assets/icons/main-icon-01.png" 

@@ -37,10 +37,8 @@ class _AppliedJobsState extends State<AppliedJobs> {
         child: FloatingActionButton(
           backgroundColor: secColor,
           elevation: 0,
-          child: Icon(
-            Icons.refresh
-          ),
-          onPressed: (){
+          child: Icon(Icons.refresh),
+          onPressed: () {
             checkAppliedJobs();
           },
         ),
@@ -61,84 +59,90 @@ class _AppliedJobsState extends State<AppliedJobs> {
         backgroundColor: Colors.white,
       ),
       backgroundColor: Colors.grey[200],
-      body: ListView(
-        children: <Widget>[
-          for (var i in appliedJobs)
-            StreamBuilder(
-                stream: Firestore.instance
-                    .collection('jobs')
-                    .document(i)
-                    .snapshots(),
-                builder: (context, snapshot) {
-                  if (!snapshot.hasData) {
-                    return Center(
-                        child: new Text('Belum ada lamaran terkirim'));
-                  } else if (snapshot.data['status'] == 'deleted') {
-                    return Container(
-                      color: Colors.white,
+      body: ListView.separated(
+        separatorBuilder: (BuildContext context, int index) => Divider(
+          height: 1,
+          color: bgColor,
+        ),
+        itemCount: appliedJobs.length,
+        shrinkWrap: true,
+        itemBuilder: (context, job) {
+          return StreamBuilder(
+              stream:
+                  Firestore.instance.collection('jobs').document(appliedJobs[job]).snapshots(),
+              builder: (context, snapshot) {
+                if (!snapshot.hasData) {
+                  return Center(child: new Text('Belum ada lamaran terkirim'));
+                } else if (snapshot.data['status'] == 'deleted') {
+                  return Container(
+                    color: Colors.white,
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: ListTile(
-                            title: Text(
-                              snapshot.data['judul'],
-                              style: TextStyle(color: Colors.grey),
-                            ),
-                            subtitle: Text(
-                              snapshot.data['namaPerusahaan'],
-                              style: TextStyle(color: Colors.grey),
-                            ),
-                            trailing: FlatButton.icon(
-                                icon: Icon(
-                                  Icons.close,
-                                ),
-                                label: Text('Status Tidak Aktif'),
-                                onPressed: null),
+                        child: ListTile(
+                          title: Text(
+                            snapshot.data['judul'],
+                            style: TextStyle(color: Colors.grey),
                           ),
+                          subtitle: Text(
+                            snapshot.data['namaPerusahaan'],
+                            style: TextStyle(color: Colors.grey),
+                          ),
+                          trailing: FlatButton.icon(
+                              icon: Icon(
+                                Icons.close,
+                              ),
+                              label: Text('Status Tidak Aktif'),
+                              onPressed: null),
                         ),
                       ),
-                    );
-                  }
-                  var job = snapshot.data;
-                  return Padding(
-                    padding: const EdgeInsets.only(top: 1),
-                    child: Container(
-                      color: Colors.white,
-                      child: Padding(
-                          padding: const EdgeInsets.all(16.0),
-                          child: Column(
-                            children: <Widget>[
-                              ListTile(
-                                onTap: () => Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => JobDetail(
-                                        jobID: i,
-                                      ),
-                                    )),
-                                title: Text(
-                                  job['judul'],
-                                  style: TextStyle(fontWeight: bold),
-                                ),
-                                subtitle: Text(job['namaPerusahaan'] +
-                                    ' - ' +
-                                    job['kota']),
-                                trailing: Icon(Icons.keyboard_arrow_right),
-                              ),
-                              ListTile(
-                                subtitle: Text(
-                                  job['deskripsi'] + ' ...',
-                                  maxLines: 3,
-                                ),
-                              )
-                            ],
-                          )),
                     ),
                   );
-                })
-        ],
+                }
+                var job = snapshot.data;
+                return Padding(
+                  padding: const EdgeInsets.only(top: 1),
+                  child: Container(
+                    color: Colors.white,
+                    child: Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: Column(
+                          children: <Widget>[
+                            ListTile(
+                              onTap: () => Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => JobDetail(
+                                      jobID: job.documentID,
+                                    ),
+                                  )),
+                              title: Text(
+                                job['judul'],
+                                style: TextStyle(fontWeight: bold),
+                              ),
+                              subtitle: Text(
+                                  job['namaPerusahaan'] + ' - ' + job['kota']),
+                              trailing: Icon(Icons.keyboard_arrow_right),
+                            ),
+                            ListTile(
+                              subtitle: Text(
+                                job['deskripsi'] + ' ...',
+                                maxLines: 3,
+                              ),
+                            )
+                          ],
+                        )),
+                  ),
+                );
+              });
+        },
       ),
+      // body: ListView(
+      //   children: <Widget>[
+
+      //   ],
+      // ),
     );
   }
 }

@@ -15,7 +15,7 @@ import 'package:haverjob/screens/welcome_screen.dart';
 import 'package:haverjob/utils/global.dart';
 import 'package:provider/provider.dart';
 
-void main() => runApp(MyApp());
+  void main() => runApp(MyApp());
 
 class MyApp extends StatefulWidget {
   // This widget is the root of your application.

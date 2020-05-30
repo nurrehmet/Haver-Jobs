@@ -105,6 +105,11 @@ class _JobDetailState extends State<JobDetail> {
   }
 
   accountScreen(DocumentSnapshot snapshot) {
+    final Set<Marker> _markers = {Marker(
+        markerId: MarkerId("lokasi"),
+        position: LatLng(snapshot.data['latitude'],snapshot.data['longitude']),
+        icon: BitmapDescriptor.defaultMarker,
+      ),};
     //fungsi time ago
     var date = snapshot.data['createdAt'].toDate();
     var now = DateTime.now();
@@ -123,12 +128,14 @@ class _JobDetailState extends State<JobDetail> {
               child: RoundedButton(
                 text: 'Lamar Pekerjaan',
                 color: secColor,
-                onPress: statusApply == false?() => applyJob(snapshot.documentID, userID):null,
+                onPress: statusApply == false
+                    ? () => applyJob(snapshot.documentID, userID)
+                    : null,
               ),
             ),
             Padding(
               padding: const EdgeInsets.only(right: 50),
-              child: Text(jumlahPelamar.toString()+' Orang Pelamar'),
+              child: Text(jumlahPelamar.toString() + ' Orang Pelamar'),
             )
           ],
         ),
@@ -144,15 +151,19 @@ class _JobDetailState extends State<JobDetail> {
                   ListTile(
                     title: Text(
                       snapshot.data['judul'],
-                      style: TextStyle(fontSize: 22,fontWeight: FontWeight.bold),
+                      style:
+                          TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
                     ),
-                    subtitle: Text(snapshot.data['namaPerusahaan'] +
-                        ' - ' +
-                        snapshot.data['kota'],style: TextStyle(fontSize: 15,fontWeight: FontWeight.bold)),
+                    subtitle: Text(
+                        snapshot.data['namaPerusahaan'] +
+                            ' - ' +
+                            snapshot.data['kota'],
+                        style: TextStyle(
+                            fontSize: 15, fontWeight: FontWeight.bold)),
                   ),
                   ListTile(
                     leading: Text('Part Time'),
-                    trailing: Text('Rp.'+snapshot.data['gaji']+'/ jam'),
+                    trailing: Text('Rp.' + snapshot.data['gaji'] + '/ jam'),
                   )
                 ],
               ),
@@ -162,7 +173,10 @@ class _JobDetailState extends State<JobDetail> {
                 Padding(
                   padding: const EdgeInsets.only(top: 15),
                   child: ListTile(
-                    title: Text('Deskripsi pekerjaan', style: styleBold,),
+                    title: Text(
+                      'Deskripsi pekerjaan',
+                      style: styleBold,
+                    ),
                     subtitle: Text(
                       timeago.format(now.subtract(diff)),
                       // snapshot.data.documents[index]['createdAt'].toString(),
@@ -179,18 +193,48 @@ class _JobDetailState extends State<JobDetail> {
                     title: Text('Kualifikasi pekerjaan', style: styleBold),
                   ),
                 ),
-                 ListTile(
+                ListTile(
                   title: Text('Pendidikan'),
                   subtitle: Text(snapshot.data['pendidikan']),
                 ),
-                 ListTile(
+                ListTile(
                   title: Text('Kategori Pekerjaan'),
                   subtitle: Text(snapshot.data['kategoriPekerjaan']),
                 ),
-                 ListTile(
+                ListTile(
                   title: Text('Gender'),
                   subtitle: Text(snapshot.data['gender']),
                 ),
+                ListTile(
+                  title: Text('Kota'),
+                  subtitle: Text(snapshot.data['kota']),
+                ),
+                ListTile(
+                  title: Text('Alamat'),
+                  subtitle: Text(snapshot.data['lokasi']),
+                ),
+                ListTile(
+                  title: Text('Lokasi'),
+                ),
+                Container(
+                  height: 250,
+                  child: GoogleMap(
+                    markers: _markers,
+                    mapType: MapType.normal,
+                    initialCameraPosition: CameraPosition(
+                      target: LatLng(snapshot.data['latitude'],
+                          snapshot.data['longitude']),
+                      zoom: 14.0,
+                    ),
+                  ),
+                ),
+                RoundedButton(
+                  color: secColor,
+                  text: 'Arahkan Ke Lokasi',
+                  onPress: ()async{
+                    launch('https://www.google.com/maps/dir/?api=1&destination=${snapshot.data['lokasi']}');
+                  },
+                )
               ],
             )
           ],
@@ -221,6 +265,7 @@ class _JobDetailState extends State<JobDetail> {
           backgroundColor: secColor);
     });
   }
+
   //save id ke db
   void saveJob(String jobID, String userID) async {
     var id = '["${jobID}"]';

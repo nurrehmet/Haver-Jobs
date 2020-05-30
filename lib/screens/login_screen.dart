@@ -52,7 +52,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     obscureText: false,
                     textInputType: TextInputType.emailAddress,
                   ),
-                  new PasswordField(
+                  new TextFields(
                     labelText: 'Password',
                     iconData: Icons.lock,
                     onSaved: (input) => _password = input,

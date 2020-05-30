@@ -1,6 +1,8 @@
 import 'dart:async';
 
+import 'package:device_preview/device_preview.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:haverjob/components/upload_picture.dart';
@@ -15,6 +17,12 @@ import 'package:haverjob/screens/welcome_screen.dart';
 import 'package:haverjob/utils/global.dart';
 import 'package:provider/provider.dart';
 
+// void main() => runApp(
+//   DevicePreview(
+//     enabled: !kReleaseMode,
+//     builder: (context) => MyApp(),
+//   ),
+// );
   void main() => runApp(MyApp());
 
 class MyApp extends StatefulWidget {

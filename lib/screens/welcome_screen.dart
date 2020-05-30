@@ -16,127 +16,130 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+        backgroundColor: Colors.white,
         body: Container(
-      // decoration: BoxDecoration(
-      //   image: DecorationImage(
-      //       image: AssetImage("assets/images/bg.jpg"), fit: BoxFit.cover)),
-      child: Column(
-        children: <Widget>[
-          Spacer(),
-          Spacer(),
-          Stack(
-            alignment: Alignment.center,
+          // decoration: BoxDecoration(
+          //   image: DecorationImage(
+          //       image: AssetImage("assets/images/bg.jpg"), fit: BoxFit.cover)),
+          child: Column(
             children: <Widget>[
-              Padding(
-              padding: const EdgeInsets.only(top: 141),
-              child: Container(
-                child: Image.asset('assets/images/bg-welcome-01.png'),
+              Spacer(),
+              Spacer(),
+              // Padding(
+              //   padding: const EdgeInsets.only(bottom: 10),
+              //   child: Icon(
+              //     Icons.pin_drop,
+              //     color: secColor,
+              //     size: 40,
+              //   ),
+              // ),
+              // Text(
+              //   'Haver Jobs',
+              //   style: TextStyle(fontWeight: bold, fontSize: 31),
+              //   textAlign: TextAlign.center,
+              // ),
+              // Text(
+              //   'Cari pekerja part time terdekat',
+              //   style: TextStyle(
+              //     fontSize: 15,
+              //   ),
+              //   textAlign: TextAlign.center,
+              // ),
+              // Padding(
+              //   padding: const EdgeInsets.all(8.0),
+              //   child: Icon(
+              //     Icons.maximize,
+              //     color: secColor,
+              //     size: 48,
+              //   ),
+              // ),
+              // Padding(
+              //   padding: const EdgeInsets.only(bottom: 20),
+              //   child: Text(
+              //     'Cari pekerja part time sekarang ',
+              //     style: TextStyle(fontWeight: bold, fontSize: 18, color: secColor),
+              //     textAlign: TextAlign.center,
+              //   ),
+              // ),
+              Spacer(),
+              Stack(
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.only(top: 350),
+                    child: Container(
+                      child: Image.asset('assets/images/bg-welcome-01.png'),
+                    ),
+                  ),
+                  Container(
+                    height: 300,
+                    color: Colors.white,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Text(
+                          'Haver Jobs',
+                          style: TextStyle(
+                              color: mainColor, fontWeight: bold, fontSize: 30),
+                          textAlign: TextAlign.center,
+                        ),
+                        SizedBox(height: 20,),
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 10),
+                          child: Icon(
+                            Icons.near_me,
+                            color: secColor,
+                            size: 33,
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                            'Dapatkan informasi karyawan part time terdekat, dan informasi lowongan pekerjaan part time',
+                            style: TextStyle(
+                              fontSize: 13,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 20, bottom: 20),
+                          child: RoundedButton(
+                            text: 'Daftar',
+                            onPress: () {
+                              _roleModal(context);
+                            },
+                            color: mainColor,
+                          ),
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Padding(
+                              padding: const EdgeInsets.only(right: 10),
+                              child: Text(
+                                'Sudah mempunyai akun?',
+                                style: TextStyle(fontWeight: bold),
+                              ),
+                            ),
+                            InkWell(
+                              child: Text('Masuk',
+                                  style: TextStyle(
+                                    color: secColor,
+                                    decoration: TextDecoration.underline,
+                                  )),
+                              onTap: () =>
+                                  {Navigator.pushNamed(context, "/login")},
+                            )
+                          ],
+                        )
+                      ],
+                    ),
+                  ),
+                ],
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(bottom: 210),
-              child: Logo(),
-            )
             ],
           ),
-          // Padding(
-          //   padding: const EdgeInsets.only(bottom: 10),
-          //   child: Icon(
-          //     Icons.pin_drop,
-          //     color: secColor,
-          //     size: 40,
-          //   ),
-          // ),
-          // Text(
-          //   'Haver Jobs',
-          //   style: TextStyle(fontWeight: bold, fontSize: 31),
-          //   textAlign: TextAlign.center,
-          // ),
-          // Text(
-          //   'Cari pekerja part time terdekat',
-          //   style: TextStyle(
-          //     fontSize: 15,
-          //   ),
-          //   textAlign: TextAlign.center,
-          // ),
-          // Padding(
-          //   padding: const EdgeInsets.all(8.0),
-          //   child: Icon(
-          //     Icons.maximize,
-          //     color: secColor,
-          //     size: 48,
-          //   ),
-          // ),
-          // Padding(
-          //   padding: const EdgeInsets.only(bottom: 20),
-          //   child: Text(
-          //     'Cari pekerja part time sekarang ',
-          //     style: TextStyle(fontWeight: bold, fontSize: 18, color: secColor),
-          //     textAlign: TextAlign.center,
-          //   ),
-          // ),
-          Spacer(),
-          Container(
-            height: 300,
-            color: Colors.grey[200],
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 10),
-                  child: Icon(
-                    Icons.lock_outline,
-                    color: secColor,
-                    size: 33,
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    'Dapatkan informasi karyawan part time terdekat, dan informasi lowongan pekerjaan part time',
-                    style: TextStyle(
-                      fontSize: 13,
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 20, bottom: 20),
-                  child: RoundedButton(
-                    text: 'Daftar',
-                    onPress: () {
-                      _roleModal(context);
-                    },
-                    color: mainColor,
-                  ),
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Padding(
-                      padding: const EdgeInsets.only(right: 10),
-                      child: Text(
-                        'Sudah mempunyai akun?',
-                        style: TextStyle(fontWeight: bold),
-                      ),
-                    ),
-                    InkWell(
-                      child: Text('Masuk',
-                          style: TextStyle(
-                            color: secColor,
-                            decoration: TextDecoration.underline,
-                          )),
-                      onTap: () => {Navigator.pushNamed(context, "/login")},
-                    )
-                  ],
-                )
-              ],
-            ),
-          )
-        ],
-      ),
-    ));
+        ));
   }
 }
 
@@ -178,19 +181,23 @@ void _roleModal(context) {
                     ),
                   ),
                 ),
-                new RoundedButton(
-                  text: 'Akun Perusahaan',
-                  color: mainColor,
-                  onPress: () {
-                    Navigator.pushNamed(context, "/registerES");
-                  },
+                Center(
+                  child: new RoundedButton(
+                    text: 'Akun Perusahaan',
+                    color: mainColor,
+                    onPress: () {
+                      Navigator.pushNamed(context, "/registerES");
+                    },
+                  ),
                 ),
-                new RoundedButton(
-                  text: 'Akun Pencari Kerja',
-                  color: secColor,
-                  onPress: () {
-                    Navigator.pushNamed(context, "/registerEmployee");
-                  },
+                Center(
+                  child: new RoundedButton(
+                    text: 'Akun Pencari Kerja',
+                    color: secColor,
+                    onPress: () {
+                      Navigator.pushNamed(context, "/registerEmployee");
+                    },
+                  ),
                 ),
               ],
             ),

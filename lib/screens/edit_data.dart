@@ -28,6 +28,8 @@ String _nama,
     _kota,
     _pengKerja,
     _userID;
+//temp data
+
 final _formKey = GlobalKey<FormState>();
 final _formKeyES = GlobalKey<FormState>();
 //data lokasi
@@ -128,9 +130,9 @@ class _EditDataState extends State<EditData> {
                 padding: EdgeInsets.symmetric(horizontal: 30.0, vertical: 10.0),
                 child: DropDownFormField(
                   titleText: 'Kategori Perusahaan',
-                  hintText: snapshot.data['kategoriPerusahaan'] == null
-                      ? 'Kategori Perusahaan'
-                      : snapshot.data['kategoriPerusahaan'],
+                  // hintText: snapshot.data['kategoriPerusahaan'] == null
+                  //     ? 'Kategori Perusahaan'
+                  //     : snapshot.data['kategoriPerusahaan'],
                   value: _kategoriPerusahaan,
                   onSaved: (value) {
                     setState(() {
@@ -226,7 +228,7 @@ class _EditDataState extends State<EditData> {
                 userID: _userID,
               ),
               Padding(
-                padding: const EdgeInsets.only(top: 10,bottom: 10),
+                padding: const EdgeInsets.only(top: 10, bottom: 10),
                 child: new StatusKerja(
                   userId: _userID,
                   statusKerja: snapshot.data['statusKerja'],
@@ -266,12 +268,12 @@ class _EditDataState extends State<EditData> {
                       _gender = value;
                     });
                   },
-                  validator: (value) {
-                    if (value == null) {
-                      return 'Gender tidak boleh kosong';
-                    }
-                    return null;
-                  },
+                  // validator: (value) {
+                  //   if (value == null) {
+                  //     return 'Gender tidak boleh kosong';
+                  //   }
+                  //   return null;
+                  // },
                   onChanged: (value) {
                     setState(() {
                       _gender = value;
@@ -295,12 +297,12 @@ class _EditDataState extends State<EditData> {
                       _pendidikan = value;
                     });
                   },
-                  validator: (value) {
-                    if (value == null) {
-                      return 'Pendidikan tidak boleh kosong';
-                    }
-                    return null;
-                  },
+                  // validator: (value) {
+                  //   if (value == null) {
+                  //     return 'Pendidikan tidak boleh kosong';
+                  //   }
+                  //   return null;
+                  // },
                   onChanged: (value) {
                     setState(() {
                       _pendidikan = value;
@@ -324,12 +326,12 @@ class _EditDataState extends State<EditData> {
                       _kota = value;
                     });
                   },
-                  validator: (value) {
-                    if (value == null) {
-                      return 'Kota tidak boleh kosong';
-                    }
-                    return null;
-                  },
+                  // validator: (value) {
+                  //   if (value == null) {
+                  //     return 'Kota tidak boleh kosong';
+                  //   }
+                  //   return null;
+                  // },
                   onChanged: (value) {
                     setState(() {
                       _kota = value;
@@ -371,12 +373,12 @@ class _EditDataState extends State<EditData> {
                       _jamKerja = value;
                     });
                   },
-                  validator: (value) {
-                    if (value == null) {
-                      return 'Jam Kerja tidak boleh kosong';
-                    }
-                    return null;
-                  },
+                  // validator: (value) {
+                  //   if (value == null) {
+                  //     return 'Jam Kerja tidak boleh kosong';
+                  //   }
+                  //   return null;
+                  // },
                   onChanged: (value) {
                     setState(() {
                       _jamKerja = value;
@@ -400,12 +402,12 @@ class _EditDataState extends State<EditData> {
                       _keahlian = value;
                     });
                   },
-                  validator: (value) {
-                    if (value == null) {
-                      return 'Keahlian tidak boleh kosong';
-                    }
-                    return null;
-                  },
+                  // validator: (value) {
+                  //   if (value == null) {
+                  //     return 'Keahlian tidak boleh kosong';
+                  //   }
+                  //   return null;
+                  // },
                   onChanged: (value) {
                     setState(() {
                       _keahlian = value;
@@ -439,7 +441,7 @@ class _EditDataState extends State<EditData> {
                   : SizedBox(),
               new RoundedButton(
                   text: 'Simpan Perubahan',
-                  onPress: updateData,
+                  onPress:()=> updateData(snapshot.data['gender'],snapshot.data['pendidikan'],snapshot.data['kota'],snapshot.data['keahlian'],snapshot.data['jamKerja']),
                   color: secColor),
               SizedBox(
                 height: 20.0,
@@ -473,7 +475,8 @@ class _EditDataState extends State<EditData> {
     });
   }
 
-  void updateData() async {
+  void updateData(String gender, pendidikan, kota, keahlian, jamKerja) async {
+    
     if (_formKey.currentState.validate()) {
       _formKey.currentState.save();
 
@@ -491,13 +494,13 @@ class _EditDataState extends State<EditData> {
         'nama': _nama.toString(),
         'alamat': _alamat,
         'usia': _usia,
-        'pendidikan': _pendidikan,
-        'jamKerja': _jamKerja,
+        'pendidikan': _pendidikan == null? pendidikan:_pendidikan,
+        'jamKerja': _jamKerja == null? jamKerja:_jamKerja,
         'noHp': _noHp,
-        'gender': _gender,
-        'keahlian': _keahlian,
+        'gender': _gender == null?gender:_gender,
+        'keahlian': _keahlian == null?keahlian:_keahlian,
         'gaji': int.parse(_gaji),
-        'kota': _kota,
+        'kota': _kota == null ? kota:_kota,
         'latitude': _lat,
         'longitude': _long,
         'position': myLocation.data,

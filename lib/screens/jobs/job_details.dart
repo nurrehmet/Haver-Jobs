@@ -232,7 +232,7 @@ class _JobDetailState extends State<JobDetail> {
                   color: secColor,
                   text: 'Arahkan Ke Lokasi',
                   onPress: ()async{
-                    launch('https://www.google.com/maps/dir/?api=1&destination=${snapshot.data['lokasi']}');
+                    launch('https://www.google.com/maps/dir/?api=1&destination=${snapshot.data['latitude']},${snapshot.data['longitude']}');
                   },
                 )
               ],

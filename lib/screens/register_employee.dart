@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dropdown_formfield/dropdown_formfield.dart';
+import 'package:edge_alert/edge_alert.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:geoflutterfire/geoflutterfire.dart';
@@ -192,7 +193,7 @@ class _RegisterEmployeeState extends State<RegisterEmployee> {
                     ),
                   ),
                   new RoundedButton(
-                      text: 'Pilih Lokasi Anda',
+                      text: 'Pilih Titik Lokasi Anda',
                       onPress: showPlacePicker,
                       color: mainColor),
                   Padding(
@@ -283,7 +284,7 @@ class _RegisterEmployeeState extends State<RegisterEmployee> {
                       : SizedBox(),
                   new RoundedButton(
                       text: 'Registrasi',
-                      onPress: _submitEmployee,
+                      onPress: _cekInput,
                       color: secColor),
                   SizedBox(
                     height: 20.0,
@@ -295,6 +296,20 @@ class _RegisterEmployeeState extends State<RegisterEmployee> {
         ),
       ),
     );
+  }
+
+  void _cekInput() {
+    if (_alamat == null) {
+      EdgeAlert.show(context,
+          title: 'Error',
+          description: 'Titik Lokasi belum dipilih',
+          gravity: EdgeAlert.TOP,
+          icon: Icons.check_circle,
+          backgroundColor: Colors.red);
+    }
+    else{
+      _submitEmployee();
+    }
   }
 
   //submit employee

@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dropdown_formfield/dropdown_formfield.dart';
+import 'package:edge_alert/edge_alert.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:geoflutterfire/geoflutterfire.dart';
@@ -33,7 +34,6 @@ class _RegisterESState extends State<RegisterES> {
     showCircular = false;
     _kategoriPerusahaan = '';
     _kota = '';
-    _alamat = '';
     super.initState();
   }
 
@@ -154,7 +154,7 @@ class _RegisterESState extends State<RegisterES> {
                         ),
                       ),
                       new RoundedButton(
-                          text: 'Pilih Lokasi Anda',
+                          text: 'Pilih Titik Lokasi Anda',
                           onPress: showPlacePicker,
                           color: mainColor),
                       Padding(
@@ -182,7 +182,7 @@ class _RegisterESState extends State<RegisterES> {
                     child: RoundedButton(
                       color: secColor,
                       text: 'Daftar',
-                      onPress: _submitES,
+                      onPress: _cekInput,
                     ),
                   )
                 ],
@@ -192,6 +192,20 @@ class _RegisterESState extends State<RegisterES> {
         ),
       ),
     );
+  }
+
+  void _cekInput() {
+    if (_alamat == null) {
+      EdgeAlert.show(context,
+          title: 'Error',
+          description: 'Titik Lokasi belum dipilih',
+          gravity: EdgeAlert.TOP,
+          icon: Icons.check_circle,
+          backgroundColor: Colors.red);
+    }
+    else{
+      _submitES();
+    }
   }
 
   //submit employee seeker
@@ -210,6 +224,12 @@ class _RegisterESState extends State<RegisterES> {
         });
         _registerES();
       } catch (e) {
+        EdgeAlert.show(context,
+            title: 'Error',
+            description: e.toString(),
+            gravity: EdgeAlert.TOP,
+            icon: Icons.check_circle,
+            backgroundColor: Colors.red);
         print(e.message);
       }
     }

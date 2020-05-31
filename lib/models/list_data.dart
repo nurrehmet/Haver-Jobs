@@ -1,5 +1,9 @@
 class ListKeahlian {
   static List<String> keahlianList = [
+    'Pramuniaga',
+    'Asisten Rumah Tangga',
+    'Teknisi',
+    'Sales Person'
     'Programmer',
     'Barista',
     'Guru Les Privat',
@@ -11,6 +15,22 @@ class ListKeahlian {
 
   getList() {
     keahlian = [
+      {
+        "display": "Pramuniaga",
+        "value": "Pramuniaga",
+      },
+      {
+        "display": "Asisten Rumah Tangga",
+        "value": "Asisten Rumah Tangga",
+      },
+      {
+        "display": "Teknisi",
+        "value": "Teknisi",
+      },
+      {
+        "display": "Sales Person",
+        "value": "Sales Person",
+      },
       {
         "display": "Programmer",
         "value": "Programmer",
@@ -157,6 +177,22 @@ class ListKategoriPerusahaan {
   List<Map<String, String>> kategoriPerusahaan;
   getList() {
     kategoriPerusahaan = [
+      {
+        "display": "Hotel / Restoran",
+        "value": "Hotel / Restoran",
+      },
+      {
+        "display": "Kesehatan",
+        "value": "Kesehatan",
+      },
+      {
+        "display": "Bangunan / Konstruksi",
+        "value": "Bangunan / Konstruksi",
+      },
+      {
+        "display": "Pendidikan",
+        "value": "Pendidikan",
+      },
       {
         "display": "Teknologi Informasi",
         "value": "Teknologi Informasi",

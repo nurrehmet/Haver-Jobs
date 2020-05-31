@@ -20,7 +20,7 @@ class _UploadPictureState extends State<UploadPicture> {
   File _image;
   String _uploadedFileURL;
   Future getImage() async {
-    var image = await ImagePicker.pickImage(source: ImageSource.gallery);
+    var image = await ImagePicker.pickImage(source: ImageSource.gallery,imageQuality: 50);
     setState(() {
       _image = image;
     });

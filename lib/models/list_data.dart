@@ -3,7 +3,7 @@ class ListKeahlian {
     'Pramuniaga',
     'Asisten Rumah Tangga',
     'Teknisi',
-    'Sales Person'
+    'Sales Person',
     'Programmer',
     'Barista',
     'Guru Les Privat',
@@ -184,6 +184,10 @@ class ListKategoriPerusahaan {
       {
         "display": "Kesehatan",
         "value": "Kesehatan",
+      },
+      {
+        "display": "Toko / Retail",
+        "value": "Toko / Retail",
       },
       {
         "display": "Bangunan / Konstruksi",

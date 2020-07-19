@@ -1,6 +1,7 @@
 import 'package:edge_alert/edge_alert.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:haverjob/components/widgets.dart';
 import 'package:haverjob/screens/home.dart';
 import 'package:haverjob/screens/login_screen.dart';
@@ -13,54 +14,17 @@ class WelcomeScreen extends StatefulWidget {
 }
 
 class _WelcomeScreenState extends State<WelcomeScreen> {
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: Colors.white,
         body: Container(
-          // decoration: BoxDecoration(
-          //   image: DecorationImage(
-          //       image: AssetImage("assets/images/bg.jpg"), fit: BoxFit.cover)),
+          
           child: Column(
             children: <Widget>[
               Spacer(),
               Spacer(),
-              // Padding(
-              //   padding: const EdgeInsets.only(bottom: 10),
-              //   child: Icon(
-              //     Icons.pin_drop,
-              //     color: secColor,
-              //     size: 40,
-              //   ),
-              // ),
-              // Text(
-              //   'Haver Jobs',
-              //   style: TextStyle(fontWeight: bold, fontSize: 31),
-              //   textAlign: TextAlign.center,
-              // ),
-              // Text(
-              //   'Cari pekerja part time terdekat',
-              //   style: TextStyle(
-              //     fontSize: 15,
-              //   ),
-              //   textAlign: TextAlign.center,
-              // ),
-              // Padding(
-              //   padding: const EdgeInsets.all(8.0),
-              //   child: Icon(
-              //     Icons.maximize,
-              //     color: secColor,
-              //     size: 48,
-              //   ),
-              // ),
-              // Padding(
-              //   padding: const EdgeInsets.only(bottom: 20),
-              //   child: Text(
-              //     'Cari pekerja part time sekarang ',
-              //     style: TextStyle(fontWeight: bold, fontSize: 18, color: secColor),
-              //     textAlign: TextAlign.center,
-              //   ),
-              // ),
               Spacer(),
               Stack(
                 children: <Widget>[
@@ -71,7 +35,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                     ),
                   ),
                   Container(
-                    height: 300,
+                    
                     color: Colors.white,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,

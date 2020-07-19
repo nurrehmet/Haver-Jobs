@@ -95,6 +95,13 @@ class _RegisterESState extends State<RegisterES> {
                     obscureText: true,
                     textInputType: TextInputType.text,
                   ),
+                   new TextFields(
+                    labelText: 'No Telepon',
+                    iconData: Icons.phone,
+                    onSaved: (input) => _noHp = input,
+                    obscureText: false,
+                    textInputType: TextInputType.number,
+                  ),
                   Column(
                     children: <Widget>[
                       Container(

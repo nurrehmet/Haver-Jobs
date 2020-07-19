@@ -11,7 +11,7 @@ class Accounts extends StatelessWidget {
   Accounts({this.type});
   @override
   Widget build(BuildContext context) {
-    List<String> listEmployee = ['Edit Data Diri', 'Upload CV', 'Logout'];
+    List<String> listEmployee = ['Edit Data Diri', 'Logout'];
     List<String> listES = ['Edit Data Perusahaan', 'Logout'];
     List<Icon> listESIcon = [
       Icon(
@@ -25,7 +25,7 @@ class Accounts extends StatelessWidget {
         Icons.person_outline,
         color: secColor,
       ),
-      Icon(Icons.note_add, color: secColor),
+      
       Icon(Icons.exit_to_app, color: secColor)
     ];
     List<Function> listEmployeeFunction = [
@@ -36,7 +36,6 @@ class Accounts extends StatelessWidget {
               role: 'employee',
             ),
           )),
-      () => null,
       () {
         FirebaseAuth.instance.signOut();
         Navigator.pushReplacement(

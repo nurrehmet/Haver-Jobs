@@ -130,9 +130,9 @@ class _EditDataState extends State<EditData> {
                 padding: EdgeInsets.symmetric(horizontal: 30.0, vertical: 10.0),
                 child: DropDownFormField(
                   titleText: 'Kategori Perusahaan',
-                  // hintText: snapshot.data['kategoriPerusahaan'] == null
-                  //     ? 'Kategori Perusahaan'
-                  //     : snapshot.data['kategoriPerusahaan'],
+                  hintText: snapshot.data['kategoriPerusahaan'] == null
+                      ? 'Kategori Perusahaan'
+                      : snapshot.data['kategoriPerusahaan'],
                   value: _kategoriPerusahaan,
                   onSaved: (value) {
                     setState(() {
@@ -141,7 +141,7 @@ class _EditDataState extends State<EditData> {
                   },
                   validator: (value) {
                     if (value == null) {
-                      return 'Kategori Perusahaan tidak boleh kosong';
+                      return 'Kategori Perusahaan harus diubah';
                     }
                     return null;
                   },
@@ -170,7 +170,7 @@ class _EditDataState extends State<EditData> {
                   },
                   validator: (value) {
                     if (value == null) {
-                      return 'Kota tidak boleh kosong';
+                      return 'Kota harus diubah';
                     }
                     return null;
                   },
@@ -204,7 +204,7 @@ class _EditDataState extends State<EditData> {
               ),
               new RoundedButton(
                   text: 'Simpan Perubahan',
-                  onPress: updateData,
+                  onPress: updateDataES,
                   color: secColor),
               SizedBox(
                 height: 15,
@@ -441,7 +441,12 @@ class _EditDataState extends State<EditData> {
                   : SizedBox(),
               new RoundedButton(
                   text: 'Simpan Perubahan',
-                  onPress:()=> updateData(snapshot.data['gender'],snapshot.data['pendidikan'],snapshot.data['kota'],snapshot.data['keahlian'],snapshot.data['jamKerja']),
+                  onPress: () => updateData(
+                      snapshot.data['gender'],
+                      snapshot.data['pendidikan'],
+                      snapshot.data['kota'],
+                      snapshot.data['keahlian'],
+                      snapshot.data['jamKerja']),
                   color: secColor),
               SizedBox(
                 height: 20.0,
@@ -475,11 +480,9 @@ class _EditDataState extends State<EditData> {
     });
   }
 
-  void updateData(String gender, pendidikan, kota, keahlian, jamKerja) async {
-    
+  void updateDataES() async {
     if (_formKey.currentState.validate()) {
       _formKey.currentState.save();
-
       Map<String, dynamic> dataES = {
         'namaPerusahaan': _nama,
         'alamat': _alamat,
@@ -489,18 +492,56 @@ class _EditDataState extends State<EditData> {
         'kategoriPerushaan': _kategoriPerusahaan,
         'position': myLocation.data
       };
+      Map<String, dynamic> dataUsers = {
+        'nama': _nama.toString(),
+        'alamat': _alamat,
+        'latitude': _lat,
+        'longitude': _long,
+      };
+      Firestore.instance
+          .collection('employee-seeker')
+          .document(_userID)
+          .updateData(dataES)
+          .whenComplete(() {
+        setState(() {
+          showCircular = false;
+        });
+      });
+
+      Firestore.instance
+          .collection('users')
+          .document(_userID)
+          .updateData(dataUsers)
+          .whenComplete(() {
+        setState(() {
+          showCircular = false;
+        });
+        print('Document Updated');
+        EdgeAlert.show(context,
+            title: 'Sukses',
+            description: 'Data Diri Berhasil Diubah',
+            gravity: EdgeAlert.TOP,
+            icon: Icons.check_circle,
+            backgroundColor: Colors.green);
+      });
+    }
+  }
+
+  void updateData(gender, pendidikan, kota, keahlian, jamKerja) async {
+    if (_formKey.currentState.validate()) {
+      _formKey.currentState.save();
 
       Map<String, dynamic> dataEmployee = {
         'nama': _nama.toString(),
         'alamat': _alamat,
         'usia': _usia,
-        'pendidikan': _pendidikan == null? pendidikan:_pendidikan,
-        'jamKerja': _jamKerja == null? jamKerja:_jamKerja,
+        'pendidikan': _pendidikan == null ? pendidikan : _pendidikan,
+        'jamKerja': _jamKerja == null ? jamKerja : _jamKerja,
         'noHp': _noHp,
-        'gender': _gender == null?gender:_gender,
-        'keahlian': _keahlian == null?keahlian:_keahlian,
+        'gender': _gender == null ? gender : _gender,
+        'keahlian': _keahlian == null ? keahlian : _keahlian,
         'gaji': int.parse(_gaji),
-        'kota': _kota == null ? kota:_kota,
+        'kota': _kota == null ? kota : _kota,
         'latitude': _lat,
         'longitude': _long,
         'position': myLocation.data,
@@ -515,10 +556,9 @@ class _EditDataState extends State<EditData> {
       };
 
       Firestore.instance
-          .collection(
-              widget.role == 'employee' ? 'employee' : 'employee-seeker')
+          .collection('employee')
           .document(_userID)
-          .updateData(widget.role == 'employee' ? dataEmployee : dataES)
+          .updateData(dataEmployee)
           .whenComplete(() {
         setState(() {
           showCircular = false;

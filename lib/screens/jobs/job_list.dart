@@ -102,21 +102,22 @@ class _JobListState extends State<JobList> {
                             // snapshot.data.documents[index]['createdAt'].toString(),
                             style: styleFade,
                           ),
-                          trailing: FlatButton.icon(
-                            icon: Icon(
-                              Icons.bookmark_border,
-                              color: secColor,
-                            ),
-                            label: Text('Simpan'),
-                            onPressed: () => Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => JobDetail(
-                                    jobID: snapshot
-                                        .data.documents[index].documentID,
-                                  ),
-                                )),
-                          ),
+                          trailing: Text(snapshot.data.documents[index]['kategoriPekerjaan']),
+                          // trailing: FlatButton.icon(
+                          //   icon: Icon(
+                          //     Icons.bookmark_border,
+                          //     color: secColor,
+                          //   ),
+                          //   label: Text('Simpan'),
+                          //   onPressed: () => Navigator.push(
+                          //       context,
+                          //       MaterialPageRoute(
+                          //         builder: (context) => JobDetail(
+                          //           jobID: snapshot
+                          //               .data.documents[index].documentID,
+                          //         ),
+                          //       )),
+                          // ),
                         )
                       ],
                     ),

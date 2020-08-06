@@ -14,13 +14,11 @@ class WelcomeScreen extends StatefulWidget {
 }
 
 class _WelcomeScreenState extends State<WelcomeScreen> {
-  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: Colors.white,
         body: Container(
-          
           child: Column(
             children: <Widget>[
               Spacer(),
@@ -35,7 +33,6 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                     ),
                   ),
                   Container(
-                    
                     color: Colors.white,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -46,7 +43,9 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                               color: mainColor, fontWeight: bold, fontSize: 30),
                           textAlign: TextAlign.center,
                         ),
-                        SizedBox(height: 20,),
+                        SizedBox(
+                          height: 20,
+                        ),
                         Padding(
                           padding: const EdgeInsets.only(bottom: 10),
                           child: Icon(

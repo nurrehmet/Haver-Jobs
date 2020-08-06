@@ -17,13 +17,13 @@ import 'package:haverjob/screens/welcome_screen.dart';
 import 'package:haverjob/utils/global.dart';
 import 'package:provider/provider.dart';
 
-void main() => runApp(
-  DevicePreview(
-    enabled: !kReleaseMode,
-    builder: (context) => MyApp(),
-  ),
-);
-  // void main() => runApp(MyApp());
+// void main() => runApp(
+//   DevicePreview(
+//     enabled: !kReleaseMode,
+//     builder: (context) => MyApp(),
+//   ),
+// );
+void main() => runApp(MyApp());
 
 class MyApp extends StatefulWidget {
   // This widget is the root of your application.
@@ -50,27 +50,24 @@ class _MyAppState extends State<MyApp> {
       systemNavigationBarIconBrightness: Brightness.dark, //bottom bar icons
     ));
     return MaterialApp(
-        theme: ThemeData(
-          primaryColor: mainColor,
-          fontFamily: 'Poppins'
-        ),
-        debugShowCheckedModeBanner: false,
-        title: 'Haver Jobs',
-        home: MultiProvider(
-          providers: [StreamProvider<FirebaseUser>.value(value: FirebaseAuth.instance.onAuthStateChanged),],
-          child: _getLandingPage()),
-        routes: <String, WidgetBuilder>{
-          '/login': (BuildContext context) => LoginScreen(),
-          '/home': (BuildContext context) => Home(),
-          '/welcome': (BuildContext context) => WelcomeScreen(),
-          '/findEmployee': (BuildContext context) => FindEmployeeScreen(),
-          '/editEmployee': (BuildContext context) => EditData(),
-          '/uploadPicture': (BuildContext context) => UploadPicture(),
-          '/resetPassword': (BuildContext context) => ResetPassword(),
-          '/registerES': (BuildContext context) => RegisterES(),
-          '/registerEmployee': (BuildContext context) => RegisterEmployee(),
-        },
-      
+      theme: ThemeData(primaryColor: mainColor, fontFamily: 'Poppins'),
+      debugShowCheckedModeBanner: false,
+      title: 'Haver Jobs',
+      home: MultiProvider(providers: [
+        StreamProvider<FirebaseUser>.value(
+            value: FirebaseAuth.instance.onAuthStateChanged),
+      ], child: _getLandingPage()),
+      routes: <String, WidgetBuilder>{
+        '/login': (BuildContext context) => LoginScreen(),
+        '/home': (BuildContext context) => Home(),
+        '/welcome': (BuildContext context) => WelcomeScreen(),
+        '/findEmployee': (BuildContext context) => FindEmployeeScreen(),
+        '/editEmployee': (BuildContext context) => EditData(),
+        '/uploadPicture': (BuildContext context) => UploadPicture(),
+        '/resetPassword': (BuildContext context) => ResetPassword(),
+        '/registerES': (BuildContext context) => RegisterES(),
+        '/registerEmployee': (BuildContext context) => RegisterEmployee(),
+      },
     );
   }
 

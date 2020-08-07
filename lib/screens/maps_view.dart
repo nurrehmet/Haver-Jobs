@@ -145,15 +145,20 @@ class MapsViewState extends State<MapsView> {
                 ),
                 Container(
                   color: mainColor.withOpacity(0.2),
-                  child: Slider(
-                    min: 1,
-                    max: 15,
-                    divisions: 5,
-                    value: _value,
-                    label: _label,
-                    activeColor: mainColor,
-                    inactiveColor: secColor.withOpacity(0.2),
-                    onChanged: (double value) => changed(value),
+                  child: Column(
+                    children: <Widget>[
+                      Text('Atur Radius Pencarian'),
+                      Slider(
+                        min: 1,
+                        max: 15,
+                        divisions: 5,
+                        value: _value,
+                        label: _label,
+                        activeColor: mainColor,
+                        inactiveColor: secColor.withOpacity(0.2),
+                        onChanged: (double value) => changed(value),
+                      ),
+                    ],
                   ),
                 ),
               ],

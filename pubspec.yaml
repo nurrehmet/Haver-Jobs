@@ -43,7 +43,7 @@ dependencies:
 
 
 flutter_icons:
-  image_path: "assets/icons/icon-final.png" 
+  image_path: "assets/icons/icon-haverjobs.png" 
   android: true
   ios: true
 

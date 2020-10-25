@@ -2,6 +2,6 @@
 
 Aplikasi Pencarian Tenaga Kerja Paruh Waktu dengan Menggunakan Algoritma Haversine
 
-## Daftar Fitur Ongoing
+## PlayStore Link
 
-- Tampilan Pencarian Tenaga Kerja Part Time
+https://play.google.com/store/apps/details?id=com.nurrehmet.haverjob

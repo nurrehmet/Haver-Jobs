@@ -57,7 +57,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                         Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Text(
-                            'Dapatkan informasi karyawan part time terdekat, dan informasi lowongan pekerjaan part time',
+                            'Cari Lowongan Pekerjaan Terdekat',
                             style: TextStyle(
                               fontSize: 13,
                             ),

@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "368985619499-ijj92f6rvp0bfo8sp3dc64fq72dk1dha.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.nurrehmet.haverjob",
+            "certificate_hash": "617f8ce5cc0e4d0d6b2552b8d067a320eb6e9b59"
+          }
+        },
+        {
           "client_id": "368985619499-epqmikp21m3kg8ta7nts29f2mq5ph9mg.apps.googleusercontent.com",
           "client_type": 3
         }

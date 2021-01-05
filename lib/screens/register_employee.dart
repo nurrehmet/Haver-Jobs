@@ -60,11 +60,11 @@ class _RegisterEmployeeState extends State<RegisterEmployee> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        title: Text("Daftar"),
         iconTheme: IconThemeData(
           color: secColor, //change your color here
         ),
         elevation: 0,
-        backgroundColor: Colors.transparent,
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -73,11 +73,11 @@ class _RegisterEmployeeState extends State<RegisterEmployee> {
               key: _formKeyEmployee,
               child: Column(
                 children: <Widget>[
-                  Heading(
-                    title: 'Daftar sebagai Employee',
-                    subtitle:
-                        'Sebagai Employee anda bisa mencari informasi lowongan pekerjaan part time.',
-                  ),
+                  // Heading(
+                  //   title: 'Daftar',
+                  //   subtitle:
+                  //       'Dapatkan informasi lowongan pekerjaan terbaru dari berbagai sumber.',
+                  // ),
                   new TextFields(
                       labelText: 'Nama Lengkap',
                       iconData: Icons.person,

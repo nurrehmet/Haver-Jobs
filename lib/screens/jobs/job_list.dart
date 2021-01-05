@@ -1,25 +1,35 @@
+import 'dart:convert';
+
+import 'package:haverjob/screens/employee_seeker/jobs_data.dart';
+import 'package:haverjob/screens/jobs/get_job_data.dart';
+import 'package:haverjob/screens/jobs/jobs_carousel.dart';
 import 'package:intl/intl.dart';
 import 'package:timeago/timeago.dart' as timeago;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:haverjob/screens/jobs/job_details.dart';
 import 'package:haverjob/utils/global.dart';
+import 'package:http/http.dart' as http;
 
 class JobList extends StatefulWidget {
   String category;
   JobList({this.category});
+  // Function to get the JSON data
+  
+
   @override
   _JobListState createState() => _JobListState();
 }
 
 class _JobListState extends State<JobList> {
   final Firestore firestore = Firestore.instance;
-
+  
   ScrollController controller = ScrollController();
 
   @override
   void initState() {
     super.initState();
+    // this.getData();
     // controller.addListener(_scrollListener);
   }
 
@@ -32,106 +42,23 @@ class _JobListState extends State<JobList> {
               title: Text(
                 'Lowongan ${widget.category}',
                 style:
-                    TextStyle(color: mainColor, fontWeight: bold, fontSize: 22),
+                    TextStyle(color: Colors.white, fontWeight: bold, fontSize: 22),
               ),
               iconTheme: IconThemeData(
                 color: secColor, //change your color here
               ),
               elevation: 0,
-              backgroundColor: Colors.white,
+              backgroundColor: mainColor,
             )),
       backgroundColor: bgColor,
-      body: StreamBuilder<QuerySnapshot>(
-        stream: firestore
-            .collection('jobs')
-            .orderBy('createdAt', descending: true)
-            .where('kategoriPekerjaan', isEqualTo: widget.category)
-            .where('status', isEqualTo: 'active')
-            .snapshots(),
-        builder: (context, snapshot) {
-          if (snapshot.data != null) {
-            return ListView.separated(
-              separatorBuilder: (BuildContext context, int index) => Divider(
-                height: 1,
-                color: bgColor,
-              ),
-              itemCount: snapshot.data.documents.length,
-              shrinkWrap: true,
-              controller: controller,
-              itemBuilder: (context, index) {
-                //fungsi time ago
-                var date = snapshot.data.documents[index]['createdAt'].toDate();
-                var now = DateTime.now();
-                var diff = now.difference(date);
-                return Container(
-                  color: Colors.white,
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Column(
-                      children: <Widget>[
-                        ListTile(
-                          onTap: () => Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => JobDetail(
-                                  jobID:
-                                      snapshot.data.documents[index].documentID,
-                                ),
-                              )),
-                          title: Text(
-                            snapshot.data.documents[index]["judul"],
-                            style: styleBold,
-                          ),
-                          subtitle: Text(snapshot.data.documents[index]
-                                  ['namaPerusahaan'] +
-                              ' - ' +
-                              (snapshot.data.documents[index]['kota'] == null
-                                  ? 'Kota'
-                                  : (snapshot.data.documents[index]['kota']))),
-                        ),
-                        ListTile(
-                          subtitle: Text(
-                            (snapshot.data.documents[index]['deskripsi'] +
-                                '...'),
-                            maxLines: 3,
-                          ),
-                        ),
-                        ListTile(
-                          leading: Text(
-                            timeago.format(now.subtract(diff)),
-                            // snapshot.data.documents[index]['createdAt'].toString(),
-                            style: styleFade,
-                          ),
-                          trailing: Text(snapshot.data.documents[index]['kategoriPekerjaan']),
-                          // trailing: FlatButton.icon(
-                          //   icon: Icon(
-                          //     Icons.bookmark_border,
-                          //     color: secColor,
-                          //   ),
-                          //   label: Text('Simpan'),
-                          //   onPressed: () => Navigator.push(
-                          //       context,
-                          //       MaterialPageRoute(
-                          //         builder: (context) => JobDetail(
-                          //           jobID: snapshot
-                          //               .data.documents[index].documentID,
-                          //         ),
-                          //       )),
-                          // ),
-                        )
-                      ],
-                    ),
-                  ),
-                );
-              },
-            );
-          } else {
-            return Center(
-                child: CircularProgressIndicator(
-              backgroundColor: secColor,
-            ));
-          }
-        },
+      body:  SingleChildScrollView(
+        physics: ScrollPhysics(),
+        child: Column(
+          children: <Widget>[
+             JobsCarousel(),
+             GetJobData(provider:"disnakerja")
+          ],
+        ),
       ),
     );
   }

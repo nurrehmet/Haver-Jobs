@@ -17,6 +17,10 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        appBar: AppBar(
+          backgroundColor: mainColor,
+          elevation: 0,
+        ),
         backgroundColor: Colors.white,
         body: Container(
           child: Column(
@@ -38,28 +42,21 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
                         Text(
-                          'Haver Jobs',
+                          'HaverJobs',
                           style: TextStyle(
-                              color: mainColor, fontWeight: bold, fontSize: 30),
+                              color: mainColor, fontWeight: bold, fontSize: 50),
                           textAlign: TextAlign.center,
                         ),
                         SizedBox(
-                          height: 20,
+                          height: 5,
                         ),
-                        Padding(
-                          padding: const EdgeInsets.only(bottom: 10),
-                          child: Icon(
-                            Icons.near_me,
-                            color: secColor,
-                            size: 33,
-                          ),
-                        ),
+                        
                         Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Text(
-                            'Dapatkan informasi karyawan part time terdekat, dan informasi lowongan pekerjaan part time',
+                            'Portal Lowongan Kerja Terbaru',
                             style: TextStyle(
-                              fontSize: 13,
+                              fontSize: 15,
                             ),
                             textAlign: TextAlign.center,
                           ),
@@ -67,11 +64,11 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                         Padding(
                           padding: const EdgeInsets.only(top: 20, bottom: 20),
                           child: RoundedButton(
-                            text: 'Daftar',
+                            text: 'Cari Lowongan Pekerjaan',
                             onPress: () {
-                              _roleModal(context);
+                              Navigator.pushNamed(context, "/registerEmployee");
                             },
-                            color: mainColor,
+                            color: secColor,
                           ),
                         ),
                         Row(

@@ -1,6 +1,7 @@
 import 'dart:async';
-
 import 'package:device_preview/device_preview.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:firebase_analytics/observer.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -33,25 +34,22 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   bool isLoggedIn;
+  FirebaseAnalytics analytics = FirebaseAnalytics();
+
   @override
   void initState() {
     checkUser();
     super.initState();
-
-    // new Future.delayed(const Duration(seconds: 2));
   }
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-      statusBarColor: Colors.transparent, //top bar color
-      statusBarIconBrightness: Brightness.dark, //top bar icons
-      systemNavigationBarColor: Colors.black, //bottom bar color
-      systemNavigationBarIconBrightness: Brightness.dark, //bottom bar icons
-    ));
     return MaterialApp(
       theme: ThemeData(primaryColor: mainColor, fontFamily: 'Poppins'),
       debugShowCheckedModeBanner: false,
+      navigatorObservers: [
+        FirebaseAnalyticsObserver(analytics: analytics)
+      ],
       title: 'Haver Jobs',
       home: MultiProvider(providers: [
         StreamProvider<FirebaseUser>.value(

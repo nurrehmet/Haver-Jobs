@@ -25,22 +25,18 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
+       appBar: AppBar(
+        title: Text("Login"),
         iconTheme: IconThemeData(
           color: secColor, //change your color here
         ),
         elevation: 0,
-        backgroundColor: Colors.transparent,
       ),
       body: SingleChildScrollView(
         child: Column(
           children: <Widget>[
-            Heading(
-              title: 'Login ke Haver Jobs',
-              subtitle:
-                  'Dapatkan informasi mengenai pekerja part time terdekat.',
-            ),
-            Form(
+            SizedBox(height: 20,),
+              Form(
               key: _formKey,
               child: Column(
                 mainAxisSize: MainAxisSize.min,
@@ -91,31 +87,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 ],
               ),
             ),
-            Container(
-              height: 203,
-              width: MediaQuery.of(context).size.width,
-              color: Colors.grey[200],
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.all(12.0),
-                    child: Text('Dengan login ke dalam sistem anda setuju dengan Terms of Service dan Privacy Policy kami',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      color: subTextColor,
-                      fontSize: 12),),
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: <Widget>[
-                      FlatButton(child: Text('Privacy Policy'), onPressed: (){},),
-                      FlatButton(child: Text('Terms of Service'),onPressed: (){},)
-                    ],
-                  )
-                ],
-              ),
-            )
+            
           ],
         ),
       ),

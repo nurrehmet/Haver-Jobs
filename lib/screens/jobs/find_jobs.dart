@@ -11,23 +11,21 @@ class FindJob extends StatelessWidget {
       child: Scaffold(
         appBar: AppBar(
           automaticallyImplyLeading: false,
-          iconTheme: IconThemeData(
-            color: secColor, //change your color here
-          ),
           elevation: 0,
           centerTitle: true,
-          backgroundColor: Colors.white,
-          title: Logo(),
+          backgroundColor: mainColor,
+          title: Text("Cari Lowongan"),
           bottom: TabBar(
             indicatorSize: TabBarIndicatorSize.label,
             labelColor: mainColor,
             indicatorColor: secColor,
+          
             tabs: [
               Tab(
-                text: 'Lowongan Terbaru',
+                child: Text("Lowongan Terbaru",style: TextStyle(color: Colors.white),),
               ),
               Tab(
-                text: 'Kategori',
+                child: Text("Kategori Pekerjaan",style: TextStyle(color: Colors.white),),
               ),
               // Tab(
               //   text: 'Kategori',
@@ -37,6 +35,7 @@ class FindJob extends StatelessWidget {
         ),
         backgroundColor: Colors.grey[200],
         body: TabBarView(
+          physics: NeverScrollableScrollPhysics(),
           children: [
             JobList(),
             JobsCategory()

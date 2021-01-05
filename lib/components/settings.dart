@@ -1,23 +1,18 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:haverjob/screens/edit_data.dart';
 import 'package:haverjob/screens/home.dart';
 import 'package:haverjob/screens/jobs/job_list.dart';
 import 'package:haverjob/screens/welcome_screen.dart';
 import 'package:haverjob/utils/global.dart';
 
-import '../utils/global.dart';
-
 class Accounts extends StatelessWidget {
   String type;
   Accounts({this.type});
   @override
   Widget build(BuildContext context) {
-    //Function Title
-    List<String> listEmployee = ['Profil anda', 'Logout'];
+    List<String> listEmployee = ['Edit Data Diri', 'Logout'];
     List<String> listES = ['Edit Data Perusahaan', 'Logout'];
-    //Function Icon
     List<Icon> listESIcon = [
       Icon(
         Icons.person_outline,
@@ -33,7 +28,6 @@ class Accounts extends StatelessWidget {
       
       Icon(Icons.exit_to_app, color: secColor)
     ];
-    //List Function
     List<Function> listEmployeeFunction = [
       () => Navigator.push(
           context,
@@ -43,12 +37,10 @@ class Accounts extends StatelessWidget {
             ),
           )),
       () {
-        GoogleSignIn().signOut();
         FirebaseAuth.instance.signOut();
         Navigator.pushReplacement(
             context, MaterialPageRoute(builder: (context) => WelcomeScreen()));
-      },
-      (){}
+      }
     ];
     List<Function> listESFunction = [
       () => Navigator.push(
@@ -59,7 +51,6 @@ class Accounts extends StatelessWidget {
             ),
           )),
       () {
-        GoogleSignIn().signOut();
         FirebaseAuth.instance.signOut();
         Navigator.pushReplacement(
             context, MaterialPageRoute(builder: (context) => WelcomeScreen()));

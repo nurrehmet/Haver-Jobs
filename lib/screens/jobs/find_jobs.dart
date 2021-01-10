@@ -14,33 +14,10 @@ class FindJob extends StatelessWidget {
           elevation: 0,
           centerTitle: true,
           backgroundColor: mainColor,
-          title: Text("Cari Lowongan"),
-          bottom: TabBar(
-            indicatorSize: TabBarIndicatorSize.label,
-            labelColor: mainColor,
-            indicatorColor: secColor,
-          
-            tabs: [
-              Tab(
-                child: Text("Lowongan Terbaru",style: TextStyle(color: Colors.white),),
-              ),
-              Tab(
-                child: Text("Kategori Pekerjaan",style: TextStyle(color: Colors.white),),
-              ),
-              // Tab(
-              //   text: 'Kategori',
-              // ),
-            ],
-          ),
+          title: Text("HaverJobs"),
         ),
         backgroundColor: Colors.grey[200],
-        body: TabBarView(
-          physics: NeverScrollableScrollPhysics(),
-          children: [
-            JobList(),
-            JobsCategory()
-          ],
-        ),
+        body: JobList(),
       ),
     );
   }

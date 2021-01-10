@@ -63,18 +63,12 @@ class _EditDataState extends State<EditData> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        title: Padding(
-          padding: const EdgeInsets.only(left: 15),
-          child: Text(
-            'Edit Data',
-            style: TextStyle(color: mainColor, fontWeight: bold, fontSize: 22),
-          ),
-        ),
+        title: Text("Edit Data"),
         iconTheme: IconThemeData(
           color: secColor, //change your color here
         ),
         elevation: 0,
-        backgroundColor: Colors.white,
+        backgroundColor: mainColor,
       ),
       body: StreamBuilder<DocumentSnapshot>(
         stream: Firestore.instance

@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:haverjob/screens/direction_map.dart';
 import 'package:haverjob/screens/edit_data.dart';
 import 'package:haverjob/screens/home.dart';
 import 'package:haverjob/screens/jobs/job_list.dart';
@@ -60,18 +61,12 @@ class Accounts extends StatelessWidget {
       backgroundColor: bgColor,
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        title: Padding(
-          padding: const EdgeInsets.only(left: 15),
-          child: Text(
-            'Akun',
-            style: TextStyle(color: mainColor, fontWeight: bold, fontSize: 22),
-          ),
-        ),
+        title: Text("Akun"),
         iconTheme: IconThemeData(
           color: secColor, //change your color here
         ),
         elevation: 0,
-        backgroundColor: Colors.white,
+        backgroundColor: mainColor
       ),
       body: ListView.separated(
         separatorBuilder: (BuildContext context, int index) => Divider(

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:haverjob/components/settings.dart';
 import 'package:haverjob/screens/jobs/applied_job.dart';
 import 'package:haverjob/screens/jobs/find_jobs.dart';
+import 'package:haverjob/screens/jobs/saved_jobs.dart';
 import 'package:haverjob/utils/global.dart';
 
 class EmployeeScreenTemp extends StatefulWidget {
@@ -39,10 +40,10 @@ class _EmployeeScreenTempState extends State<EmployeeScreenTemp> {
                 style: poppins,
               )),
           BottomNavigationBarItem(
-              icon: Icon(Icons.bookmark_border),
-              title: Text("Lamaran Kerja", style: poppins)),
+              icon: Icon(Icons.bookmark),
+              title: Text("Lowongan Tersimpan", style: poppins)),
           BottomNavigationBarItem(
-              icon: Icon(Icons.person_outline),
+              icon: Icon(Icons.person),
               title: Text("Akun", style: poppins))
         ]),
         tabBuilder: (context, index) {
@@ -51,9 +52,7 @@ class _EmployeeScreenTempState extends State<EmployeeScreenTemp> {
               return FindJob();
               break;
             case 1:
-              return AppliedJobs(
-                userID: _userID,
-              );
+              return SavedJobs(userid: _userID,);
               break;
             case 2:
               return Accounts(type: 'employee',);

@@ -5,9 +5,18 @@ import 'dart:convert';
 
 
 class Jobs {
-  
+  String title;
+  String description;
+  String content;
+  String link;
 
-  static void printData(String data) {
-    return print(data);
+  Jobs({this.title,this.description,this.content,this.link});
+
+  factory Jobs.fromJson(Map<String, dynamic> parsedJson){
+    return Jobs(
+      title: parsedJson['title'].toString(),
+      description: parsedJson['description'].toString(),
+      content: parsedJson['content'].toString()
+    );
   }
 }

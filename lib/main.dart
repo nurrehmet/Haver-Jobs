@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:admob_flutter/admob_flutter.dart';
 import 'package:device_preview/device_preview.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_analytics/observer.dart';
@@ -15,6 +16,7 @@ import 'package:haverjob/screens/register_employee.dart';
 import 'package:haverjob/screens/register_es.dart';
 import 'package:haverjob/screens/reset_password.dart';
 import 'package:haverjob/screens/welcome_screen.dart';
+import 'package:haverjob/utils/ad_manager.dart';
 import 'package:haverjob/utils/global.dart';
 import 'package:provider/provider.dart';
 
@@ -24,7 +26,15 @@ import 'package:provider/provider.dart';
 //     builder: (context) => MyApp(),
 //   ),
 // );
-void main() => runApp(MyApp());
+void main() {
+
+  // OneSignal.shared
+  //     .init("36ff5c9c-f8ab-4fcf-b862-992fc6aa8d4d", iOSSettings: null);
+  // OneSignal.shared
+  //     .setInFocusDisplayType(OSNotificationDisplayType.notification);
+  Admob.initialize(AdManager.appId);
+  runApp(MyApp());
+}
 
 class MyApp extends StatefulWidget {
   // This widget is the root of your application.
@@ -38,6 +48,15 @@ class _MyAppState extends State<MyApp> {
 
   @override
   void initState() {
+    // OneSignal.shared
+    //     .setNotificationReceivedHandler((OSNotification notification) {
+    //   // will be called whenever a notification is received
+    // });
+
+    // OneSignal.shared
+    //     .setNotificationOpenedHandler((OSNotificationOpenedResult result) {
+    //   // will be called whenever a notification is opened/button pressed.
+    // });
     checkUser();
     super.initState();
   }
@@ -47,9 +66,7 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       theme: ThemeData(primaryColor: mainColor, fontFamily: 'Poppins'),
       debugShowCheckedModeBanner: false,
-      navigatorObservers: [
-        FirebaseAnalyticsObserver(analytics: analytics)
-      ],
+      navigatorObservers: [FirebaseAnalyticsObserver(analytics: analytics)],
       title: 'Haver Jobs',
       home: MultiProvider(providers: [
         StreamProvider<FirebaseUser>.value(
